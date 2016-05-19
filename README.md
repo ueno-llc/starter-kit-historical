@@ -1,9 +1,23 @@
 # UENO. Starter kits
-This is a repository containing different starter kits each in their own branch.
-Just git pull and checkout the branch that fits your need.
+This is a repository containing different starter kits each in their own branch. Just git clone and checkout the branch that fits your need.
+
+You can also mix branches with merge if you feel comfortable resolving conflicts.
+
+# List of branches
+
+ - [Base](#master)
+ - [Base+Universal](#universal)
+ - [Base+Universal+Test](#universal-test)
+ - [Base+Universal+Test+Redux](#universal-redux-test)
+ - [Universal](#universal)
+ - [Redux](#redux)
+ - [Test](#test)
+ - [Typescript](#typescript)
 
 ## master
-Default starter kit contains:
+Good kit for apps without any data layer when you don't want server side rendering.
+
+The kit contains:
  - webpack
    - hot-loader
    - babel-loader
@@ -22,12 +36,6 @@ Adds server side rendering using express and react-dom.
  - react-dom
  - express
 
-## redux
-Adds redux and redux router for data layer.
- - extends `master`
- - redux
- - redux-router
-
 ## test
 Adds tests and travis integration.
  - extends `master`
@@ -35,6 +43,12 @@ Adds tests and travis integration.
  - mocha
  - chai
  - enzyme
+
+## redux
+Adds redux and redux router for data layer.
+ - extends `master`
+ - redux
+ - redux-router
 
 ## typescript
 Adds typescript integration.

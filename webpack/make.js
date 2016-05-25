@@ -12,14 +12,20 @@ module.exports = function make(options) {
   let entry = ['babel-polyfill'];
   let output = {};
 
+  const defines = {
+    __CLIENT__: isClient,
+  };
+
+  if (!isClient) {
+    defines.HTMLElement = 'function() {}';
+  }
+
   // Init plugins with provide, define and no errors
   const plugins = [
     new webpack.ProvidePlugin({
       React: 'react',
     }),
-    new webpack.DefinePlugin({
-      __CLIENT__: (options.target === 'web'),
-    }),
+    new webpack.DefinePlugin(defines),
     new webpack.NoErrorsPlugin(),
   ];
 

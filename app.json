@@ -1,0 +1,27 @@
+{
+  "name": "Starter kit",
+  "description": "",
+  "keywords": [
+    "starter kit",
+    "www"
+  ],
+  "scripts": {},
+  "website": "https://github.com/ueno-llc/starter-kit#readme",
+  "repository": "https://github.com/ueno-llc/starter-kit.git",
+  "env": {
+    "NODE_ENV": {
+      "description": "Environment to build",
+      "required": true
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "addons": [],
+  "image": "heroku/nodejs",
+  "buildpacks": [{
+    "url": "heroku/nodejs"
+  }]
+}

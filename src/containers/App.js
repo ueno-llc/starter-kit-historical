@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import s from './App.scss';
+import Container from 'container/Container';
+import s from './App.styl';
 
 /**
  * App container component
@@ -19,7 +20,9 @@ export default class App extends Component {
 
     return (
       <div className={s.host}>
-        {children}
+        <Container>
+          {children}
+        </Container>
       </div>
     );
   }

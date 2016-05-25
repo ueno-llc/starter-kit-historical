@@ -11,7 +11,19 @@
       "prefer-double"
     ]
   },
+  "settings": {
+    "import/resolver": {
+      "webpack": {
+        "config": "webpack/client.js"
+      }
+    }
+  },
   "env": {
-    "browser": true
+    "browser": true,
+    "node": true,
+    "mocha": true
+  },
+  "globals": {
+    "__CLIENT__": true
   }
 }

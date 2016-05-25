@@ -1,0 +1,11 @@
+viewport(from) {
+  @media screen and (min-width: from) {
+    {block}
+  }
+}
+
+viewport(from, to) {
+  @media screen and (min-width: from) and (max-width: to) {
+    {block}
+  }
+}

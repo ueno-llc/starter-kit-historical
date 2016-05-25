@@ -15,9 +15,10 @@
     "block-opening-brace-newline-after": "always-multi-line",
     "block-opening-brace-space-after": "always-single-line",
     "block-opening-brace-space-before": "always-single-line",
-    "color-no-hex": true,
     "color-named": "never",
-    "comment-empty-line-before": "always",
+    "comment-empty-line-before": [ "always", {
+      ignore: ["stylelint-commands"]
+    } ],
     "comment-whitespace-inside": "always",
     "declaration-bang-space-after": "never",
     "declaration-bang-space-before": "always",
@@ -28,7 +29,28 @@
     "declaration-block-properties-order": [
       [
         {
-          order: "strict",
+          order: "flexible",
+          properties: [
+            "content"
+          ]
+        },
+        {
+          order: "flexible",
+          emptyLineBefore: "always",
+          properties: [
+            "display",
+            "float",
+            "clear",
+            "flex",
+            "flex-grow",
+            "flex-shrink",
+            "flex-basis",
+            "align-items",
+            "justify-content"
+          ]
+        },
+        {
+          order: "flexible",
           emptyLineBefore: "always",
           properties: [
             "position",
@@ -40,26 +62,43 @@
           ]
         },
         {
-          order: "strict",
+          order: "flexible",
           emptyLineBefore: "always",
           properties: [
-            "display",
-            "float",
-            "clear",
-            "flex",
-            "flex-grow",
-            "flex-shrink",
-            "flex-basis",
+            "visibility",
+            "opacity",
+          ]
+        },
+        {
+          order: "flexible",
+          emptyLineBefore: "always",
+          properties: [
+            "margin",
+            "margin-top",
+            "margin-right",
+            "margin-bottom",
+            "margin-left",
+            "padding",
+            "padding-top",
+            "padding-right",
+            "padding-bottom",
+            "padding-left",
+          ]
+        },
+        {
+          order: "flexible",
+          emptyLineBefore: "always",
+          properties: [
             "width",
             "max-width",
             "min-width",
             "height",
             "max-height",
-            "min-height"
+            "min-height",
           ]
         },
         {
-          order: "strict",
+          order: "flexible",
           emptyLineBefore: "always",
           properties: [
             "font",
@@ -74,11 +113,21 @@
             "line-height",
             "color",
             "text",
-            "letter-spacing"
+            "letter-spacing",
+            "white-space"
           ]
         },
         {
-          order: "strict",
+          order: "flexible",
+          emptyLineBefore: "always",
+          properties: [
+            "cursor",
+            "user-select",
+            "pointer-events"
+          ]
+        },
+        {
+          order: "flexible",
           emptyLineBefore: "always",
           properties: [
             "background",
@@ -87,16 +136,11 @@
             "border-right",
             "border-bottom",
             "border-left",
-            "margin",
-            "margin-top",
-            "margin-right",
-            "margin-bottom",
-            "margin-left",
-            "padding",
-            "padding-top",
-            "padding-right",
-            "padding-bottom",
-            "padding-left",
+            "border-radius",
+            "border-top-left-radius",
+            "border-top-right-radius",
+            "border-bottom-right-radius",
+            "border-bottom-left-radius",
           ]
         }
       ],
@@ -107,15 +151,17 @@
     "declaration-block-semicolon-newline-after": "always",
     "declaration-block-semicolon-newline-before": "never-multi-line",
     "declaration-block-semicolon-space-after": "always-single-line",
+    "declaration-block-semicolon-space-before": "never",
     "declaration-block-single-line-max-declarations": 1,
     "declaration-block-trailing-semicolon": "always",
+    "function-calc-no-unspaced-operator": true,
     "function-comma-newline-after": "always-multi-line",
     "function-comma-newline-before": "never-multi-line",
     "function-comma-space-after": "always",
     "function-comma-space-before": "never",
     "function-linear-gradient-no-nonstandard-direction": true,
     "function-name-case": "lower",
-    "function-url-quotes": "double",
+    "function-url-quotes": "single",
     "function-whitespace-after": "always",
     "indentation": [
       2,
@@ -136,10 +182,9 @@
     "media-query-list-comma-newline-before": "never-multi-line",
     "media-query-list-comma-space-after": "always-single-line",
     "media-query-list-comma-space-before": "never",
-    "no-eol-whitespace": true,
     "no-extra-semicolons": true,
     "no-missing-eof-newline": true,
-    "number-leading-zero": "never",
+    "number-leading-zero": "always",
     "number-no-trailing-zeros": true,
     "number-zero-length-no-unit": true,
     "property-case": "lower",
@@ -156,21 +201,25 @@
     "selector-attribute-brackets-space-inside": "never",
     "selector-attribute-operator-space-after": "never",
     "selector-attribute-operator-space-before": "never",
+    "selector-class-pattern": "^[a-z]+[A-Za-z0-9-]*$",
     "selector-combinator-space-after": "always",
     "selector-combinator-space-before": "always",
     "selector-max-empty-lines": 0,
     "selector-no-id": true,
+    "selector-no-type": true,
+    "selector-no-vendor-prefix": true,
     "selector-pseudo-class-case": "lower",
     "selector-pseudo-class-parentheses-space-inside": "never",
     "selector-pseudo-element-case": "lower",
-    "selector-pseudo-element-colon-notation": "double",
+    "selector-pseudo-element-colon-notation": "single",
     "selector-pseudo-element-no-unknown": true,
     "selector-list-comma-newline-after": "always-multi-line",
     "selector-list-comma-newline-before": "never-multi-line",
     "selector-list-comma-space-after": "always-single-line",
     "selector-list-comma-space-before": "never",
     "shorthand-property-no-redundant-values": true,
-    "string-quotes": "double",
+    "string-no-newline": true,
+    "string-quotes": "single",
     "unit-case": "lower",
     "unit-no-unknown": true,
     "value-no-vendor-prefix": true,

@@ -2,6 +2,7 @@
 const webpack = require('webpack');
 const spawn = require('child_process').spawn;
 const bs = require('browser-sync').create();
+const color = require('cli-color');
 
 const proxyMiddleware = require('http-proxy-middleware');
 const webpackDevMiddleware = require('webpack-dev-middleware');
@@ -25,12 +26,7 @@ let didNotCompile = false;
 
 function compileBuilt() {
   if (didNotCompile) {
-    console.log( // eslint-disable-line
-        '[📦 ]\0'
-      + '33[1m\0'
-      + '33[32m Webpack build fixed.\0'
-      + '33[0m'
-    );
+    console.log(`[📦 ] ${color.green.bold('Webpack build fixed.')}`);
   }
   didNotCompile = false;
 }
@@ -92,12 +88,8 @@ bundler.plugin('done', stats => {
   // Also output
   setTimeout(() => {
     if (didNotCompile) {
-      console.log( // eslint-disable-line
-          '\n[📦 ]\0'
-        + '33[1m\0'
-        + '33[31m Webpack build failed.\0'
-        + '33[0m\n[⏳ ] Waiting for changes to restart...'
-      );
+      console.log(`\n[📦 ] ${color.red.bold('Webpack build failed.')}`);
+      console.log('[⏳ ] Waiting for changes to restart...');
     }
 
     if (!stats.hasErrors()) {

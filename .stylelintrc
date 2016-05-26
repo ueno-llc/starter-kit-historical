@@ -182,7 +182,6 @@
     "media-query-list-comma-newline-before": "never-multi-line",
     "media-query-list-comma-space-after": "always-single-line",
     "media-query-list-comma-space-before": "never",
-    "no-extra-semicolons": true,
     "no-missing-eof-newline": true,
     "number-leading-zero": "always",
     "number-no-trailing-zeros": true,

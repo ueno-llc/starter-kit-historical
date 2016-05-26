@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Container from 'container/Container';
-import s from './App.styl';
+import s from './App.less';
 
 /**
  * App container component

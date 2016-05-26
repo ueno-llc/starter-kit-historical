@@ -79,7 +79,7 @@ module.exports = function make(options) {
 
     resolve: {
       modulesDirectories: ['./node_modules', './src/components', './src'],
-      extensions: ['', '.js', '.json', '.css', '.styl'],
+      extensions: ['', '.js', '.json', '.css', '.less'],
     },
 
     module: {
@@ -97,8 +97,8 @@ module.exports = function make(options) {
         loader: (isClient ? `style-loader!${loader.css}` : ExtractTextPlugin.extract('style-loader', loader.css)), // eslint-disable-line
         exclude: /node_modules/,
       }, {
-        test: /\.styl$/,
-        loader: (isClient ? `style-loader!${loader.css}!stylus-loader` : ExtractTextPlugin.extract('style-loader', `${loader.css}!stylus-loader`)), // eslint-disable-line
+        test: /\.less$/,
+        loader: (isClient ? `style-loader!${loader.css}!less-loader` : ExtractTextPlugin.extract('style-loader', `${loader.css}!less-loader`)), // eslint-disable-line
         exclude: /node_modules/,
       }, {
         test: /\.(woff2?|svg|jpe?g|png|gif|ico)$/,

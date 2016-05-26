@@ -3,7 +3,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import Container from '../Container.js';
-import s from '../Container.styl';
+import s from '../Container.less';
 
 describe('<Container />', () => {
 

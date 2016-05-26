@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import s from './Container.styl';
+import s from './Container.less';
 
 /**
  * Container component

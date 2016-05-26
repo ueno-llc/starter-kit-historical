@@ -61,6 +61,7 @@
     "browser-sync": "^2.12.8",
     "chai": "^3.5.0",
     "chai-enzyme": "^0.4.2",
+    "cli-color": "^1.1.0",
     "enzyme": "^2.3.0",
     "eslint": "^2.10.2",
     "eslint-config-airbnb": "^9.0.1",

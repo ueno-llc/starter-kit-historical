@@ -60,6 +60,7 @@ module.exports = function make(options) {
     output = {
       path: path.join(__dirname, '..', 'build'),
       filename: path.basename(options.entry),
+      chunkFilename: '[id].chunk.js',
       publicPath: '/',
       libraryTarget: (isClient ? 'var' : 'commonjs2'),
     };
@@ -78,7 +79,7 @@ module.exports = function make(options) {
     output,
 
     resolve: {
-      modulesDirectories: ['./node_modules', './src/components', './src'],
+      modulesDirectories: ['./node_modules', './src'],
       extensions: ['', '.js', '.json', '.css', '.less'],
     },
 

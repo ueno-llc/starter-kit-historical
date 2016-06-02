@@ -122,5 +122,15 @@ module.exports = function make(options) {
     config.externals = /^[a-z\-0-9]+$/;
   }
 
+  if (isClient) {
+    const jsLoader = config.module.loaders.find(item => '.js'.match(item.test));
+    jsLoader.exclude = /node_modules|routes\/([^\/]+\/?[^\/]+)\.lazy.js/;
+    config.module.loaders.push({
+      test: /routes\/([^\/]+\/?[^\/]+)\.lazy.js/,
+      loader: `bundle-loader?lazy!${loader.babel}`,
+      exclude: /node_modules/,
+    });
+  }
+
   return config;
 };

@@ -39,6 +39,7 @@ module.exports = function make(options) {
       caches: {
         main: [
           '/',
+          '/styles.css',
           ':rest:',
         ],
         additional: routes,

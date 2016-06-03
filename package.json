@@ -49,6 +49,7 @@
     "json-loader": "^0.5.4",
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
+    "offline-plugin": "^3.2.1",
     "postcss-loader": "^0.9.1",
     "react": "^15.0.2",
     "react-dom": "^15.0.2",

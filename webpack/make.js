@@ -2,11 +2,13 @@ const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const autoprefixer = require('autoprefixer');
+const OfflinePlugin = require('offline-plugin');
 
 module.exports = function make(options) {
 
   const isClient = (options.target === 'web');
   const isHot = isClient && (options.hot === true);
+  const routes = [].concat(options.routes ? options.routes : []);
 
   // Init entry point with babel (always)
   let entry = ['babel-polyfill'];
@@ -31,6 +33,28 @@ module.exports = function make(options) {
     babel: 'babel-loader?presets[]=react&presets[]=es2015'
       + `&presets[]=stage-0${isHot ? '&presets[]=react-hmre' : ''}`,
   };
+
+  if (isClient) {
+    plugins.push(new OfflinePlugin({
+      caches: {
+        main: [
+          '/',
+          ':rest:',
+        ],
+        additional: routes,
+      },
+      externals: ['/', ...routes],
+      safeToUseOptionalCaches: true,
+      updateStrategy: 'all',
+      version: 'v1',
+      ServiceWorker: {
+        output: 'sw.js',
+      },
+      AppCache: {
+        directory: 'appcache/',
+      },
+    }));
+  }
 
   // Hot Loading
   if (isHot) {

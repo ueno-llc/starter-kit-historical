@@ -13,7 +13,7 @@ const app = express();
 // Set view engine
 app.set('views', './src/server/views');
 app.set('view engine', 'ejs');
-app.use('/public', express.static('./public'));
+app.use(express.static('./public'));
 app.use(express.static('./build'));
 
 // Route handler that rules them all!

@@ -1,7 +1,10 @@
 const make = require('./make');
 
 module.exports = make({
-  entry: './src/client.js',
+  entry: {
+    client: './src/client.js',
+  },
+  lazy: true,
   hot: true,
   target: 'web',
   offline: (process.env.NODE_ENV === 'production'),

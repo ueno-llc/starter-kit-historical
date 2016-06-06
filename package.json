@@ -12,8 +12,8 @@
     "dev": "node ./webpack/dev.js",
     "test": "./node_modules/.bin/karma start ./webpack/karma.js",
     "lint": "./node_modules/.bin/eslint src",
-    "build": "npm run postinstall",
-    "postinstall": "webpack --config ./webpack/release.js"
+    "build": "rm -rf ./build && npm run postinstall",
+    "postinstall": "webpack -p --config ./webpack/release.js"
   },
   "repository": {
     "type": "git",
@@ -40,6 +40,7 @@
     "babel-preset-react": "^6.5.0",
     "babel-preset-react-hmre": "^1.1.1",
     "babel-preset-stage-0": "^6.5.0",
+    "bundle-loader": "^0.5.4",
     "classnames": "^2.2.5",
     "css-loader": "^0.23.1",
     "ejs": "^2.4.2",

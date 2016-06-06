@@ -4,7 +4,8 @@ module.exports = make({
   entry: './src/client.js',
   hot: true,
   target: 'web',
-  routes: [
+  offline: (process.env.NODE_ENV === 'production'),
+  offlineCache: [
     '/about',
   ],
 });

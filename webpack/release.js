@@ -28,8 +28,10 @@ client.plugins.push(new webpack.optimize.UglifyJsPlugin({
 }));
 client.plugins.push(new webpack.optimize.DedupePlugin());
 
-client.module.preLoaders = [];
-server.module.preLoaders = [];
+if (!process.env.TRAVIS) {
+  client.module.preLoaders = [];
+  server.module.preLoaders = [];
+}
 
 // Remove source maps
 server.plugins = server.plugins.filter(p => !(p instanceof webpack.BannerPlugin));

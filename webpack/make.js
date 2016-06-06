@@ -84,7 +84,7 @@ module.exports = function make(options) {
       externals: ['/', ...routes],
       safeToUseOptionalCaches: true,
       updateStrategy: 'all',
-      version: 'v1',
+      version: '[hash]',
       ServiceWorker: {
         output: 'sw.js',
       },

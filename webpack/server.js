@@ -1,6 +1,8 @@
 const make = require('./make');
 
 module.exports = make({
-  entry: './src/server.js',
+  entry: {
+    server: './src/server.js',
+  },
   target: 'node',
 });

@@ -4,7 +4,7 @@
 
 # UENO. Starter kit
 
-Starter kit with server side rendering, eslint, stylus, stylelint and enzyme tests.
+Starter kit with server side rendering, eslint, less, stylelint and enzyme tests.
 
 **Before working on a new project**
 
@@ -25,3 +25,33 @@ $ npm run dev
 ```bash
 $ npm start
 ```
+
+# Configuration make
+
+### `target`
+Specify which platform to target, currently accepts `"web"` (client), and `"node"` (server).
+
+### `hot`
+Boolean value to enable hot reloading on the client. Only works in development mode.
+
+### `offline`
+Boolean value to enable offline support. You should specify which routes to cache within the `offlineCache` array option.
+
+### `offlineCache`
+Array of routes to cache. Defaults to `['/']` (the index page).
+
+**TODO:** Read routes.js and allow attribute to enable offline availability.
+
+### `entry`
+Path to an entry point for packaging. Will output the same name into `./build`.
+
+**TODO:** Allow multiple entry points.
+
+### `debug`
+Enable or disable debug mode. The production will always overwrite with `false`.
+
+### `devtool`
+Set the devtool sourcemapping. Defaults to `cheap-module-eval-source-map` for client and `eval-source-map` for server.
+
+### `eslint`
+Enable or disable eslinting of the javascript on runtime. Only in debug mode.

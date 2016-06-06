@@ -2,11 +2,13 @@ const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const autoprefixer = require('autoprefixer');
+const NODE_ENV = process.env.NODE_ENV;
 
 module.exports = function make(options) {
 
+  const isRelease = (NODE_ENV === 'production');
   const isClient = (options.target === 'web');
-  const isHot = isClient && (options.hot === true);
+  const isHot = isClient && (options.hot === true) && !isRelease;
 
   // Init entry point with babel (always)
   let entry = ['babel-polyfill'];
@@ -19,6 +21,7 @@ module.exports = function make(options) {
     }),
     new webpack.DefinePlugin({
       __CLIENT__: (options.target === 'web'),
+      'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
     }),
     new webpack.NoErrorsPlugin(),
   ];
@@ -53,14 +56,19 @@ module.exports = function make(options) {
   // Set entry point
   if (options.entry) {
 
+    const additionalEntries = entry;
+    entry = {};
+
     // Set entry
-    entry.push(options.entry);
+    Object.keys(options.entry).forEach(key => {
+      entry[key] = [...additionalEntries, options.entry[key]];
+    });
 
     // Set output
     output = {
       path: path.join(__dirname, '..', 'build'),
-      filename: path.basename(options.entry),
-      chunkFilename: '[id].chunk.js',
+      filename: '[name].js',
+      chunkFilename: 'chunk.[id].js',
       publicPath: '/',
       libraryTarget: (isClient ? 'var' : 'commonjs2'),
     };
@@ -68,10 +76,15 @@ module.exports = function make(options) {
     entry = {};
   }
 
+  if (isRelease) {
+    options.devtool = 'cheap-module-source-map'; // eslint-disable-line
+    options.debug = false; // eslint-disable-line
+  }
+
   const config = {
     context: path.join(__dirname, '../'),
-    debug: options.debug || true,
-    devtool: options.devtool || (isClient ? 'cheap-module-eval-source-map' : 'eval-source-map'),
+    debug: (options.debug !== undefined) ? options.debug : !isRelease,
+    devtool: (options.devtool !== undefined) ? options.devtool : (isClient ? 'eval' : 'eval-source-map'), // eslint-disable-line
     target: options.target || 'web',
 
     entry,
@@ -84,11 +97,7 @@ module.exports = function make(options) {
     },
 
     module: {
-      preLoaders: [{
-        test: /\.js$/,
-        loader: 'eslint-loader',
-        exclude: /node_modules/,
-      }],
+      preLoaders: [],
       loaders: [{
         test: /\.js/,
         loader: loader.babel,
@@ -113,8 +122,12 @@ module.exports = function make(options) {
     postcss: () => [autoprefixer],
   };
 
-  if (options.eslint === false) {
-    config.module.preLoaders = config.module.preLoaders.filter(n => (n.loader !== 'eslint-loader'));
+  if (!isRelease && options.eslint) {
+    config.module.preLoaders.push({
+      test: /\.js$/,
+      loader: 'eslint-loader',
+      exclude: /node_modules/,
+    });
   }
 
   if (!isClient) {
@@ -122,7 +135,7 @@ module.exports = function make(options) {
     config.externals = /^[a-z\-0-9]+$/;
   }
 
-  if (isClient) {
+  if (options.lazy && isClient) {
     const jsLoader = config.module.loaders.find(item => '.js'.match(item.test));
     jsLoader.exclude = /node_modules|routes\/([^\/]+\/?[^\/]+)\.lazy.js/;
     config.module.loaders.push({

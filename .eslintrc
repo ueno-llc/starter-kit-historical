@@ -13,8 +13,16 @@
   },
   "settings": {
     "import/resolver": {
-      "webpack": {
-        "config": "webpack/client.js"
+      "node": {
+        "extensions": [
+          ".js",
+          ".json",
+          ".less"
+        ],
+        "moduleDirectory": [
+          "node_modules",
+          "src"
+        ]
       }
     }
   },

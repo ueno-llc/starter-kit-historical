@@ -36,7 +36,6 @@
         },
         {
           order: "flexible",
-          emptyLineBefore: "always",
           properties: [
             "display",
             "float",
@@ -51,7 +50,6 @@
         },
         {
           order: "flexible",
-          emptyLineBefore: "always",
           properties: [
             "position",
             "top",
@@ -63,7 +61,6 @@
         },
         {
           order: "flexible",
-          emptyLineBefore: "always",
           properties: [
             "visibility",
             "opacity",
@@ -71,7 +68,6 @@
         },
         {
           order: "flexible",
-          emptyLineBefore: "always",
           properties: [
             "margin",
             "margin-top",
@@ -87,7 +83,6 @@
         },
         {
           order: "flexible",
-          emptyLineBefore: "always",
           properties: [
             "width",
             "max-width",
@@ -99,7 +94,6 @@
         },
         {
           order: "flexible",
-          emptyLineBefore: "always",
           properties: [
             "font",
             "font-size",
@@ -119,7 +113,6 @@
         },
         {
           order: "flexible",
-          emptyLineBefore: "always",
           properties: [
             "cursor",
             "user-select",
@@ -128,7 +121,6 @@
         },
         {
           order: "flexible",
-          emptyLineBefore: "always",
           properties: [
             "background",
             "border",
@@ -161,7 +153,7 @@
     "function-comma-space-before": "never",
     "function-linear-gradient-no-nonstandard-direction": true,
     "function-name-case": "lower",
-    "function-url-quotes": "single",
+    "function-url-quotes": "always",
     "function-whitespace-after": "always",
     "indentation": [
       2,

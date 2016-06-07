@@ -1,6 +1,7 @@
 /* eslint no-console: 0 */
 import http from 'http';
 import express from 'express';
+import compression from 'compression';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { Router, RouterContext, match } from 'react-router';
@@ -13,6 +14,7 @@ const app = express();
 // Set view engine
 app.set('views', './src/server/views');
 app.set('view engine', 'ejs');
+app.use(compression());
 app.use(express.static('./public'));
 app.use(express.static('./build'));
 

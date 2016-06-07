@@ -12,6 +12,8 @@ const webpackHotMiddleware = require('webpack-hot-middleware');
 const config = require('./server');
 const client = require('./client');
 client.context = undefined;
+// Configs eslint to not prevent successful build on errors
+client.eslint = config.eslint = { emitWarning: true };
 
 // Setup webpack compiler
 const compiler = webpack(config);

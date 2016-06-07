@@ -11,7 +11,9 @@
     "start": "node ./build/server.js",
     "dev": "node ./webpack/dev.js",
     "test": "./node_modules/.bin/karma start ./webpack/karma.js",
-    "lint": "./node_modules/.bin/eslint src",
+    "lint": "npm run eslint; npm run stylelint",
+    "eslint": "./node_modules/.bin/eslint src",
+    "stylelint": "./node_modules/.bin/stylelint \"src/**/*.less\" --syntax less",
     "build": "rm -rf ./build && npm run postinstall",
     "postinstall": "webpack -p --config ./webpack/release.js"
   },
@@ -85,7 +87,7 @@
     "mocha": "^2.5.3",
     "react-addons-test-utils": "^15.1.0",
     "source-map-support": "^0.4.0",
-    "stylelint": "^6.4.1",
+    "stylelint": "^6.5.1",
     "webpack-dev-middleware": "^1.6.1",
     "webpack-hot-middleware": "^2.10.0"
   }

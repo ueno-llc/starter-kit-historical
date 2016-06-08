@@ -104,7 +104,7 @@ module.exports = function make(options) {
     plugins.push(new webpack.HotModuleReplacementPlugin());
   }
 
-  if (!isClient) {
+  if (isRelease) {
 
     // Add source maps and extract styles
     plugins.push(
@@ -163,11 +163,11 @@ module.exports = function make(options) {
         exclude: /node_modules/,
       }, {
         test: /\.css$/,
-        loader: (isClient ? `style-loader!${loader.css}` : ExtractTextPlugin.extract('style-loader', loader.css)), // eslint-disable-line
+        loader: (!isRelease ? `style-loader!${loader.css}` : ExtractTextPlugin.extract('style-loader', loader.css)), // eslint-disable-line
         exclude: /node_modules/,
       }, {
         test: /\.less$/,
-        loader: (isClient ? `style-loader!${loader.css}!less-loader` : ExtractTextPlugin.extract('style-loader', `${loader.css}!less-loader`)), // eslint-disable-line
+        loader: (!isRelease ? `style-loader!${loader.css}!less-loader` : ExtractTextPlugin.extract('style-loader', `${loader.css}!less-loader`)), // eslint-disable-line
         exclude: /node_modules/,
       }, {
         test: /\.(woff2?|svg|jpe?g|png|gif|ico)$/,

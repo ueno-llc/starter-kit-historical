@@ -7,7 +7,7 @@ module.exports = make({
   lazy: true,
   hot: true,
   target: 'web',
-  offline: (process.env.NODE_ENV === 'production'),
+  offline: false,
   offlineCache: [
     '/about',
   ],

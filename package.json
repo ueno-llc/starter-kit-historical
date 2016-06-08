@@ -14,8 +14,8 @@
     "lint": "npm run eslint; npm run stylelint",
     "eslint": "./node_modules/.bin/eslint src",
     "stylelint": "./node_modules/.bin/stylelint \"src/**/*.less\" --syntax less",
-    "build": "rm -rf ./build && npm run postinstall",
-    "postinstall": "webpack -p --config ./webpack/release.js"
+    "build": "rm -rf ./build && NODE_ENV=production webpack -p --config ./webpack/release.js",
+    "postinstall": "npm run build"
   },
   "repository": {
     "type": "git",

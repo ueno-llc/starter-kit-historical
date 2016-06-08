@@ -1,3 +1,4 @@
+const path = require('path');
 const make = require('./make');
 const isTravis = process.env.TRAVIS;
 
@@ -19,6 +20,7 @@ module.exports = config => {
     autoWatch: true,
     singleRun: true,
     files: [
+      path.join(__dirname, '../node_modules/babel-polyfill/browser.js'),
       {
         pattern: '../src/**/*.spec.js',
         watched: true,

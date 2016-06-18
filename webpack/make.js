@@ -43,6 +43,7 @@ module.exports = function make(options) {
   const isRelease = (NODE_ENV === 'production');
   const isClient = (options.target === 'web');
   const isHot = isClient && (options.hot === true) && !isRelease;
+  const isExtracting = (!isClient && isRelease);
 
   // Init entry point with babel (always)
   let entry = ['babel-polyfill'];
@@ -104,7 +105,7 @@ module.exports = function make(options) {
     plugins.push(new webpack.HotModuleReplacementPlugin());
   }
 
-  if (isRelease) {
+  if (isExtracting) {
 
     // Add source maps and extract styles
     plugins.push(
@@ -163,11 +164,11 @@ module.exports = function make(options) {
         exclude: /node_modules/,
       }, {
         test: /\.css$/,
-        loader: (!isRelease ? `style-loader!${loader.css}` : ExtractTextPlugin.extract('style-loader', loader.css)), // eslint-disable-line
+        loader: (!isExtracting ? `style-loader!${loader.css}` : ExtractTextPlugin.extract('style-loader', loader.css)), // eslint-disable-line
         exclude: /node_modules/,
       }, {
         test: /\.less$/,
-        loader: (!isRelease ? `style-loader!${loader.css}!less-loader` : ExtractTextPlugin.extract('style-loader', `${loader.css}!less-loader`)), // eslint-disable-line
+        loader: (!isExtracting ? `style-loader!${loader.css}!less-loader` : ExtractTextPlugin.extract('style-loader', `${loader.css}!less-loader`)), // eslint-disable-line
         exclude: /node_modules/,
       }, {
         test: /\.(woff2?|svg|jpe?g|png|gif|ico)$/,

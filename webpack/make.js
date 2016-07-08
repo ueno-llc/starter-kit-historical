@@ -41,9 +41,10 @@ const NODE_ENV = process.env.NODE_ENV;
 module.exports = function make(options) {
 
   const isRelease = (NODE_ENV === 'production');
+  const isDev = !isRelease; //eslint-disable-line
   const isClient = (options.target === 'web');
   const isHot = isClient && (options.hot === true) && !isRelease;
-  const isExtracting = (!isClient && isRelease);
+  const isExtracting = !(isClient && isDev);
 
   // Init entry point with babel (always)
   let entry = ['babel-polyfill'];

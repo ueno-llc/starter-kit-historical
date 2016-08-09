@@ -10,11 +10,11 @@
   "scripts": {
     "start": "node ./build/server.js",
     "dev": "node ./webpack/dev.js",
-    "test": "./node_modules/.bin/karma start ./webpack/karma.js",
+    "test": "karma start ./webpack/karma.js",
     "lint": "npm run eslint; npm run stylelint",
-    "eslint": "./node_modules/.bin/eslint src",
-    "stylelint": "./node_modules/.bin/stylelint \"src/**/*.less\" --syntax less",
-    "build": "rm -rf ./build && NODE_ENV=production webpack -p --config ./webpack/release.js",
+    "eslint": "eslint src",
+    "stylelint": "stylelint \"src/**/*.less\" --syntax less",
+    "build": "rm -rf ./build && cross-env NODE_ENV=production webpack -p --config ./webpack/release.js",
     "postinstall": "npm run build"
   },
   "repository": {

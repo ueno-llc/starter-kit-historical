@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
-import Container from 'components/Container';
+import Container from 'components/container';
 
 import s from './index.less';
 

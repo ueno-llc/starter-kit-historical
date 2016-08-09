@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Segment from 'components/Segment';
+import Segment from 'components/segment';
 
 /**
  * Home route component

@@ -1,24 +1,14 @@
-import React, { Component, PropTypes } from 'react';
-import s from './Container.less';
+import React, { PropTypes } from 'react';
+import s from './index.less';
 
-/**
- * Container component
- */
-export default class Container extends Component {
+const Container = ({ children }) => (
+  <div className={s.container}>
+    {children}
+  </div>
+);
 
-  static propTypes = {
-    children: PropTypes.node,
-  };
+Container.propTypes = {
+  children: PropTypes.node,
+};
 
-  /**
-   * Render method
-   * @return {Component}
-   */
-  render() {
-    return (
-      <div className={s.container}>
-        {this.props.children}
-      </div>
-    );
-  }
-}
+export default Container;

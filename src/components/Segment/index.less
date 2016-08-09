@@ -1,0 +1,22 @@
+@import '~styles/config';
+
+.segment {
+  position: relative;
+
+  padding: @segment-gutter-mobile 0 @segment-gutter-mobile - @gutter;
+
+  @media (min-width: @min-tablet) {
+    padding: @segment-gutter-tablet 0 @segment-gutter-tablet - @gutter;
+  }
+
+  @media (min-width: @min-desktop) {
+    padding: @segment-gutter-desktop 0 @segment-gutter-desktop - @gutter;
+  }
+
+  @media (min-width: @min-1440) {
+    padding: @segment-gutter-desktop * 1.75
+      0 @segment-gutter-desktop * 1.75 - @gutter;
+  }
+
+  border-bottom: 1px solid #ddd;
+}

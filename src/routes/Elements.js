@@ -14,11 +14,7 @@ export default class Home extends Component {
     return (
       <div>
         <Segment>
-          <h1>Home</h1>
-        </Segment>
-
-        <Segment>
-          <p>Some content</p>
+          <h1>Elements</h1>
         </Segment>
       </div>
     );

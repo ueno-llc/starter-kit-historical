@@ -1,0 +1,38 @@
+@import '~styles/config';
+
+.container {
+  margin: 0 auto;
+  padding: 0 @container-gutter-mobile;
+
+  max-width: @page-width + @container-gutter-mobile * 1;
+
+  @media (min-width: 340px){
+    padding: 0 @container-gutter-mobile;
+
+    max-width: @page-width + @container-gutter-mobile * 2;
+  }
+
+  @media (min-width: @min-tablet){
+    padding: 0 @container-gutter-tablet;
+
+    max-width: @page-width + @container-gutter-tablet * 2;
+  }
+
+  @media (min-width: @min-desktop){
+    padding: 0 @container-gutter-desktop;
+
+    max-width: @page-width + @container-gutter-desktop * 2;
+  }
+
+  &--full {
+    max-width: none;
+
+    @media (min-width: @min-tablet){
+      max-width: none;
+    }
+
+    @media (min-width: @min-desktop){
+      max-width: none;
+    }
+  }
+}

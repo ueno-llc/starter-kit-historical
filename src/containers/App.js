@@ -1,11 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-import { Link } from 'react-router';
-import Container from 'components/Container';
-import s from './App.less';
+import { IndexLink, Link } from 'react-router';
+import AppLayout, { Content as AppLayoutContent } from 'components/AppLayout';
+import Header from 'components/Header';
+import Navigation from 'components/Navigation';
 
-/**
- * App container component
- */
 export default class App extends Component {
 
   static propTypes = {
@@ -20,14 +18,19 @@ export default class App extends Component {
     const { children } = this.props;
 
     return (
-      <div className={s.host}>
-        <Link to="/">Home</Link>
-        <Link to="/elements">Elements</Link>
-        <Link to="/about">About</Link>
-        <Container>
+      <AppLayout>
+        <Header>
+          <Navigation>
+            <IndexLink to="/">Home</IndexLink>
+            <Link to="/elements">Elements</Link>
+            <Link to="/about">About</Link>
+          </Navigation>
+        </Header>
+
+        <AppLayoutContent>
           {children}
-        </Container>
-      </div>
+        </AppLayoutContent>
+      </AppLayout>
     );
   }
 }

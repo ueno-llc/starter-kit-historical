@@ -2,8 +2,8 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import Container from '../Container.js';
-import s from '../Container.less';
+import Container from '../index.js';
+import s from '../index.less';
 
 describe('<Container />', () => {
 

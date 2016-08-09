@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-import Container from 'components/container/Container';
+import Container from 'components/Container';
 import s from './App.less';
 
 /**
@@ -22,6 +22,7 @@ export default class App extends Component {
     return (
       <div className={s.host}>
         <Link to="/">Home</Link>
+        <Link to="/elements">Elements</Link>
         <Link to="/about">About</Link>
         <Container>
           {children}

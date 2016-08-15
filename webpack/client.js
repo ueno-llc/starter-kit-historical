@@ -7,8 +7,4 @@ module.exports = make({
   lazy: true,
   hot: true,
   target: 'web',
-  offline: false,
-  offlineCache: [
-    '/about',
-  ],
 });

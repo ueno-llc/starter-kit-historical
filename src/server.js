@@ -4,6 +4,7 @@ import express from 'express';
 import compression from 'compression';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
+import Helmet from 'react-helmet';
 import { Router, RouterContext, match } from 'react-router';
 import routes from './routes';
 
@@ -15,7 +16,7 @@ const app = express();
 app.set('views', './src/server/views');
 app.set('view engine', 'ejs');
 app.use(compression());
-app.use(express.static('./public'));
+app.use(express.static('./src/assets/favicon'));
 app.use(express.static('./build'));
 
 // Route handler that rules them all!
@@ -37,6 +38,8 @@ app.get('*', (req, res) => {
       return res.status(404).send('not found');
     }
 
+    const head = Helmet.rewind();
+
     // Render template
     res.render('index', {
       includeStyles: release,
@@ -44,6 +47,9 @@ app.get('*', (req, res) => {
       renderedRoot: ReactDOMServer.renderToString(
         <RouterContext {...props} />
       ),
+      title: head.title.toString(),
+      meta: head.meta.toString(),
+      link: head.link.toString(),
     });
   });
 });

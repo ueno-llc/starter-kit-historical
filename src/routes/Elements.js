@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Helmet from 'react-helmet';
 import Segment from 'components/segment';
 
 /**
@@ -13,6 +14,7 @@ export default class Home extends Component {
   render() {
     return (
       <div>
+        <Helmet title="Elements" />
         <Segment>
           <h1>Elements</h1>
         </Segment>

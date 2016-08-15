@@ -6,7 +6,7 @@ import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import Helmet from 'react-helmet';
 import { Router, RouterContext, match } from 'react-router';
-import routes from './routes';
+import routes, { NotFound } from './routes';
 
 const release = (process.env.NODE_ENV === 'production');
 const port = (parseInt(process.env.PORT, 10) || 3000) - !release;
@@ -34,8 +34,8 @@ app.get('*', (req, res) => {
       return res.status(500).send(err.message);
     } else if (redirect) {
       return res.redirect(302, redirect.pathname + redirect.search);
-    } else if (!props) {
-      return res.status(404).send('not found');
+    } else if (props.components.some(component => component === NotFound)) {
+      res.status(404);
     }
 
     const head = Helmet.rewind();

@@ -5,6 +5,7 @@ import App from 'containers/App';
 import Home from 'routes/Home';
 import Elements from 'routes/Elements';
 import About from 'routes/About.lazy';
+import NotFound from 'routes/NotFound';
 
 const loadRoute = pkg => (location, cb) => {
   if (__CLIENT__) {
@@ -13,10 +14,16 @@ const loadRoute = pkg => (location, cb) => {
   return cb(null, pkg);
 };
 
+
+export {
+  NotFound,
+};
+
 export default (
   <Route path="/" component={App}>
     <IndexRoute component={Home} />
     <Route path="elements" component={Elements} />
     <Route path="about" getComponent={loadRoute(About)} />
+    <Route path="*" component={NotFound} />,
   </Route>
 );

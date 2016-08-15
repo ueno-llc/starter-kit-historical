@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const spawn = require('child_process').spawn;
 const bs = require('browser-sync').create();
 const color = require('cli-color');
+const fs = require('fs');
 
 const proxyMiddleware = require('http-proxy-middleware');
 const webpackDevMiddleware = require('webpack-dev-middleware');
@@ -33,6 +34,15 @@ function compileBuilt() {
   didNotCompile = false;
 }
 
+fs.readFile('build/PID.dev', 'utf8', (err, data) => {
+  if (err) return;
+  try {
+    process.kill(parseInt(data, 10), 'SIGHUP');
+  } catch (e) {
+    return;
+  }
+});
+
 // Spawn server
 function start() {
   return new Promise(resolve => {
@@ -53,6 +63,13 @@ function start() {
     });
 
     running.stderr.on('data', data => console.error(data.toString().replace(/\n$/, '')));
+
+    // Write to file new PID
+    fs.writeFile('./build/PID.dev', running.pid, (err) => {
+      if (err) {
+        console.log('Could not store PID for child process:', err);
+      }
+    });
   });
 }
 

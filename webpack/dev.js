@@ -34,7 +34,7 @@ function compileBuilt() {
   didNotCompile = false;
 }
 
-fs.readFile('build/PID.dev', 'utf8', (err, data) => {
+fs.readFile('./build/PID.dev', 'utf8', (err, data) => {
   if (err) return;
   try {
     process.kill(parseInt(data, 10), 'SIGHUP');

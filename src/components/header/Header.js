@@ -9,7 +9,7 @@ export default class Header extends Component {
 
   render() {
     return (
-      <div className={s.header}>
+      <header className={s.header}>
         <div className={s.container}>
           <a className={s.logo}>UENO. Starter kit</a>
 
@@ -17,7 +17,7 @@ export default class Header extends Component {
             {this.props.children}
           </div>
         </div>
-      </div>
+      </header>
     );
   }
 }

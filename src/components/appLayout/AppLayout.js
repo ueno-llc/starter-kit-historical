@@ -17,9 +17,9 @@ export default class AppLayout extends Component {
 }
 
 export const Content = ({ children }) => (
-  <div className={s.content}>
+  <main className={s.content}>
     {children}
-  </div>
+  </main>
 );
 
 Content.propTypes = {

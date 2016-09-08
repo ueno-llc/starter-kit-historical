@@ -29,11 +29,11 @@ export default class Segment extends Component {
     });
 
     return (
-      <div className={classes}>
+      <section className={classes}>
         <Container>
           {children}
         </Container>
-      </div>
+      </section>
     );
   }
 }

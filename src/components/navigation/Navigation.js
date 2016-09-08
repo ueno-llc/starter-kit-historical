@@ -9,7 +9,7 @@ export default class Navigation extends Component {
 
   render() {
     return (
-      <div className={s.navigation}>
+      <nav className={s.navigation}>
         <ul className={s.list}>
           {React.Children.map(this.props.children, (component) => (
             <li className={s.item}>
@@ -20,7 +20,7 @@ export default class Navigation extends Component {
             </li>
           ))}
         </ul>
-      </div>
+      </nav>
     );
   }
 }

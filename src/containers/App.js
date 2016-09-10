@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Helmet from 'react-helmet';
-import helmetDefaults from 'lib/helmet-defaults';
+import helmetDefaults from 'utils/helmet';
 import { IndexLink, Link } from 'react-router';
 import AppLayout, { Content as AppLayoutContent } from 'components/app-layout';
 import Header from 'components/header';

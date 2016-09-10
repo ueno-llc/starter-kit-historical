@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import Helmet from 'react-helmet';
 import helmetDefaults from 'lib/helmet-defaults';
 import { IndexLink, Link } from 'react-router';
-import AppLayout, { Content as AppLayoutContent } from 'components/appLayout';
+import AppLayout, { Content as AppLayoutContent } from 'components/app-layout';
 import Header from 'components/header';
 import Navigation from 'components/navigation';
 

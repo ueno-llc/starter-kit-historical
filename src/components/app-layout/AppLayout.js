@@ -15,13 +15,3 @@ export default class AppLayout extends Component {
     );
   }
 }
-
-export const Content = ({ children }) => (
-  <main className={s.content}>
-    {children}
-  </main>
-);
-
-Content.propTypes = {
-  children: PropTypes.node,
-};

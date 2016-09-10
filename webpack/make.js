@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const autoprefixer = require('autoprefixer');
+
 const NODE_ENV = process.env.NODE_ENV;
 
 /**
@@ -33,6 +34,13 @@ module.exports = function make(options) {
   const isClient = (options.target === 'web');
   const isHot = isClient && (options.hot === true) && !isRelease;
   const isExtracting = !(isClient && isDev);
+
+  const withExtract = (args) => {
+    if (isExtracting) {
+      return ExtractTextPlugin.extract('style-loader', args.join('!'));
+    }
+    return `style-loader!${args.join('!')}`;
+  };
 
   // Init entry point with babel (always)
   let entry = ['babel-polyfill'];
@@ -117,7 +125,7 @@ module.exports = function make(options) {
 
     resolve: {
       modulesDirectories: ['./node_modules', './src'],
-      extensions: ['', '.js', '.json', '.css', '.less'],
+      extensions: ['', '.js', '.json', '.css', '.less', '.styl'],
     },
 
     module: {
@@ -128,11 +136,15 @@ module.exports = function make(options) {
         exclude: /node_modules/,
       }, {
         test: /\.css$/,
-        loader: (!isExtracting ? `style-loader!${loader.css}` : ExtractTextPlugin.extract('style-loader', loader.css)), // eslint-disable-line
+        loader: withExtract([loader.css]),
         exclude: /node_modules/,
       }, {
         test: /\.less$/,
-        loader: (!isExtracting ? `style-loader!${loader.css}!less-loader` : ExtractTextPlugin.extract('style-loader', `${loader.css}!less-loader`)), // eslint-disable-line
+        loader: withExtract([loader.css, 'less-loader']),
+        exclude: /node_modules/,
+      }, {
+        test: /\.styl/,
+        loader: withExtract([loader.css, 'stylus-loader']),
         exclude: /node_modules/,
       }, {
         test: /\.(woff2?|svg|jpe?g|png|gif|ico)$/,

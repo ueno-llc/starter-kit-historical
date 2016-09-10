@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import s from './Navigation.less';
+import s from './Navigation.styl';
 
 export default class Navigation extends Component {
 
@@ -15,7 +15,7 @@ export default class Navigation extends Component {
             <li className={s.item}>
               {React.cloneElement(component, {
                 className: s.link,
-                activeClassName: s.linkActive,
+                activeClassName: s.active,
               })}
             </li>
           ))}

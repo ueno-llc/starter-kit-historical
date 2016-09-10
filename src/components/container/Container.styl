@@ -1,0 +1,34 @@
+@import '~styles';
+
+.container {
+  margin: 0 auto;
+
+  padding: 0 $container-gutter-mobile;
+  max-width: $page-width + $container-gutter-mobile * 1;
+
+  +viewport(340px) {
+    max-width: $page-width + $container-gutter-mobile * 2;
+  }
+
+  +viewport(tablet) {
+    padding: 0 $container-gutter-tablet;
+    max-width: $page-width + $container-gutter-tablet * 2;
+  }
+
+  +viewport(desktop) {
+    padding: 0 $container-gutter-desktop;
+    max-width: $page-width + $container-gutter-desktop * 2;
+  }
+
+  .full {
+    max-width: none;
+
+    +viewport(tablet) {
+      max-width: none;
+    }
+
+    +viewport(desktop) {
+      max-width: none;
+    }
+  }
+}

@@ -94,7 +94,7 @@ module.exports = function make(options) {
 
     // Set entry
     Object.keys(options.entry).forEach(key => {
-      entry[key] = [...additionalEntries, options.entry[key]];
+      entry[key] = [...additionalEntries, ...[].concat(options.entry[key])];
     });
 
     // Set output

@@ -1,0 +1,18 @@
+viewport($param) {
+
+  $min = $param;
+
+  if ($param == 'mobile') {
+    $min = $min-mobile;
+  }
+  else if ($param == 'tablet') {
+    $min = $min-tablet;
+  }
+  else if ($param == 'desktop') {
+    $min = $min-desktop
+  }
+
+  @media only screen and (min-width: $min) {
+    {block}
+  }
+}

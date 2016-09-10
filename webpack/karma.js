@@ -1,5 +1,6 @@
 const path = require('path');
 const make = require('./make');
+
 const isTravis = process.env.TRAVIS;
 
 const webpackConfig = make({

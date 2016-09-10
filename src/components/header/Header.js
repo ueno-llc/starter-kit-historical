@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import s from './Header.less';
+import s from './Header.styl';
 
 export default class Header extends Component {
 

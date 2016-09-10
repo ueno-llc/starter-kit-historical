@@ -1,10 +1,10 @@
-@import '~styles/config';
+@import '~styles';
 @import '~components/container/Container';
 
 .header {
   display: block;
 
-  margin: 0 0 @gutter;
+  margin: 0 0 $gutter;
   padding: 20px 0;
 
   border-bottom: 1px solid #ccc;
@@ -12,13 +12,13 @@
 }
 
 .container {
-  .container;
+  container;
 
   display: flex;
 }
 
 .logo {
-  .reset-anchor();
+  reset-anchor();
 
   font-size: 48px;
   font-weight: 200;

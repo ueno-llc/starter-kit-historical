@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 import Container from 'components/container';
 
-import s from './Segment.less';
+import s from './Segment.styl';
 
 /**
  * Segment component

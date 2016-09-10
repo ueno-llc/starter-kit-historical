@@ -6,7 +6,9 @@ import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import Helmet from 'react-helmet';
 import { Router, RouterContext, match } from 'react-router';
+import Provider from 'containers/provider';
 import routes, { NotFound } from './routes';
+import Store from './store';
 
 const release = (process.env.NODE_ENV === 'production');
 const port = (parseInt(process.env.PORT, 10) || 3000) - !release;
@@ -38,15 +40,21 @@ app.get('*', (req, res) => {
       res.status(404);
     }
 
+    // Setup store and context for provider
+    const store = new Store();
+    const context = { store };
     const head = Helmet.rewind();
+    const root = (
+      <Provider context={context}>
+        <RouterContext {...props} />
+      </Provider>
+    );
 
     // Render template
     res.render('index', {
       includeStyles: release,
       includeClient: true,
-      renderedRoot: ReactDOMServer.renderToString(
-        <RouterContext {...props} />
-      ),
+      renderedRoot: ReactDOMServer.renderToString(root),
       title: head.title.toString(),
       meta: head.meta.toString(),
       link: head.link.toString(),

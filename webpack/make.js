@@ -30,8 +30,9 @@ const NODE_ENV = process.env.NODE_ENV;
 module.exports = function make(options) {
 
   const isRelease = (NODE_ENV === 'production');
-  const isDev = !isRelease; //eslint-disable-line
+  const isDev = !isRelease;
   const isClient = (options.target === 'web');
+  const isServer = !isClient;
   const isHot = isClient && (options.hot === true) && !isRelease;
   const isExtracting = !(isClient && isDev);
 
@@ -166,7 +167,7 @@ module.exports = function make(options) {
     });
   }
 
-  if (!isClient) {
+  if (isServer) {
     // Don't import node binary packages
     config.externals = /^[a-z\-0-9]+$/;
   }

@@ -173,9 +173,9 @@ module.exports = function make(options) {
 
   if (options.lazy && isClient) {
     const jsLoader = config.module.loaders.find(item => '.js'.match(item.test));
-    jsLoader.exclude = /node_modules|routes\/([^\/]+\/?[^\/]+)\.lazy.js/;
+    jsLoader.exclude = /node_modules|routes\/lazy\/([^\/]+\/?[^\/]+).js/;
     config.module.loaders.push({
-      test: /routes\/([^\/]+\/?[^\/]+)\.lazy.js/,
+      test: /routes\/lazy\/([^\/]+\/?[^\/]+).js/,
       loader: `bundle-loader?lazy!${loader.babel}`,
       exclude: /node_modules/,
     });

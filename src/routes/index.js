@@ -4,16 +4,9 @@ import { Route, IndexRoute } from 'react-router';
 import App from 'containers/App';
 import Home from 'routes/Home';
 import Elements from 'routes/Elements';
-import About from 'routes/About.lazy';
+import About from 'routes/lazy/About';
 import NotFound from 'routes/NotFound';
-
-const loadRoute = pkg => (location, cb) => {
-  if (__CLIENT__) {
-    return pkg(module => cb(null, module.default));
-  }
-  return cb(null, pkg);
-};
-
+import loadRoute from 'utils/load-route';
 
 export {
   NotFound,

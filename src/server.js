@@ -3,9 +3,9 @@ import http from 'http';
 import express from 'express';
 import compression from 'compression';
 import React from 'react';
-import ReactDOMServer from 'react-dom/server';
 import Helmet from 'react-helmet';
 import { Router, RouterContext, match } from 'react-router';
+import { serverWaitRender } from 'utils/server-wait';
 import Provider from 'containers/provider';
 import routes, { NotFound } from './routes';
 import Store from './store';
@@ -50,14 +50,19 @@ app.get('*', (req, res) => {
       </Provider>
     );
 
-    // Render template
-    res.render('index', {
-      includeStyles: release,
-      includeClient: true,
-      renderedRoot: ReactDOMServer.renderToString(root),
-      title: head.title.toString(),
-      meta: head.meta.toString(),
-      link: head.link.toString(),
+    serverWaitRender({
+      store,
+      root,
+      maxWait: 2000,
+      render: (renderedRoot, initialState) => res.render('index', {
+        includeStyles: release,
+        includeClient: true,
+        renderedRoot,
+        initialState,
+        title: head.title.toString(),
+        meta: head.meta.toString(),
+        link: head.link.toString(),
+      }),
     });
   });
 });

@@ -36,12 +36,17 @@ const serverWaitProxy = ({ maxWait, retryRejected }) =>
           maxWait,
         });
       } else if (typeof window !== 'undefined') {
-        const { state } = promises.get(key).promise;
+        const item = promises.get(key);
+        const { state } = item.promise;
+
         // Check if server gave pending state
         // Or rejected and it's allowed to continue after rejection.
-        if (state === 'pending' || (retryRejected && state === 'rejected')) {
+        if (state === 'pending' || (retryRejected && state === 'rejected') || item.client) {
           method.apply(this, args);
         }
+
+        // Now i'm client.
+        item.client = true;
       }
 
       return this;
@@ -168,7 +173,7 @@ export function serverWaitRender({
         }
       }
 
-      return (promise.state !== 'fulfilled');
+      return (promise.state === 'pending');
     });
 
     if (pending.length === 0) {

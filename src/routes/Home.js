@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router';
 import Helmet from 'react-helmet';
 import Segment from 'components/segment';
 import connect from 'utils/connect';
@@ -32,7 +33,9 @@ export default class Home extends Component {
             <div>
               <ul>
                 {planets.data.map((planet, i) => (
-                  <li key={`planet_${i}`}>{planet.name}</li>
+                  <li key={`planet_${i}`}>
+                    <Link to={`/planet/${planet.url.match(/(\d+)\/$/)[1]}`}>{planet.name}</Link>
+                  </li>
                 ))}
               </ul>
             </div>

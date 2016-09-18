@@ -6,7 +6,6 @@ export default class PlanetStore {
 
   constructor(state = {}) {
     extendObservable(this, {
-      ...state,
       planets: asMap(state.planets),
     });
   }
@@ -17,7 +16,6 @@ export default class PlanetStore {
   @observable
   data = [];
 
-  @action
   @serverWait
   fetchPlanets() {
     if (!this.isLoading && this.data.length > 0) return;
@@ -34,7 +32,6 @@ export default class PlanetStore {
   @observable
   planets = map();
 
-  @action
   @serverWait
   fetchPlanet(id) {
     const { planets } = this;
@@ -42,16 +39,18 @@ export default class PlanetStore {
     if (planets.has(id)) return;
 
     if (!planets.has(id)) {
-      planets.set(id, { isLoading: true, data: {} });
+      planets.set(id, { isLoading: true, data: {}, hasError: false });
     }
 
     return fetch(`http://swapi.co/api/planets/${id}`)
     .then(data => data.json())
     .then(action(data => {
-      planets.set(id, {
-        isLoading: false,
-        data,
-      });
+      const planet = planets.get(id);
+      if (data.detail === 'Not found') {
+        return (planet.hasError = true);
+      }
+      planet.isLoading = false;
+      planet.data = data;
     }));
   }
 
@@ -59,6 +58,7 @@ export default class PlanetStore {
     return this.planets.get(id) || {
       isLoading: true,
       data: {},
+      hasError: null,
     };
   }
 

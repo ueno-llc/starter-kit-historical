@@ -9,7 +9,30 @@ const proxyMiddleware = require('http-proxy-middleware');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 
-// Get server config
+function log(...args) {
+  const hr = process.hrtime();
+  const date = new Date();
+
+  let ds = ['Hour', 'Minute', 'Second']
+  .map(d => date[`get${d}s`]())
+  ds[2] += (hr[1] / 1000000 / 1000);
+  ds = ds.map(d => d < 10 ? '0' + d : d)
+  .map(d => String(d).substr(0, 6));
+
+  const ts = `${ds.join(':')}`;
+  const prefix = `[${color.white(ts)}] ${color.magenta('webpack')} `;
+
+  if (typeof args[0] === 'string') {
+    args[0] = `${prefix}${args[0]}`; // eslint-disable-line
+  } else {
+    args.splice(0, 1, prefix);
+  }
+
+  console.log(...args);
+}
+
+log('starting dev server');
+
 const config = require('./server');
 const client = require('./client');
 client.context = undefined;
@@ -29,7 +52,7 @@ let didNotCompile = false;
 
 function compileBuilt() {
   if (didNotCompile) {
-    console.log(`[📦 ] ${color.green.bold('Webpack build fixed.')}`);
+    log(`📦  ${color.green.bold('build fixed')}`);
   }
   didNotCompile = false;
 }
@@ -46,28 +69,31 @@ fs.readFile('./build/PID.dev', 'utf8', (err, data) => {
 // Spawn server
 function start() {
   return new Promise(resolve => {
-    running = spawn('node', ['build/server.js']);
+    running = spawn('node', ['build/server.js'], {});
     running.stdout.on('data', data => {
       const msg = data.toString().replace(/\n$/, '');
-      if (msg.match(/Server started/)) {
+      if (msg.match(/http.*started/)) {
         resolve();
         if (!initial) {
           console.log(msg);
+          log(`available at ${color.underline.blue(`http://localhost:${proxyPort}`)}`);
           initial = true;
         } else {
-          console.log('[👍 ] Reloaded server');
+          log('👍  reloaded server');
         }
       } else {
         console.log(msg);
       }
     });
 
-    running.stderr.on('data', data => console.error(data.toString().replace(/\n$/, '')));
+    running.stderr.on('data', data => {
+      console.error(data.toString().replace(/\n$/, ''));
+    });
 
     // Write to file new PID
     fs.writeFile('./build/PID.dev', running.pid, (err) => {
       if (err) {
-        console.log('Could not store PID for child process:', err);
+        log('Could not store PID for child process:', err);
       }
     });
   });
@@ -78,6 +104,7 @@ bs.init({
   port: proxyPort,
   open: false,
   notify: false,
+  logLevel: 'silent',
   server: {
     baseDir: './',
     middleware: [
@@ -107,8 +134,8 @@ bundler.plugin('done', stats => {
   // Also output
   setTimeout(() => {
     if (didNotCompile) {
-      console.log(`\n[📦 ] ${color.red.bold('Webpack build failed.')}`);
-      console.log('[⏳ ] Waiting for changes to restart...');
+      log(`📦  ${color.red.bold('build failed')}`);
+      log('⏳  waiting for changes...');
     }
 
     if (!stats.hasErrors()) {
@@ -120,14 +147,14 @@ bundler.plugin('done', stats => {
 
   (s.children && s.children.length ? s.children : [s])
   .forEach(childStats => {
-    console.log(`[📦 ] Webpack built ${childStats.name ? childStats.name : ''}`
-      + ` ${childStats.hash} in ${childStats.time}ms`);
+    log(`📦  built ${childStats.name ? childStats.name : ''}`
+      + `${childStats.hash} in ${childStats.time}ms`);
   });
 });
 
 // Fired when webpack is building
 bundler.plugin('compile', () => {
-  console.log('[🚧 ] Webpack building...');
+  log('🚧  building...');
 });
 
 // Server watch
@@ -139,7 +166,7 @@ compiler.watch({
   if (stats.hasErrors() || stats.hasWarnings()) {
 
     // Output webpack stats
-    console.log(stats.toString({ colors: true }));
+    log(stats.toString({ colors: true }));
 
     // Disable reloading if webpack has errors
     if (stats.hasErrors()) {

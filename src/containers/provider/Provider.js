@@ -3,21 +3,19 @@ import { Component, PropTypes } from 'react';
 export default class Provider extends Component {
 
   static childContextTypes = {
-    router: () => {},
-    history: () => {},
-    actions: () => {},
-    action: () => {},
-    state: () => {},
-    store: () => {},
+    store: PropTypes.any,
   };
 
   static propTypes = {
-    context: PropTypes.any,
+    store: PropTypes.any,
     children: PropTypes.node,
   };
 
   getChildContext() {
-    return this.props.context;
+    const { store } = this.props;
+    return {
+      store,
+    };
   }
 
   render() {

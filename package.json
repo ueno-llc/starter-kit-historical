@@ -14,7 +14,7 @@
     "lint": "npm run eslint; npm run stylelint",
     "eslint": "eslint src",
     "stylelint": "stylelint \"src/**/*.less\" --syntax less",
-    "build": "rm -rf ./build && cross-env NODE_ENV=production webpack -p --config ./webpack/release.js",
+    "build": "rm -rf ./build && cross-env NODE_ENV=production webpack --config ./webpack/release.js",
     "postinstall": "npm run build"
   },
   "repository": {
@@ -45,6 +45,7 @@
     "babel-preset-stage-0": "^6.5.0",
     "bundle-loader": "^0.5.4",
     "classnames": "^2.2.5",
+    "cli-color": "^1.1.0",
     "compression": "^1.6.2",
     "cross-env": "^2.0.0",
     "css-loader": "^0.23.1",
@@ -78,7 +79,6 @@
     "browser-sync": "^2.12.12",
     "chai": "^3.5.0",
     "chai-enzyme": "^0.5.0",
-    "cli-color": "^1.1.0",
     "enzyme": "^2.3.0",
     "eslint": "^3.3.0",
     "eslint-config-airbnb": "^10.0.1",

@@ -7,12 +7,11 @@ import routes from './routes';
 import Store from './store';
 
 const state = JSON.parse(window.__INITIAL_STATE__ || '{}');
-const store = new Store(state);
-const context = { store, state };
+const store = window.store = new Store(state);
 
 // Render the application
 ReactDOM.render(
-  <Provider context={context}>
+  <Provider store={store}>
     <Router history={browserHistory}>
       {routes}
     </Router>

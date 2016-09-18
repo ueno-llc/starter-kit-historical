@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Helmet from 'react-helmet';
 import Segment from 'components/segment';
-import Other from 'components/other';
 import connect from 'utils/connect';
 
 /**
@@ -11,8 +10,8 @@ import connect from 'utils/connect';
 export default class Home extends Component {
 
   componentWillMount() {
-    const { store } = this.context;
-    store.fetchPlanets();
+    const { planets } = this.context.store;
+    planets.fetchPlanets();
   }
 
   /**
@@ -31,8 +30,6 @@ export default class Home extends Component {
           ? (<div>Loading planets...</div>)
           : (
             <div>
-              {/* Will be rendered after planets have loaded */}
-              <Other />
               <ul>
                 {planets.data.map((planet, i) => (
                   <li key={`planet_${i}`}>{planet.name}</li>

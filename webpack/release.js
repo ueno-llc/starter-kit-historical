@@ -7,11 +7,13 @@ client.plugins.push(new webpack.optimize.UglifyJsPlugin({
   compress: {
     warnings: false,
   },
+  mangle: {
+    keep_fnames: true,
+  },
 }));
 client.plugins.push(new webpack.optimize.DedupePlugin());
 
 // Remove source maps
 server.plugins = server.plugins.filter(p => !(p instanceof webpack.BannerPlugin));
-
 
 module.exports = [server, client];

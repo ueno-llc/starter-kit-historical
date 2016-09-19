@@ -5,12 +5,15 @@
     "no-confusing-arrow": 0,
     "padded-blocks": 0,
     "consistent-return": 0,
-    "react/prefer-stateless-function": 0,
-    "react/jsx-filename-extension": 0,
     "jsx-quotes": [
       2,
       "prefer-double"
-    ]
+    ],
+    "react/prefer-stateless-function": 0,
+    "react/jsx-filename-extension": 0,
+    "react/require-extension": 0,
+    "import/no-named-as-default": 0,
+    "import/no-extraneous-dependencies": 0
   },
   "settings": {
     "import/resolver": {

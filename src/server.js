@@ -5,9 +5,10 @@ import compression from 'compression';
 import React from 'react';
 import Helmet from 'react-helmet';
 import { Router, RouterContext, match } from 'react-router';
-import { serverWaitRender } from 'utils/server-wait';
+import { serverWaitRender } from 'mobx-server-wait';
 import debug from 'utils/debug';
-import Provider from 'containers/provider';
+import { Provider } from 'mobx-react';
+import _omit from 'lodash/omit';
 import routes, { NotFound } from './routes';
 import Store from './store';
 import color from 'cli-color'; // eslint-disable-line
@@ -46,8 +47,9 @@ app.get('*', (req, res) => {
 
     // Setup store and context for provider
     const store = new Store();
+
     const root = (
-      <Provider store={store}>
+      <Provider {..._omit(store, k => (k !== '$mobx'))}>
         <RouterContext {...props} />
       </Provider>
     );

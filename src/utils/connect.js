@@ -1,18 +1,12 @@
-/* eslint no-param-reassign: [0] */
-import { PropTypes } from 'react';
-import { observer } from 'mobx-react';
+import { observer, inject } from 'mobx-react';
 
-const connect = (component) => {
-
-  component.contextTypes = {
-    store: PropTypes.object,
-  };
+const connect = (...args) => (component) => {
 
   if (__CLIENT__) {
-    return observer(component);
+    return observer(args)(component);
   }
 
-  return component;
+  return inject(...args)(component);
 };
 
 export default connect;

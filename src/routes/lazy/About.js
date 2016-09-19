@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Segment from 'components/segment';
 import Helmet from 'react-helmet';
 /**
  * About route component
@@ -13,7 +14,9 @@ export default class About extends Component {
     return (
       <div>
         <Helmet title="About" />
-        <h1>About</h1>
+        <Segment>
+          <h1>About</h1>
+        </Segment>
       </div>
     );
   }

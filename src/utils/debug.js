@@ -26,5 +26,5 @@ export default function debug(type, ...args) {
     args.splice(0, 1, prefix);
   }
 
-  console.log(...args);
+  console.log(...args); // eslint-disable-line
 }

@@ -1,17 +1,27 @@
-import { observable, action, extendObservable, map, asMap } from 'mobx';
-import serverWait from 'utils/server-wait';
+import { observable, action, map, asMap } from 'mobx';
+import serverWait from 'mobx-server-wait';
 import fetch from 'isomorphic-fetch';
+
+// Default planet response
+const defaultPlanet = {
+  isLoading: false,
+  data: {},
+  hasError: false,
+};
 
 export default class PlanetStore {
 
   constructor(state = {}) {
-    extendObservable(this, {
-      planets: asMap(state.planets),
-    });
+    const { planets, ...rest } = state;
+    this.planets = asMap(planets);
+    Object.assign(this, rest);
   }
 
   @observable
   isLoading = false;
+
+  @observable
+  hasError = false;
 
   @observable
   data = [];
@@ -19,13 +29,16 @@ export default class PlanetStore {
   @serverWait
   fetchPlanets() {
     if (!this.isLoading && this.data.length > 0) return;
-
     this.isLoading = true;
     return fetch('http://swapi.co/api/planets')
     .then(data => data.json())
     .then(action(data => {
       this.isLoading = false;
       this.data = data.results;
+    }))
+    .catch(action(err => {
+      this.hasError = true;
+      this.data = err;
     }));
   }
 
@@ -39,7 +52,10 @@ export default class PlanetStore {
     if (planets.has(id)) return;
 
     if (!planets.has(id)) {
-      planets.set(id, { isLoading: true, data: {}, hasError: false });
+      planets.set(id, {
+        ...defaultPlanet,
+        isLoading: true,
+      });
     }
 
     return fetch(`http://swapi.co/api/planets/${id}`)
@@ -54,12 +70,6 @@ export default class PlanetStore {
     }));
   }
 
-  getPlanet(id) {
-    return this.planets.get(id) || {
-      isLoading: true,
-      data: {},
-      hasError: null,
-    };
-  }
+  getPlanet = (id) => this.planets.get(id) || defaultPlanet;
 
 }

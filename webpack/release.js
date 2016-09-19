@@ -8,6 +8,7 @@ client.plugins.push(new webpack.optimize.UglifyJsPlugin({
     warnings: false,
   },
   mangle: {
+    except: ['r'],
     keep_fnames: true,
   },
 }));

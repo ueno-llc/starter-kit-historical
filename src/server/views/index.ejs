@@ -12,6 +12,9 @@
   </head>
   <body>
     <div id="root"><%- renderedRoot %></div>
+    <script>
+      window.__INITIAL_STATE__ = <%- JSON.stringify(initialState) %>;
+    </script>
     <% if (includeClient) { %>
       <script src="/client.js"></script>
     <% } %>

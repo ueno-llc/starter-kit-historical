@@ -65,7 +65,8 @@ module.exports = function make(options) {
       + '&localIdentName=[name]_[local]_[hash:base64:5]!postcss-loader',
 
     babel: 'babel-loader?presets[]=react&presets[]=es2015'
-      + `&presets[]=stage-0${isHot ? '&presets[]=react-hmre' : ''}`,
+      + `&presets[]=stage-0${isHot ? '&presets[]=react-hmre' : ''}`
+      + '&plugins[]=transform-decorators-legacy',
   };
 
   // Hot Loading

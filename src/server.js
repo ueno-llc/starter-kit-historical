@@ -3,10 +3,15 @@ import http from 'http';
 import express from 'express';
 import compression from 'compression';
 import React from 'react';
-import ReactDOMServer from 'react-dom/server';
 import Helmet from 'react-helmet';
 import { Router, RouterContext, match } from 'react-router';
+import { serverWaitRender } from 'mobx-server-wait';
+import debug from 'utils/debug';
+import { Provider } from 'mobx-react';
+import _omit from 'lodash/omit';
 import routes, { NotFound } from './routes';
+import Store from './store';
+import color from 'cli-color'; // eslint-disable-line
 
 const release = (process.env.NODE_ENV === 'production');
 const port = (parseInt(process.env.PORT, 10) || 3000) - !release;
@@ -21,6 +26,8 @@ app.use(express.static('./build'));
 
 // Route handler that rules them all!
 app.get('*', (req, res) => {
+
+  debug(color.cyan('http'), '%s - %s %s', req.ip, req.method, req.url);
 
   // Do a router match
   match({
@@ -38,19 +45,36 @@ app.get('*', (req, res) => {
       res.status(404);
     }
 
-    const head = Helmet.rewind();
+    // Setup store and context for provider
+    const store = new Store();
 
-    // Render template
-    res.render('index', {
-      includeStyles: release,
-      includeClient: true,
-      renderedRoot: ReactDOMServer.renderToString(
+    const root = (
+      <Provider {..._omit(store, k => (k !== '$mobx'))}>
         <RouterContext {...props} />
-      ),
-      title: head.title.toString(),
-      meta: head.meta.toString(),
-      link: head.link.toString(),
+      </Provider>
+    );
+
+    const cancel = serverWaitRender({
+      store,
+      root,
+      debug: (...args) => debug(color.yellow('server-wait'), ...args),
+      maxWait: 2000,
+      render: (renderedRoot, initialState) => {
+        const head = Helmet.rewind();
+        res.render('index', {
+          includeStyles: release,
+          includeClient: true,
+          renderedRoot,
+          initialState,
+          title: head.title.toString(),
+          meta: head.meta.toString(),
+          link: head.link.toString(),
+        });
+      },
     });
+
+    // Cancel server rendering
+    req.on('close', cancel);
   });
 });
 
@@ -60,5 +84,5 @@ const server = http.createServer(app);
 // Start
 server.listen(port, err => {
   if (err) throw err;
-  console.info(`[🚀 ] Server started on port ${port}`);
+  debug(color.cyan('http'), `🚀  started on port ${port}`);
 });

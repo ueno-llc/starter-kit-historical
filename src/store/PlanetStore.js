@@ -30,7 +30,7 @@ export default class PlanetStore {
   fetchPlanets() {
     if (!this.isLoading && this.data.length > 0) return;
     this.isLoading = true;
-    return fetch('http://swapi.co/api/planets')
+    return fetch('https://swapi.co/api/planets')
     .then(data => data.json())
     .then(action(data => {
       this.isLoading = false;
@@ -58,7 +58,7 @@ export default class PlanetStore {
       });
     }
 
-    return fetch(`http://swapi.co/api/planets/${id}`)
+    return fetch(`https://swapi.co/api/planets/${id}`)
     .then(data => data.json())
     .then(action(data => {
       const planet = planets.get(id);

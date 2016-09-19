@@ -36,6 +36,6 @@ if (module.hot) {
   });
 
   module.hot.accept(() => render(
-    require('./containers/provider/Provider.js').default // eslint-disable-line
+    require('mobx-react').Provider // eslint-disable-line
   ));
 }

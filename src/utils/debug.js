@@ -1,4 +1,4 @@
-import color from 'cli-color';
+const color = require('cli-color');
 
 /**
  * Very simple debug method for node.
@@ -7,7 +7,7 @@ import color from 'cli-color';
  * [HH:MM:SS.ms] type message
  * @return {void}
  */
-export default function debug(type, ...args) {
+module.exports = function debug(type, ...args) {
   const hr = process.hrtime();
   const date = new Date();
 
@@ -27,4 +27,4 @@ export default function debug(type, ...args) {
   }
 
   console.log(...args); // eslint-disable-line
-}
+};

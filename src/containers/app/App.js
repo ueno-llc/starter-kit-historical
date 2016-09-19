@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import Helmet from 'react-helmet';
 import helmetDefaults from 'utils/helmet';
 import { IndexLink, Link } from 'react-router';
-import AppLayout, { Content as AppLayoutContent } from 'components/app-layout';
+import AppLayout, { Content } from 'components/app-layout';
 import Header from 'components/header';
 import Navigation from 'components/navigation';
 
@@ -30,9 +30,9 @@ export default class App extends Component {
           </Navigation>
         </Header>
 
-        <AppLayoutContent>
+        <Content>
           {children}
-        </AppLayoutContent>
+        </Content>
       </AppLayout>
     );
   }

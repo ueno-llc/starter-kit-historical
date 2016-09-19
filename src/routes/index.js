@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from 'react';
 import { Route, IndexRoute } from 'react-router';
-import App from 'containers/App';
+import App from 'containers/app';
 import Home from 'routes/Home';
 import Planets from 'routes/Planets';
 import Planet from 'routes/Planet';

@@ -4,37 +4,18 @@ const spawn = require('child_process').spawn;
 const bs = require('browser-sync').create();
 const color = require('cli-color');
 const fs = require('fs');
+const log = require('../src/utils/debug');
 
 const proxyMiddleware = require('http-proxy-middleware');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 
-function log(...args) {
-  const hr = process.hrtime();
-  const date = new Date();
-
-  let ds = ['Hour', 'Minute', 'Second']
-  .map(d => date[`get${d}s`]())
-  ds[2] += (hr[1] / 1000000 / 1000);
-  ds = ds.map(d => d < 10 ? '0' + d : d)
-  .map(d => String(d).substr(0, 6));
-
-  const ts = `${ds.join(':')}`;
-  const prefix = `[${color.white(ts)}] ${color.magenta('webpack')} `;
-
-  if (typeof args[0] === 'string') {
-    args[0] = `${prefix}${args[0]}`; // eslint-disable-line
-  } else {
-    args.splice(0, 1, prefix);
-  }
-
-  console.log(...args);
-}
 
 log('starting dev server');
 
 const config = require('./server');
 const client = require('./client');
+
 client.context = undefined;
 // Configs eslint to not prevent successful build on errors
 client.eslint = config.eslint = { emitWarning: true };

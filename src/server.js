@@ -16,10 +16,9 @@ import color from 'cli-color'; // eslint-disable-line
 const release = (process.env.NODE_ENV === 'production');
 const port = (parseInt(process.env.PORT, 10) || 3000) - !release;
 const app = express();
+const debugsw = (...args) => debug(color.yellow('server-wait'), ...args);
 
 // Set view engine
-app.set('views', './src/server/views');
-app.set('view engine', 'ejs');
 app.use(compression());
 app.use(express.static('./src/assets/favicon'));
 app.use(express.static('./build'));
@@ -27,6 +26,17 @@ app.use(express.static('./build'));
 // Route handler that rules them all!
 app.get('*', (req, res) => {
 
+  // Start writing output
+  res.write('<!doctype html>');
+  res.write(`<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="/client.js" defer></script>
+    <link rel="stylesheet" type="text/css" href="/styles.css">
+    <!-- CHUNK -->`);
+
+  // Some debugging info
   debug(color.cyan('http'), '%s - %s %s', req.ip, req.method, req.url);
 
   // Do a router match
@@ -48,29 +58,34 @@ app.get('*', (req, res) => {
     // Setup store and context for provider
     const store = new Store();
 
+    // Setup the root but don't add $mobx as property to provider.
     const root = (
       <Provider {..._omit(store, k => (k !== '$mobx'))}>
         <RouterContext {...props} />
       </Provider>
     );
 
+    // Main render function
+    const render = (html, state) => {
+      const { meta, title, link } = Helmet.rewind();
+      res.write(`${meta} ${title} ${link}
+  </head>
+  <body>
+    <div id="root">${html}</div>
+    <script>
+      window.__INITIAL_STATE__ = '${state}';
+    </script>
+  </body>
+</html>`);
+      res.end();
+    };
+
+    // Render when all actions have completed their promises
     const cancel = serverWaitRender({
       store,
       root,
-      debug: (...args) => debug(color.yellow('server-wait'), ...args),
-      maxWait: 2000,
-      render: (renderedRoot, initialState) => {
-        const head = Helmet.rewind();
-        res.render('index', {
-          includeStyles: release,
-          includeClient: true,
-          renderedRoot,
-          initialState,
-          title: head.title.toString(),
-          meta: head.meta.toString(),
-          link: head.link.toString(),
-        });
-      },
+      debug: debugsw,
+      render,
     });
 
     // Cancel server rendering

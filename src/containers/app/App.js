@@ -11,7 +11,7 @@ import Navigation from 'components/navigation';
 const showDevTool = (process.env.NODE_ENV !== 'production');
 
 // Otherwise render null
-const DevTools = showDevTool ? require('mobx-react-devtools').default : () => null;
+const DevTools = showDevTool ? require('utils/devtools') : () => null;
 
 /**
  * Main app container

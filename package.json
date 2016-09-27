@@ -44,7 +44,7 @@
     "babel-preset-react-hmre": "^1.1.1",
     "babel-preset-stage-0": "^6.5.0",
     "bundle-loader": "^0.5.4",
-    "classnames": "^2.2.5",
+    "classnames-loader": "^2.0.0",
     "cli-color": "^1.1.0",
     "compression": "^1.6.2",
     "cross-env": "^2.0.1",

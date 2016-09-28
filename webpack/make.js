@@ -38,9 +38,9 @@ module.exports = function make(options) {
 
   const withExtract = (args) => {
     if (isExtracting) {
-      return ExtractTextPlugin.extract('style-loader', args.join('!'));
+      return `classnames-loader!${ExtractTextPlugin.extract('style-loader', args.join('!'))}`;
     }
-    return `style-loader!${args.join('!')}`;
+    return `classnames-loader!style-loader!${args.join('!')}`;
   };
 
   // Init entry point with babel (always)

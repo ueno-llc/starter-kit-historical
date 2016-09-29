@@ -73,7 +73,7 @@ app.get('*', (req, res) => {
   <body>
     <div id="root">${html}</div>
     <script>
-      window.__INITIAL_STATE__ = '${state}';
+      window.__INITIAL_STATE__ = '${state.replace(/\\/g, '\\\\')}';
     </script>
   </body>
 </html>`);

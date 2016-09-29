@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import Helmet from 'react-helmet';
 import Segment from 'components/segment';
 import connect from 'utils/connect';
+import { autobind } from 'core-decorators';
 
 /**
  * Planet route component
@@ -23,7 +24,10 @@ export default class Planet extends Component {
     planets.fetchPlanet(id);
   }
 
-  diff = (a, b) => Math.abs(b.diameter - a.diameter);
+  @autobind
+  diff(a, b) {
+    return Math.abs(b.diameter - a.diameter);
+  }
 
   /**
    * Render method

@@ -1,6 +1,7 @@
-import { observable, action, map, asMap } from 'mobx';
+import { extendObservable, observable, action, map, asMap } from 'mobx';
 import serverWait from 'mobx-server-wait';
 import fetch from 'isomorphic-fetch';
+import { autobind } from 'core-decorators';
 
 // Default planet response
 const defaultPlanet = {
@@ -14,7 +15,7 @@ export default class PlanetStore {
   constructor(state = {}) {
     const { planets, ...rest } = state;
     this.planets = asMap(planets);
-    Object.assign(this, rest);
+    extendObservable(this, rest);
   }
 
   @observable
@@ -70,6 +71,8 @@ export default class PlanetStore {
     }));
   }
 
-  getPlanet = (id) => this.planets.get(id) || defaultPlanet;
-
+  @autobind
+  getPlanet(id) {
+    return this.planets.get(id) || defaultPlanet;
+  }
 }

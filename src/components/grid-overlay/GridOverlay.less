@@ -2,9 +2,11 @@
 @import '~styles/grid';
 @import '~components/container/Container';
 
-.grid {
+:root {
   --grid-column-count: 12;
+}
 
+.grid {
   z-index: 10;
   position: absolute;
   top: 0;
@@ -17,7 +19,7 @@
 
   transform-origin: 50% 0%;
 
-  &__container {
+  .container {
     .container();
 
     opacity: 0;
@@ -26,23 +28,24 @@
     transition: all 0.2s;
   }
 
-  &.isVisible &__container {
+  &.isVisible .container {
     opacity: 1;
   }
 
-  &__row {
+  .row {
     .make-row();
 
     height: 100%;
   }
 
-  &__column {
-    .make-col(calc(~'100% / var(--grid-column-count)'));
+  .column {
+
+    .make-col(calc(~'100% / var(--grid-column-count, 12)'));
 
     position: relative;
     height: 100%;
 
-    &Inner {
+    .visualize {
       position: relative;
       width: 100%;
       height: 100%;
@@ -68,34 +71,54 @@
     }
   }
 
-  &__button {
+  .button {
     .reset-button();
 
     position: fixed;
-    right: @gutter;
-    bottom: @gutter;
+    right: 180px;
+    top: 0;
     z-index: 9001; // over 9000 !!!
 
-    opacity: 0.25;
+    height: 26px;
 
-    padding: @gutter / 4 @gutter / 2;
+    opacity: 1;
 
+    padding: 0 (@gutter / 2);
 
     font-size: 12px;
-    font-weight: 700;
-    color: #fff;
+    color: #999;
+    text-transform: uppercase;
 
     pointer-events: all;
     cursor: pointer;
 
-    background: rgba(0, 0, 0, 0.75);
-    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.8);
+    background: #fff;
+
+    border-style: solid;
+    border-width: 0 1px 1px;
+    border-color: rgba(0, 0, 0, 0.1);
+    border-radius: 0 0 2px 2px;
 
     transition: opacity 0.25s, transform 0.1s;
 
     &:hover {
-      opacity: 1;
-      transform: scale(1.1);
+      color: #000;
+    }
+
+    &.isVisible {
+      &, &:hover {
+        color: #328bf3;
+      }
     }
   }
 }
+
+// Polyfill for browsers without css variables
+// Like Safari 9
+.mw(@i) when (@i > 0) {
+  [data-columns = "@{i}"] .column {
+    min-width: 100% / @i;
+  }
+  .mw(@i - 1)
+}
+.mw(12);

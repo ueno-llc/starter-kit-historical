@@ -20,7 +20,7 @@ export default class GridOverlay extends Component {
     this.componentWillReceiveProps(this.props);
 
     this.setState({ // eslint-disable-line
-      isVisible: localStorage.getItem('uenoStarterKitGridVisible'),
+      isVisible: localStorage.getItem('uenoStarterKitGridVisible') === 'true',
     });
   }
 

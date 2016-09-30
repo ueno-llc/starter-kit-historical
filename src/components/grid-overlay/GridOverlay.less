@@ -1,0 +1,106 @@
+@import '~styles/config';
+@import '~styles/grid';
+@import '~components/container/Container';
+
+.grid {
+  --grid-column-count: 12;
+
+  z-index: 10;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  pointer-events: none;
+  overflow: hidden;
+
+  transform-origin: 50% 0%;
+
+  &__container {
+    .container();
+
+    opacity: 0;
+    height: 100%;
+
+    transition: all 0.2s;
+  }
+
+  &.isVisible &__container {
+    opacity: 1;
+  }
+
+  &__row {
+    .make-row();
+
+    height: 100%;
+  }
+
+  &__column {
+    .make-col(calc(~'100% / var(--grid-column-count)'));
+
+    position: relative;
+    height: 100%;
+
+    &Inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+
+      &:before,
+      &:after {
+        content: '';
+        display: block;
+
+        width: 100%;
+        height: 100%;
+
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      &:after {
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        background: rgba(0, 0, 0, 0.05);
+      }
+    }
+
+    // &:nth-child(2n) &Inner:after {
+    //   background: rgba(0, 0, 0, 0.1);
+    // }
+  }
+
+  &__button {
+    .reset-button();
+
+    position: fixed;
+    right: @gutter;
+    bottom: @gutter;
+    z-index: 9001; // over 9000 !!!
+
+    opacity: 0.25;
+
+    padding: @gutter / 4 @gutter / 2;
+
+
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+
+    pointer-events: all;
+    cursor: pointer;
+
+    background: rgba(0, 0, 0, 0.75);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.8);
+
+    // transform-origin: 100% 100%;
+    transition: opacity 0.25s, transform 0.1s;
+
+    &:hover {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+  }
+}

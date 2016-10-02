@@ -3,28 +3,60 @@ import http from 'http';
 import express from 'express';
 import compression from 'compression';
 import React from 'react';
+import helmet from 'helmet';
 import Helmet from 'react-helmet';
 import { Router, RouterContext, match } from 'react-router';
 import { serverWaitRender } from 'mobx-server-wait';
 import debug from 'utils/debug';
 import { Provider } from 'mobx-react';
 import _omit from 'lodash/omit';
+import color from 'cli-color';
+import hpp from 'hpp';
+
+// Local imports
 import routes, { NotFound } from './routes';
 import Store from './store';
-import color from 'cli-color'; // eslint-disable-line
 
+// Ground work
 const release = (process.env.NODE_ENV === 'production');
 const port = (parseInt(process.env.PORT, 10) || 3000) - !release;
 const app = express();
 const debugsw = (...args) => debug(color.yellow('server-wait'), ...args);
+
+// Hide all software information
+app.disable('x-powered-by');
+
+// Prevent HTTP Parameter pollution.
+// @note: Make sure body parser goes above the hpp middleware
+app.use(hpp());
+
+// Content Security Policy
+app.use(helmet.contentSecurityPolicy({
+  defaultSrc: ["'self'"],
+  scriptSrc: ["'self'"],
+  styleSrc: ["'self'"],
+  imgSrc: ["'self'"],
+  connectSrc: ["'self'", 'ws:'],
+  fontSrc: ["'self'"],
+  objectSrc: ["'none'"],
+  mediaSrc: ["'none'"],
+  frameSrc: ["'none'"],
+}));
+app.use(helmet.xssFilter());
+app.use(helmet.frameguard('deny'));
+app.use(helmet.ieNoOpen());
+app.use(helmet.noSniff());
 
 // Set view engine
 app.use(compression());
 app.use(express.static('./src/assets/favicon'));
 app.use(express.static('./build'));
 
+
 // Route handler that rules them all!
 app.get('*', (req, res) => {
+
+  res.set('Content-Type', 'text/html');
 
   // Start writing output
   res.write('<!doctype html>');

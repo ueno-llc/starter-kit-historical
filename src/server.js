@@ -5,7 +5,7 @@ import express from 'express';
 import compression from 'compression';
 import React from 'react';
 import helmet from 'helmet';
-import Helmet from 'react-helmet';
+import ReactHelmet from 'react-helmet';
 import { Router, RouterContext, match } from 'react-router';
 import { serverWaitRender } from 'mobx-server-wait';
 import debug from 'utils/debug';
@@ -100,7 +100,7 @@ app.get('*', (req, res) => {
 
     // Main render function
     const render = (html, state) => {
-      const { meta, title, link } = Helmet.rewind();
+      const { meta, title, link } = ReactHelmet.rewind();
       res.write(`${meta} ${title} ${link}
   </head>
   <body>

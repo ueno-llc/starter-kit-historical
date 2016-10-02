@@ -57,7 +57,7 @@ app.use(express.static('./build'));
 // Route handler that rules them all!
 app.get('*', (req, res) => {
 
-  res.set('Content-Type', 'text/html');
+  res.set('content-type', 'text/html');
 
   // Start writing output
   res.write('<!doctype html>');

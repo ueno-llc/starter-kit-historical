@@ -129,7 +129,9 @@ app.get('*', (req, res) => {
 const server = http.createServer(app);
 
 // Start
-server.listen(port, err => {
+const listener = server.listen(port, err => {
   if (err) throw err;
   debug(color.cyan('http'), `🚀  started on port ${port}`);
 });
+
+module.exports = listener;

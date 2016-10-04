@@ -1,86 +1,101 @@
-/* eslint no-console: 0 */
+const path = require('path');
 const webpack = require('webpack');
-const spawn = require('child_process').spawn;
 const bs = require('browser-sync').create();
-const color = require('cli-color');
-const fs = require('fs');
-const log = require('../src/utils/debug');
-
 const proxyMiddleware = require('http-proxy-middleware');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
+const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+const color = require('cli-color');
+const debug = require('../src/utils/debug');
 
+const domain = color.magentaBright('webpack');
+const clientConfig = require('./client');
+const serverConfig = require('./server');
 
-log('starting dev server');
+clientConfig.plugins.push(
+  new webpack.HotModuleReplacementPlugin()
+);
 
-const config = require('./server');
-const client = require('./client');
+// Add progress bar to server build
+serverConfig.plugins.push(new ProgressBarPlugin({
+  width: 12,
+  format: `[:bar] ${domain} ${color.green.bold(':percent')} :msg (:elapsed seconds)`,
+  clear: true,
+  summary: false,
+}));
 
-client.context = undefined;
-// Configs eslint to not prevent successful build on errors
-client.eslint = config.eslint = { emitWarning: true };
+// Create compilers
+const clientCompiler = webpack(clientConfig);
+const serverCompiler = webpack(serverConfig);
 
-// Setup webpack compiler
-const compiler = webpack(config);
-const bundler = webpack(client);
+// Logging
+const log = (...args) => debug(domain, ...args);
 
-// Other stuff
-let running = null;
+// Get ports
 const port = (parseInt(process.env.PORT, 10) || 3000) - 1;
 const proxyPort = port + 1;
-let initial = false;
-let didNotCompile = false;
 
-function compileBuilt() {
-  if (didNotCompile) {
-    log(`📦  ${color.green.bold('build fixed')}`);
-  }
-  didNotCompile = false;
-}
+// Build container
+const build = {
+  failed: false,
+  connections: [],
+};
 
-fs.readFile('./build/PID.dev', 'utf8', (err, data) => {
-  if (err) return;
-  try {
-    process.kill(parseInt(data, 10), 'SIGHUP');
-  } catch (e) {
+serverCompiler.plugin('done', stats => {
+
+  if (stats.hasErrors()) {
+    log(color.red.bold('build failed'));
+    build.failed = true;
     return;
   }
-});
 
-// Spawn server
-function start() {
-  return new Promise(resolve => {
-    running = spawn('node', ['build/server.js'], {});
-    running.stdout.on('data', data => {
-      const msg = data.toString().replace(/\n$/, '');
-      if (msg.match(/http.*started/)) {
-        resolve();
-        if (!initial) {
-          console.log(msg);
-          log(`available at ${color.underline.blue(`http://localhost:${proxyPort}`)}`);
-          initial = true;
-        } else {
-          log('👍  reloaded server');
-        }
-      } else {
-        console.log(msg);
-      }
-    });
+  if (build.failed) {
+    build.faled = false;
+    log(color.green('build fixed'));
+  }
 
-    running.stderr.on('data', data => {
-      console.error(data.toString().replace(/\n$/, ''));
-    });
+  log('built %s in %sms', stats.hash, stats.endTime - stats.startTime);
 
-    // Write to file new PID
-    fs.writeFile('./build/PID.dev', running.pid, (err) => {
-      if (err) {
-        log('Could not store PID for child process:', err);
-      }
+  const opts = serverCompiler.options;
+  const outputPath = path.resolve(opts.output.path, `${Object.keys(opts.entry)[0]}.js`);
+
+  // Make sure our newly built server bundles aren't in the module cache.
+  Object.keys(require.cache).forEach((modulePath) => {
+    if (modulePath.indexOf(opts.output.path || outputPath) !== -1) {
+      delete require.cache[modulePath];
+    }
+  });
+
+  if (build.listener) {
+    // Close the last server listener
+    build.listener.close();
+  }
+
+  // Start the server
+  build.listener = require(outputPath).default; // eslint-disable-line
+
+  // Track all connections to our server so that we can close them when needed.
+  build.listener.on('connection', (connection) => {
+    build.connections.push(connection);
+    connection.on('close', () => {
+      build.connections.splice(build.connections.indexOf(connection));
     });
   });
-}
+});
 
-// Initialize
+log(`started on ${color.blue.underline(`http://localhost:${proxyPort}`)}`);
+
+serverCompiler.watch({
+  aggregateTimeout: 300,
+  poll: true,
+}, () => undefined);
+
+clientCompiler.watch({
+  aggregateTimeout: 300,
+  poll: true,
+}, () => undefined);
+
+// Initialize BrowserSync
 bs.init({
   port: proxyPort,
   open: false,
@@ -89,14 +104,19 @@ bs.init({
   server: {
     baseDir: './',
     middleware: [
-      webpackDevMiddleware(bundler, {
+      webpackDevMiddleware(clientCompiler, {
         publicPath: '/',
         noInfo: true,
         stats: {
+          timings: false,
+          version: false,
+          hash: false,
+          assets: false,
+          chunks: false,
           colors: true,
         },
       }),
-      webpackHotMiddleware(bundler, {
+      webpackHotMiddleware(clientCompiler, {
         log: false,
       }),
       proxyMiddleware(p => !p.match('^/browser-sync'), {
@@ -109,58 +129,15 @@ bs.init({
   },
 });
 
-// Fired when client webpack is done packing
-bundler.plugin('done', stats => {
-
-  // Also output
-  setTimeout(() => {
-    if (didNotCompile) {
-      log(`📦  ${color.red.bold('build failed')}`);
-      log('⏳  waiting for changes...');
-    }
-
-    if (!stats.hasErrors()) {
-      compileBuilt();
-    }
-  }, 180);
-
-  const s = stats.toJson();
-
-  (s.children && s.children.length ? s.children : [s])
-  .forEach(childStats => {
-    log(`📦  built ${childStats.name ? childStats.name : ''}`
-      + `${childStats.hash} in ${childStats.time}ms`);
-  });
-});
-
-// Fired when webpack is building
-bundler.plugin('compile', () => {
-  log('🚧  building...');
-});
-
-// Server watch
-compiler.watch({
-  aggregateTimeout: 300,
-  poll: true,
-}, (err, stats) => {
-
-  if (stats.hasErrors() || stats.hasWarnings()) {
-
-    // Output webpack stats
-    log(stats.toString({ colors: true }));
-
-    // Disable reloading if webpack has errors
-    if (stats.hasErrors()) {
-      didNotCompile = true;
-      return;
-    }
-
-    compileBuilt();
+process.on('SIGTERM', () => {
+  if (build.listener) {
+    build.listener.close(() => {
+      log('closing %s connections', build.connections.length);
+      log('shutting down');
+      build.connections.forEach(conn => {
+        conn.destroy();
+      });
+      process.exit(0);
+    });
   }
-
-  if (running) {
-    setTimeout(() => running.kill(), 100);
-  }
-
-  setTimeout(() => start(), 110);
 });

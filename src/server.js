@@ -135,4 +135,4 @@ const listener = server.listen(port, err => {
   debug(color.cyan('http'), `🚀  started on port ${port}`);
 });
 
-module.exports = listener;
+export default listener;

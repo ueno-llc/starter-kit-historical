@@ -103,6 +103,7 @@
     "karma-webpack": "^1.8.0",
     "mobx-react-devtools": "^4.2.6",
     "mocha": "^3.0.2",
+    "progress-bar-webpack-plugin": "^1.9.0",
     "react-addons-test-utils": "^15.3.1",
     "source-map-support": "^0.4.2",
     "stylelint": "^7.2.0",

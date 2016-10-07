@@ -142,6 +142,8 @@ function make(conf) {
     })
   );
 
+  const name = isClient ? 'client' : 'server';
+
   const config = {
 
     target,
@@ -154,9 +156,9 @@ function make(conf) {
 
     output: {
       path: root('build'),
-      filename: '[name].js',
-      sourceMapFilename: '[name].map',
-      chunkFilename: '[id].chunk.js',
+      filename: `${name}.js`,
+      sourceMapFilename: `${name}.map`,
+      chunkFilename: `${name}.[chunkhash].js`,
       publicPath: '/',
     },
 
@@ -171,7 +173,7 @@ function make(conf) {
     module: {
       loaders: [
         loaders.babel,
-        // loaders.css,
+        loaders.css,
         loaders.less,
         loaders.file,
         loaders.json,
@@ -193,6 +195,16 @@ function make(conf) {
 
     // Set library target output
     config.output.libraryTarget = 'var';
+
+    config.entry.vendor = ['react', 'react-dom', 'mobx', 'mobx-react'];
+
+    config.plugins.push(
+      new webpack.optimize.CommonsChunkPlugin({
+        name: 'vendor',
+        minChunks: Infinity,
+        filename: 'vendor.js',
+      })
+    );
   }
 
   if (isClient && isProd) {

@@ -1,7 +1,7 @@
 /* eslint no-underscore-dangle: 0 */
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { browserHistory, Router } from 'react-router';
+import { browserHistory, Router } from 'react-router/es6';
 import stringify from 'json-stringify-safe';
 import { toJS } from 'mobx';
 import { Provider } from 'mobx-react';

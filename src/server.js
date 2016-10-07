@@ -65,6 +65,7 @@ app.get('*', (req, res) => {
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="/vendor.js" defer></script>
     <script src="/client.js" defer></script>
     <link rel="stylesheet" type="text/css" href="/styles.css">
     <!-- CHUNK -->`);

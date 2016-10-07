@@ -43,6 +43,7 @@
     "babel-preset-react": "^6.11.1",
     "babel-preset-react-hmre": "^1.1.1",
     "babel-preset-stage-0": "^6.5.0",
+    "babel-plugin-transform-runtime": "^6.15.0",
     "bundle-loader": "^0.5.4",
     "classnames": "^2.2.5",
     "classnames-loader": "^2.0.0",
@@ -75,7 +76,7 @@
     "stylus": "^0.54.5",
     "stylus-loader": "^2.3.1",
     "url-loader": "^0.5.7",
-    "webpack": "^1.13.2"
+    "webpack": "^2.1.0-beta.25"
   },
   "devDependencies": {
     "babel-eslint": "^6.1.2",
@@ -102,8 +103,10 @@
     "mocha": "^3.0.2",
     "progress-bar-webpack-plugin": "^1.9.0",
     "react-addons-test-utils": "^15.3.1",
+    "react-hot-loader": "^3.0.0-beta.2",
     "source-map-support": "^0.4.2",
     "stylelint": "^7.2.0",
+    "webpack-dev-server": "^2.1.0-beta.8",
     "webpack-dev-middleware": "^1.8.1",
     "webpack-hot-middleware": "^2.12.2"
   }

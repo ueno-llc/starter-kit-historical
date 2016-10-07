@@ -5,4 +5,5 @@ module.exports = make({
     server: './src/server.js',
   },
   target: 'node',
+  devtool: 'source-map',
 });

@@ -4,6 +4,8 @@ const path = require('path');
 const externals = require('webpack-node-externals');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const cloneDeep = require('lodash/cloneDeep');
+const autoprefixer = require('autoprefixer');
+const csso = require('postcss-csso');
 
 const root = (folder = '.') => path.join(__dirname, '..', folder);
 const { NODE_ENV } = process.env;
@@ -65,7 +67,11 @@ function make(conf) {
         query: {
           modules: true,
           importLoaders: 1,
-          localIdentName: '[name]_[local]_[hash:base64:5]',
+          localIdentName: (
+            isDev
+            ? '[name]_[local]_[hash:base64:5]'
+            : '[hash:base64:10]'
+          ),
         },
       },
       'postcss-loader',
@@ -226,6 +232,12 @@ function make(conf) {
       new webpack.LoaderOptionsPlugin({
         minimize: true,
         debug: false,
+        options: {
+          postcss: () => [
+            autoprefixer,
+            csso,
+          ],
+        },
       }),
       new webpack.optimize.DedupePlugin(),
       extract

@@ -8,10 +8,17 @@ export {
   NotFound,
 };
 
+const cache = new Map();
+
 const loadRoute = (name) => (location, cb) => {
   if (__CLIENT__) {
+    if (cache.has(name)) {
+      return cb(null, cache.get(name));
+    }
+
     System.import('routes/' + name) // eslint-disable-line
     .then(module => {
+      cache.set(name, module.default);
       cb(null, module.default);
     })
     .catch(err => {

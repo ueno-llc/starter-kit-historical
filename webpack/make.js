@@ -8,7 +8,9 @@ const autoprefixer = require('autoprefixer');
 const csso = require('postcss-csso');
 
 const root = (folder = '.') => path.join(__dirname, '..', folder);
-const { NODE_ENV } = process.env;
+const {
+  NODE_ENV = 'development',
+} = process.env;
 
 function extendLoader(loader, test, name) {
   const out = cloneDeep(loader);

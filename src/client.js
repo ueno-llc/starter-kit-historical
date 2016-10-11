@@ -1,7 +1,7 @@
 /* eslint no-underscore-dangle: 0 */
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { browserHistory, match, Router } from 'react-router/es6';
+import { browserHistory, match, Router } from 'react-router';
 import stringify from 'json-stringify-safe';
 import { toJS } from 'mobx';
 import { Provider } from 'mobx-react';
@@ -14,6 +14,7 @@ let store = window.store = new Store(state);
 
 // Render the application
 const render = (Root, target = 'root') => {
+
   match({
     routes: (<Router>{routes}</Router>),
     location: window.location,
@@ -25,7 +26,8 @@ const render = (Root, target = 'root') => {
     .map(route => new Promise(resolve => route.getComponent(location, resolve)));
 
     // Run the chain
-    Promise.all(imports).then(() => {
+    Promise.all(imports)
+    .then(() => {
       ReactDOM.render(
         <Root {..._omit(store, k => (k !== '$mobx'))}>
           <Router history={browserHistory}>

@@ -6,7 +6,7 @@ export default {
     lang: 'en',
   },
   title: 'Home',
-  titleTemplate: 'Ueno - %s',
+  titleTemplate: 'Ueno. - %s',
   defaultTemplate: '???',
   meta: [{
     name: 'msapplication-TileColor',
@@ -25,8 +25,8 @@ export default {
   { name: 'twitter:image', content: require('!file!assets/favicon/android-chrome-192x192.png') },
   { name: 'twitter:site', content: '@ueno' },
   { name: 'twitter:creator', content: '@ueno' },
-  { name: 'twitter:description', content: 'Ueno description text here!' },
-  { name: 'twitter:title', content: 'Ueno' },
+  { name: 'twitter:description', content: 'Ueno. description text here!' },
+  { name: 'twitter:title', content: 'Ueno.' },
   ],
   link: [{
     rel: 'manifest',

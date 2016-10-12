@@ -204,7 +204,17 @@ function make(conf) {
     // Set library target output
     config.output.libraryTarget = 'var';
 
-    config.entry.vendor = ['react', 'react-dom', 'mobx', 'mobx-react'];
+    // Pack vendors
+    config.entry.vendor = [
+      'react',
+      'react-dom',
+      'mobx',
+      'mobx-react',
+      'mobx-utils',
+      'mobx-server-wait',
+      'classnames',
+      'lodash',
+    ];
 
     config.plugins.push(
       new webpack.optimize.CommonsChunkPlugin({

@@ -29,9 +29,7 @@ export default class PlanetStore {
 
   @serverWait
   fetchPlanets() {
-    if (!this.isLoading && this.data.length > 0) {
-      return Promise.reject();
-    }
+    if (!this.isLoading && this.data.length > 0) return;
 
     this.isLoading = true;
     return fetch('https://swapi.co/api/planets')

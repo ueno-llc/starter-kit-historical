@@ -61,8 +61,22 @@ const log = (...args) => debug(domain, ...args);
 // Build container
 const build = {
   failed: false,
+  first: true,
   connections: [],
 };
+
+const devMiddleware = webpackDevMiddleware(clientCompiler, {
+  publicPath: '/',
+  noInfo: true,
+  stats: {
+    timings: false,
+    version: false,
+    hash: false,
+    assets: false,
+    chunks: false,
+    colors: true,
+  },
+});
 
 serverCompiler.plugin('done', stats => {
 
@@ -99,6 +113,12 @@ serverCompiler.plugin('done', stats => {
 
   // Track all connections to our server so that we can close them when needed.
   build.listener.on('connection', (connection) => {
+    // Fixes first request to the server when nothing has been hot reloaded
+    if (build.first) {
+      devMiddleware.invalidate();
+      build.first = false;
+    }
+
     build.connections.push(connection);
     connection.on('close', () => {
       build.connections.splice(build.connections.indexOf(connection));
@@ -127,18 +147,7 @@ bs.init({
   server: {
     baseDir: './',
     middleware: [
-      webpackDevMiddleware(clientCompiler, {
-        publicPath: '/',
-        noInfo: true,
-        stats: {
-          timings: false,
-          version: false,
-          hash: false,
-          assets: false,
-          chunks: false,
-          colors: true,
-        },
-      }),
+      devMiddleware,
       webpackHotMiddleware(clientCompiler, {
         log: false,
       }),

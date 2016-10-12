@@ -1,5 +1,5 @@
 const loadRoute = (name) => (location, cb) => {
-  if (__CLIENT__ && process.env.NODE_ENV === 'production') {
+  if (__CLIENT__) {
     return System.import('routes/' + name) // eslint-disable-line
     .then(module => {
       cb(null, module.default);

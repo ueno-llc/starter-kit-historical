@@ -1,12 +1,7 @@
 const path = require('path');
-const make = require('./make');
-const isTravis = process.env.TRAVIS;
+const webpackConfig = require('./client');
 
-const webpackConfig = make({
-  target: 'web',
-  devtool: 'inline-source-map',
-  eslint: false,
-});
+const isTravis = process.env.TRAVIS;
 
 // Don't need externals or plugins
 delete webpackConfig.externals;

@@ -18,8 +18,12 @@ import hpp from 'hpp';
 import routes, { NotFound } from './routes';
 import Store from './store';
 
+const {
+  NODE_ENV = 'development',
+} = process.env;
+
 // Ground work
-const release = (process.env.NODE_ENV === 'production');
+const release = (NODE_ENV === 'production');
 const port = (parseInt(process.env.PORT, 10) || 3000) - !release;
 const app = express();
 const debugsw = (...args) => debug(color.yellow('server-wait'), ...args);
@@ -65,8 +69,9 @@ app.get('*', (req, res) => {
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="/vendor.js"></script>
     <script src="/client.js" defer></script>
-    <link rel="stylesheet" type="text/css" href="/styles.css">
+    ${release ? '<link rel="stylesheet" type="text/css" href="/styles.css">' : ''}
     <!-- CHUNK -->`);
 
   // Some debugging info
@@ -90,6 +95,11 @@ app.get('*', (req, res) => {
 
     // Setup store and context for provider
     const store = new Store();
+
+    // Add env variables
+    store.env = {
+      NODE_ENV,
+    };
 
     // Setup the root but don't add $mobx as property to provider.
     const root = (

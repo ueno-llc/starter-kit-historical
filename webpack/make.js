@@ -1,187 +1,292 @@
-const path = require('path');
+/* eslint no-param-reassign: 0 */
 const webpack = require('webpack');
+const path = require('path');
+const externals = require('webpack-node-externals');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const cloneDeep = require('lodash/cloneDeep');
 const autoprefixer = require('autoprefixer');
+const csso = require('postcss-csso');
 
-const NODE_ENV = process.env.NODE_ENV;
+const root = (folder = '.') => path.join(__dirname, '..', folder);
+const {
+  NODE_ENV = 'development',
+} = process.env;
 
-/**
- * # Configuration
- *
- * ### `target`
- * Specify which platform to target, currently accepts `"web"` (client), and `"node"` (server).
- *
- * ### `hot`
- * Boolean value to enable hot reloading on the client. Only works in development mode.
- *
- * ### `entry`
- * Path to an entry point for packaging. Will output the same name into `./build`.
- *
- * ### `debug`
- * Enable or disable debug mode. The production will always overwrite with `false`.
- *
- * ### `devtool`
- * Set the devtool sourcemapping. Defaults to `cheap-module-eval-source-map` for client
- * and `eval-source-map` for server.
- *
- * ### `eslint`
- * Enable or disable eslinting of the javascript on runtime. Only in debug mode.
-**/
-module.exports = function make(options) {
+function extendLoader(loader, test, name) {
+  const out = cloneDeep(loader);
+  out.test = test;
+  out.loaders.push(name);
+  return out;
+}
 
-  const isRelease = (NODE_ENV === 'production');
-  const isDev = !isRelease;
-  const isClient = (options.target === 'web');
-  const isServer = !isClient;
-  const isHot = isClient && (options.hot === true) && !isRelease;
-  const isExtracting = !(isClient && isDev);
+function make(conf) {
 
-  const withExtract = (args) => {
-    if (isExtracting) {
-      return `classnames-loader!${ExtractTextPlugin.extract('style-loader', args.join('!'))}`;
+  // Defaults
+  const target = conf.target || 'node';
+
+  // Some useful constants
+  const isServer = (target === 'node');
+  const isClient = (target === 'web');
+  const isDev = (NODE_ENV === 'development'); // eslint-disable-line
+  const isProd = (NODE_ENV === 'production');
+
+  // Extract text from css files
+  const extract = new ExtractTextPlugin({
+    filename: 'styles.css',
+    allChunks: true,
+  });
+
+  // Webpack Loaders
+  // ------------------------
+  const loaders = {};
+
+  // Babel loader
+  loaders.babel = {
+    test: /\.js$/,
+    exclude: /node_modules/,
+    include: root('src'),
+    loader: 'babel-loader',
+    query: {
+      presets: [
+        ['es2015', { modules: false }],
+        'react',
+        'stage-0',
+      ],
+      plugins: [
+        'transform-decorators-legacy',
+      ],
+    },
+  };
+
+  loaders.css = {
+    test: /\.css$/,
+    include: root('src'),
+    loaders: [
+      'classnames-loader',
+      'style-loader',
+      {
+        loader: 'css-loader',
+        query: {
+          modules: true,
+          importLoaders: 1,
+          localIdentName: (
+            isDev
+            ? '[name]_[local]_[hash:base64:5]'
+            : '[hash:base64:10]'
+          ),
+        },
+      },
+      'postcss-loader',
+    ],
+  };
+
+  loaders.less = extendLoader(loaders.css, /\.less$/, 'less-loader');
+
+  loaders.scss = extendLoader(loaders.css, /\.scss$/, 'sass-loader');
+
+  loaders.stylus = extendLoader(loaders.css, /\.styl$/, 'stylus-loader');
+
+  loaders.file = {
+    test: /\.(woff2?|svg|jpe?g|png|gif|ico)$/,
+    loader: 'file-loader',
+  };
+
+  loaders.json = {
+    test: /\.json$/,
+    loader: 'json-loader',
+  };
+
+  // Alteration of loaders
+  // Conditional for server/client or development/production
+  // Modify with care.
+  Object.keys(loaders)
+  .map(key => loaders[key])
+  .forEach(loader => {
+
+    const items = loader.loaders || [loader.loader];
+    const isStyleLoader = items.find(item => /style/.test(item));
+    const isFileLoader = items.find(item => /file/.test(item));
+
+    // Replace style loaders with extract plugin on client in production
+    // Detach classnames and style loader outside extract.
+    // But add style loader as fallback.
+    if (isStyleLoader && isClient && isProd) {
+      loader.loaders = [ // eslint-disable-line
+        ...items.filter(item => /classnames/.test(item)),
+        extract.extract({
+          fallbackLoader: 'style-loader',
+          loader: items.filter(item => !/classnames|style/.test(item)),
+        }),
+      ];
     }
-    return `classnames-loader!style-loader!${args.join('!')}`;
-  };
 
-  // Init entry point with babel (always)
-  let entry = ['babel-polyfill'];
-  let output = {};
+    // Use locals for css modules loader on the server
+    if (isStyleLoader && isServer) {
+      loader.loaders = items.map(item => {
+        if (item.loader && item.loader === 'css-loader') {
+          item.loader = 'css-loader/locals';
+        }
+        return item;
+      })
+      .filter(item => !/style-loader/.test(item));
+    }
 
-  // Init plugins with provide, define and no errors
-  const plugins = [
-    new webpack.ProvidePlugin({
-      React: 'react',
-    }),
+    // Don't emit files from file-loader on the server.
+    // This speeds things up.
+    if (isFileLoader && isServer) {
+      loader.loader += '?emitFile=false';
+    }
+  });
+
+  // Webpack Plugins
+  // ------------------------
+  const plugins = [];
+
+  // Define plugin
+  plugins.push(
     new webpack.DefinePlugin({
-      __CLIENT__: (options.target === 'web'),
       'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
-    }),
-    new webpack.NoErrorsPlugin(),
-  ];
+      __CLIENT__: JSON.stringify(isClient),
+    })
+  );
 
-  // Styles loader
-  const loader = {
-    css: 'css-loader?modules&importLoaders=1'
-      + '&localIdentName=[name]_[local]_[hash:base64:5]!postcss-loader',
-
-    babel: 'babel-loader?presets[]=react&presets[]=es2015'
-      + `&presets[]=stage-0${isHot ? '&presets[]=react-hmre' : ''}`
-      + '&plugins[]=transform-decorators-legacy',
-  };
-
-  // Hot Loading
-  if (isHot) {
-
-    // Add hot middleware
-    entry.push('webpack-hot-middleware/client');
-
-    // Add HMRE plugin
-    plugins.push(new webpack.HotModuleReplacementPlugin());
-  }
-
-  if (isExtracting) {
-
-    // Add source maps and extract styles
-    plugins.push(
-      new ExtractTextPlugin('styles.css')
-    );
-  }
-
-  // Set entry point
-  if (options.entry) {
-
-    const additionalEntries = entry;
-    entry = {};
-
-    // Set entry
-    Object.keys(options.entry).forEach(key => {
-      entry[key] = [...additionalEntries, options.entry[key]];
-    });
-
-    // Set output
-    output = {
-      path: path.join(__dirname, '..', 'build'),
-      filename: '[name].js',
-      chunkFilename: 'chunk.[id].js',
-      publicPath: '/',
-      libraryTarget: (isClient ? 'var' : 'commonjs2'),
-    };
-  } else {
-    entry = {};
-  }
-
-  if (isRelease) {
-    options.devtool = 'cheap-module-source-map'; // eslint-disable-line
-    options.debug = false; // eslint-disable-line
-  }
+  const name = isClient ? 'client' : 'server';
 
   const config = {
-    context: path.join(__dirname, '../'),
-    debug: (options.debug !== undefined) ? options.debug : !isRelease,
-    devtool: (options.devtool !== undefined) ? options.devtool : (isClient ? 'eval' : 'eval-source-map'), // eslint-disable-line
-    target: options.target || 'web',
 
-    entry,
-    plugins,
-    output,
+    target,
+
+    entry: {},
+
+    cache: true,
+
+    devtool: 'source-map',
+
+    output: {
+      path: root('build'),
+      filename: `${name}.js`,
+      sourceMapFilename: `${name}.map`,
+      chunkFilename: `${name}.[chunkhash].js`,
+      publicPath: '/',
+    },
 
     resolve: {
-      modulesDirectories: ['./node_modules', './src'],
-      extensions: ['', '.js', '.json', '.css', '.less', '.styl'],
+      extensions: ['.js', '.json', '.less'],
+      modules: [
+        path.resolve(root('src')),
+        'node_modules',
+      ],
     },
 
     module: {
-      preLoaders: [],
-      loaders: [{
-        test: /\.js/,
-        loader: loader.babel,
-        exclude: /node_modules/,
-      }, {
-        test: /\.css$/,
-        loader: withExtract([loader.css]),
-        exclude: /node_modules/,
-      }, {
-        test: /\.less$/,
-        loader: withExtract([loader.css, 'less-loader']),
-        exclude: /node_modules/,
-      }, {
-        test: /\.styl/,
-        loader: withExtract([loader.css, 'stylus-loader']),
-        exclude: /node_modules/,
-      }, {
-        test: /\.(woff2?|svg|jpe?g|png|gif|ico)$/,
-        loader: 'url?limit=10000',
-      }, {
-        test: /\.json$/,
-        loader: 'json-loader',
-      }],
+      loaders: [
+        loaders.babel,
+        loaders.css,
+        loaders.less,
+        loaders.file,
+        loaders.json,
+      ],
     },
 
-    postcss: () => [autoprefixer],
+    plugins,
   };
 
-  if ((process.env.TRAVIS || !isRelease) && options.eslint) {
-    config.module.preLoaders.push({
-      test: /\.js$/,
-      loader: 'eslint-loader',
-      exclude: /node_modules/,
-    });
+  // Final conditional alterations
+  // -----------------------------
+
+  if (isClient) {
+    // Set entry point
+    config.entry.client = [
+      'regenerator-runtime/runtime',
+      './src/client.js',
+    ];
+
+    // Set library target output
+    config.output.libraryTarget = 'var';
+
+    // Pack vendors
+    config.entry.vendor = [
+      'react',
+      'react-dom',
+      'mobx',
+      'mobx-react',
+      'mobx-utils',
+      'mobx-server-wait',
+      'classnames',
+      'lodash',
+    ];
+
+    config.plugins.push(
+      new webpack.optimize.CommonsChunkPlugin({
+        name: 'vendor',
+        minChunks: Infinity,
+        filename: 'vendor.js',
+      })
+    );
+  }
+
+  if (isClient && isProd) {
+    config.plugins.push(
+      new webpack.optimize.UglifyJsPlugin({
+        compress: {
+          screw_ie8: true,
+          warnings: false,
+        },
+        mangle: {
+          screw_ie8: true,
+          keep_fnames: true,
+        },
+        output: {
+          comments: false,
+          screw_ie8: true,
+        },
+      }),
+      new webpack.LoaderOptionsPlugin({
+        minimize: true,
+        debug: false,
+        options: {
+          postcss: () => [
+            autoprefixer,
+            csso,
+          ],
+        },
+      }),
+      new webpack.optimize.DedupePlugin(),
+      extract
+    );
+
+    // Source map with no cost
+    config.devtool = 'hidden-source-map';
   }
 
   if (isServer) {
-    // Don't import node binary packages
-    config.externals = /^[a-z\-0-9]+$/;
-  }
 
-  if (options.lazy && isClient) {
-    const jsLoader = config.module.loaders.find(item => '.js'.match(item.test));
-    jsLoader.exclude = /node_modules|routes\/lazy\/([^\/]+\/?[^\/]+).js/;
-    config.module.loaders.push({
-      test: /routes\/lazy\/([^\/]+\/?[^\/]+).js/,
-      loader: `bundle-loader?lazy!${loader.babel}`,
-      exclude: /node_modules/,
+    // Set entry point
+    config.entry.server = [
+      './src/server.js',
+    ];
+
+    // Set library target output
+    config.output.libraryTarget = 'commonjs2';
+
+    // Allow dirname and filename
+    config.node = {
+      __dirname: true,
+      __filename: true,
+    };
+
+    // Set externals but ignore assets
+    config.externals = externals({
+      whitelist: [
+        /\.(eot|woff|woff2|ttf|otf)$/,
+        /\.(svg|png|jpg|jpeg|gif|ico|webm)$/,
+        /\.(mp4|mp3|ogg|swf|webp)$/,
+        /\.(css|scss|sass|sss|less|styl)$/,
+      ],
     });
   }
 
   return config;
-};
+}
+
+module.exports = make;

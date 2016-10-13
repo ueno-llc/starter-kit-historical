@@ -1,7 +1,7 @@
 import { extendObservable, observable, action, map, asMap } from 'mobx';
 import serverWait from 'mobx-server-wait';
 import fetch from 'isomorphic-fetch';
-import { autobind } from 'core-decorators';
+import autobind from 'core-decorators/lib/autobind';
 
 // Default planet response
 const defaultPlanet = {

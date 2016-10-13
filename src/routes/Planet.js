@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-import { Link } from 'react-router';
+import Link from 'react-router/lib/Link';
 import Helmet from 'react-helmet';
 import Segment from 'components/segment';
 import connect from 'utils/connect';
-import { autobind } from 'core-decorators';
+import autobind from 'core-decorators/lib/autobind';
 
 /**
  * Planet route component

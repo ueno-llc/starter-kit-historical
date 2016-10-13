@@ -24,10 +24,10 @@ const loadRoute = (name) => (location, cb) => {
       // Warn about module not able to load.
       console.error('Could not load route %s: %o', name, err);
     });
+  } else { // eslint-disable-line
+    // Defaulting to require the module straight. Only on server.
+    cb(null, require('routes/' + name).default); // eslint-disable-line
   }
-
-  // Defaulting to require the module straight. Only on server.
-  cb(null, require('routes/' + name).default); // eslint-disable-line
 };
 
 export default loadRoute;

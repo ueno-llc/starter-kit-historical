@@ -208,12 +208,16 @@ function make(conf) {
     config.entry.vendor = [
       'react',
       'react-dom',
+      'react-helmet',
       'mobx',
       'mobx-react',
       'mobx-utils',
       'mobx-server-wait',
       'classnames',
       'lodash',
+      'json-stringify-safe',
+      'isomorphic-fetch',
+      'core-decorators',
     ];
 
     config.plugins.push(

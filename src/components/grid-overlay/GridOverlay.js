@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { autobind } from 'core-decorators';
+import autobind from 'core-decorators/lib/autobind';
 import s from './GridOverlay.less';
 
 // Key to store visibility state of the grid overlay

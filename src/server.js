@@ -69,9 +69,9 @@ app.get('*', (req, res) => {
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    ${release ? '<link rel="stylesheet" type="text/css" href="/styles.css">' : ''}
     <script src="/vendor.js"></script>
     <script src="/client.js" defer></script>
-    ${release ? '<link rel="stylesheet" type="text/css" href="/styles.css">' : ''}
     <!-- CHUNK -->`);
 
   // Some debugging info

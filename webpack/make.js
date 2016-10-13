@@ -288,6 +288,17 @@ function make(conf) {
         /\.(css|scss|sass|sss|less|styl)$/,
       ],
     });
+
+    config.plugins.push(
+      new webpack.LoaderOptionsPlugin({
+        options: {
+          postcss: () => [
+            autoprefixer,
+            csso,
+          ],
+        },
+      })
+    );
   }
 
   return config;

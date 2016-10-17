@@ -2,6 +2,10 @@ import React, { Component, PropTypes } from 'react';
 import Link from 'react-router/lib/Link';
 import s from './Button.less';
 
+/**
+ * Button Component
+ * feel free to modify to fit the project.
+ */
 export default class Button extends Component {
 
   static propTypes = {
@@ -26,6 +30,11 @@ export default class Button extends Component {
       ...rest,
     } = this.props;
 
+    // Some flags
+    const isLink = (typeof to !== 'undefined');
+    const isExternal = isLink && /^((https?:)?\/\/|[0-9a-zA-Z]+:)/.test(to);
+
+    // Extend className of the rest
     rest.className = s('host', className, {
       alt,
       flat,
@@ -33,21 +42,17 @@ export default class Button extends Component {
       small,
     });
 
-    const isLink = (typeof to !== 'undefined');
-    const isExternal = isLink && /^((https?:)?\/\/|[0-9a-zA-Z]+:)/.test(to);
-
     if (isExternal) {
+      // http, https, //, mailto, etc.
       return <a href={to} {...rest}>{children}</a>;
     }
 
     if (isLink) {
+      // Everything else
       return <Link to={to} {...rest}>{children}</Link>;
     }
 
-    return (
-      <button {...rest}>
-        {children}
-      </button>
-    );
+    // Default
+    return <button {...rest}>{children}</button>;
   }
 }

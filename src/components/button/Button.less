@@ -1,0 +1,96 @@
+@import '~styles/config';
+
+@btn-height: 40px;
+@btn-border-width: 2px;
+
+.host {
+  .reset-button;
+
+  display: inline-flex;
+  position: relative;
+
+  height: @btn-height;
+
+  padding: 0 @gutter;
+
+  background-color: transparent;
+
+  border: @btn-border-width solid transparent;
+  border-radius: @btn-border-width;
+
+  font-size: @font-size - 1px;
+  font-weight: 200;
+
+  letter-spacing: 0.33px;
+  line-height: (@btn-height - 2 * @btn-border-width);
+
+  vertical-align: middle;
+  text-align: center;
+  text-decoration: none;
+
+  cursor: pointer;
+
+  transition: 180ms ease-out;
+  transition-property: border-color, background-color, color, opacity;
+
+  &:hover,
+  &:focus {
+    outline: none;
+  }
+}
+
+// Default brand
+.host {
+  @shade: @color-primary;
+
+  background-color: @shade;
+  color: #fff;
+
+  &:hover,
+  &:focus {
+    background-color: darken(@shade, 10%);
+    color: #fff;
+  }
+
+  &.alt,
+  &.flat {
+    font-weight: 400;
+
+    background-color: #fff;
+    border-color: @shade;
+    color: @shade;
+
+    &:hover,
+    &:focus {
+      background-color: #fff;
+      border-color: darken(@shade, 20%);
+      color: darken(@shade, 20%);
+    }
+  }
+
+  &.flat,
+  &.flat:hover,
+  &.flat:focus {
+    border-color: transparent;
+  }
+}
+
+// Vertical gutter
+.host + .host {
+  margin-left: @gutter / 2;
+}
+
+// Large button
+.large {
+  height: @btn-height * 1.25;
+  line-height: (@btn-height * 1.25) - 2 * @btn-border-width;
+  font-size: @font-size + 1px;
+}
+
+// Small button
+.small {
+  height: @btn-height * 0.8;
+  line-height: (@btn-height * 0.8) - 2 * @btn-border-width;
+  font-size: @font-size - 2px;
+  padding: 0 @gutter / 1.5;
+}

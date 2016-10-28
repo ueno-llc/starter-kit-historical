@@ -4277,9 +4277,16 @@ mobx-react@^3.5.6:
   dependencies:
     hoist-non-react-statics "^1.2.0"
 
-mobx-server-wait@0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/mobx-server-wait/-/mobx-server-wait-0.0.3.tgz#a2ee315c0fc3a50855e1f54cc86a359370adeee7"
+mobx-server-wait@0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/mobx-server-wait/-/mobx-server-wait-0.0.6.tgz#40d918d68f7f73e377bbff08d16b5291f1613965"
+  dependencies:
+    json-stringify-safe "^5.0.1"
+    lodash "^4.15.0"
+    mobx "^2.5.1"
+    mobx-utils "^1.0.1"
+    react "^15.3.1"
+    react-dom "^15.3.1"
 
 mobx-utils@^1.0.1:
   version "1.1.0"

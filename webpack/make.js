@@ -87,8 +87,13 @@ function make(conf) {
   loaders.stylus = extendLoader(loaders.css, /\.styl$/, 'stylus-loader');
 
   loaders.file = {
-    test: /\.(woff2?|svg|jpe?g|png|gif|ico)$/,
+    test: /\.(woff2?|jpe?g|png|gif|ico)$/,
     loader: 'file-loader',
+  };
+
+  loaders.svg = {
+    test: /\.svg$/,
+    loaders: ['react-svgdom', 'svgo'],
   };
 
   loaders.json = {
@@ -184,6 +189,7 @@ function make(conf) {
         loaders.css,
         loaders.less,
         loaders.file,
+        loaders.svg,
         loaders.json,
       ],
     },

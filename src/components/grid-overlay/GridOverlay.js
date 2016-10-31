@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import autobind from 'core-decorators/lib/autobind';
-import s from './GridOverlay.less';
+import s from './GridOverlay.scss';
 
 // Key to store visibility state of the grid overlay
 const LOCAL_STORAGE_KEY = '_devtoolsGridVisible';

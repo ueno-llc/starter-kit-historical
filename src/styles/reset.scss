@@ -1,31 +1,41 @@
-reset-all() {
+@mixin reset-all {
   margin: 0;
   padding: 0;
+
+  border: 0;
+
+  vertical-align: baseline;
 
   font-family: inherit;
   font-size: inherit;
   font-weight: inherit;
   line-height: inherit;
-
-  border: 0;
-
-  vertical-align: baseline;
 }
 
-reset-heading() {
-  reset-all();
+@mixin reset-heading {
+  @include reset-all;
 }
 
-reset-list() {
-  reset-all();
+@mixin reset-list {
+  @include reset-all;
 
   list-style: none;
 }
 
-reset-button() {
-  reset-all();
+@mixin reset-button {
+  @include reset-all;
 
+  appearance: none;
   background: transparent;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+@mixin reset-input {
+  @include reset-all;
+
   appearance: none;
 
   &:focus {
@@ -33,17 +43,7 @@ reset-button() {
   }
 }
 
-reset-input() {
-  reset-all();
-
-  appearance: none;
-
-  &:focus {
-    outline: none;
-  }
-}
-
-reset-anchor() {
+@mixin reset-anchor {
   color: inherit;
   text-decoration: none;
 

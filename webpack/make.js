@@ -82,9 +82,7 @@ function make(conf) {
 
   loaders.less = extendLoader(loaders.css, /\.less$/, 'less-loader');
 
-  loaders.scss = extendLoader(loaders.css, /\.scss$/, 'sass-loader');
-
-  loaders.stylus = extendLoader(loaders.css, /\.styl$/, 'stylus-loader');
+  loaders.sass = extendLoader(loaders.css, /\.(scss|sass)$/, 'sass-loader');
 
   loaders.file = {
     test: /\.(woff2?|svg|jpe?g|png|gif|ico)$/,
@@ -171,7 +169,7 @@ function make(conf) {
     },
 
     resolve: {
-      extensions: ['.js', '.json', '.less'],
+      extensions: ['.js', '.json', '.less', '.scss'],
       modules: [
         path.resolve(root('src')),
         'node_modules',
@@ -183,6 +181,7 @@ function make(conf) {
         loaders.babel,
         loaders.css,
         loaders.less,
+        loaders.sass,
         loaders.file,
         loaders.json,
       ],
@@ -261,6 +260,17 @@ function make(conf) {
 
     // Source map with no cost
     config.devtool = 'hidden-source-map';
+  } else if (isClient) {
+    config.plugins.push(
+      new webpack.LoaderOptionsPlugin({
+        options: {
+          postcss: () => [
+            autoprefixer,
+            csso,
+          ],
+        },
+      })
+    );
   }
 
   if (isServer) {
@@ -285,7 +295,7 @@ function make(conf) {
         /\.(eot|woff|woff2|ttf|otf)$/,
         /\.(svg|png|jpg|jpeg|gif|ico|webm)$/,
         /\.(mp4|mp3|ogg|swf|webp)$/,
-        /\.(css|scss|sass|sss|less|styl)$/,
+        /\.(css|scss|sass|less|styl)$/,
       ],
     });
 

@@ -5,7 +5,7 @@
 }
 
 .list {
-  reset-list();
+  @include reset-list;
 
   display: flex;
   align-items: stretch;
@@ -21,7 +21,7 @@
 }
 
 .link {
-  reset-anchor();
+  @include reset-anchor;
 
   padding: 5px 0;
 

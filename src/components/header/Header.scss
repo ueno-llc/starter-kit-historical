@@ -1,5 +1,4 @@
 @import '~styles';
-@import '~components/container/Container';
 
 .header {
   display: block;
@@ -12,13 +11,13 @@
 }
 
 .container {
-  container;
+  @include container;
 
   display: flex;
 }
 
 .logo {
-  reset-anchor();
+  @include reset-anchor;
 
   font-size: 48px;
   font-weight: 200;

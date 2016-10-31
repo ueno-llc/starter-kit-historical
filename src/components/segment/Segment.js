@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Container from 'components/container';
-import classNames from './Segment.scss';
+import s from './Segment.scss';
 
 /**
  * Segment component
@@ -23,7 +23,7 @@ export default class Segment extends Component {
     } = this.props;
 
     return (
-      <section className={classNames('segment', { compact })}>
+      <section className={s('segment', { compact })}>
         <Container>
           {children}
         </Container>

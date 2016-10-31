@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import s from './Navigation.styl';
+import s from './Navigation.scss';
 
 export default class Navigation extends Component {
 

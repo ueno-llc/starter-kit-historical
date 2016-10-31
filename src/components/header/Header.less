@@ -5,28 +5,29 @@
   display: block;
 
   margin: 0 0 @gutter;
-  padding: 20px 0;
+  padding: @gutter 0;
 
   border-bottom: 1px solid #ccc;
   background: #fff;
-}
 
-.container {
-  .container;
+  &__container {
+    .container;
 
-  display: flex;
-}
+    display: flex;
+    align-items: center;
+  }
 
-.logo {
-  .reset-anchor();
+  &__logo {
+    .reset-anchor();
 
-  font-size: 48px;
-  font-weight: 200;
-  letter-spacing: -0.05em;
-}
+    &Svg {
+      display: block;
+    }
+  }
 
-.navigation {
-  display: flex;
+  &__navigation {
+    display: flex;
 
-  margin-left: auto;
+    margin-left: auto;
+  }
 }

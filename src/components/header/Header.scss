@@ -15,19 +15,21 @@
 .container {
   @include container;
 
-  display: flex;
-}
+    display: flex;
+    align-items: center;
+  }
 
 .logo {
   @include reset-anchor;
 
-  font-size: 48px;
-  font-weight: 200;
-  letter-spacing: -0.05em;
-}
+    &Svg {
+      display: block;
+    }
+  }
 
-.navigation {
-  display: flex;
+  &__navigation {
+    display: flex;
 
-  margin-left: auto;
+    margin-left: auto;
+  }
 }

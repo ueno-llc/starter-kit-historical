@@ -85,8 +85,13 @@ function make(conf) {
   loaders.sass = extendLoader(loaders.css, /\.(scss|sass)$/, 'sass-loader');
 
   loaders.file = {
-    test: /\.(woff2?|svg|jpe?g|png|gif|ico)$/,
+    test: /\.(woff2?|jpe?g|png|gif|ico)$/,
     loader: 'file-loader',
+  };
+
+  loaders.svg = {
+    test: /\.svg$/,
+    loaders: ['react-svgdom', 'svgo'],
   };
 
   loaders.json = {
@@ -183,6 +188,7 @@ function make(conf) {
         loaders.less,
         loaders.sass,
         loaders.file,
+        loaders.svg,
         loaders.json,
       ],
     },

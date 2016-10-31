@@ -18,18 +18,18 @@
 
 // Columns
 @mixin make-col($width: 100%, $align: flex-start, $grid-gutter: $gutter) {
-  flex: none;
-
   display: block;
 
-  padding-left: $grid-gutter/2;
-  padding-right: $grid-gutter/2;
+  flex: none;
 
   width: $width;
   min-height: 1px;
 
+  box-sizing: border-box;
+
+  padding-left: $grid-gutter/2;
+  padding-right: $grid-gutter/2;
+
   align-items: flex-start;
   align-self: $align;
-
-  box-sizing: border-box;
 }

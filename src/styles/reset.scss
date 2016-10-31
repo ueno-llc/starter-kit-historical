@@ -1,15 +1,15 @@
 @mixin reset-all {
-  margin: 0;
   padding: 0;
-
-  border: 0;
-
-  vertical-align: baseline;
+  margin: 0;
 
   font-family: inherit;
   font-size: inherit;
   font-weight: inherit;
   line-height: inherit;
+
+  vertical-align: baseline;
+
+  border: 0;
 }
 
 @mixin reset-heading {

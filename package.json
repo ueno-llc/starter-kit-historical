@@ -13,7 +13,7 @@
     "test": "karma start ./webpack/karma.js",
     "lint": "npm run eslint; npm run stylelint",
     "eslint": "eslint src",
-    "stylelint": "stylelint \"src/**/*.less\" --syntax less",
+    "stylelint": "stylelint \"src/**/*.scss\" --syntax scss",
     "build": "rm -rf ./build && cross-env NODE_ENV=production webpack --config ./webpack/release.js",
     "postinstall": "npm run build"
   },
@@ -76,6 +76,7 @@
     "react-router-scroll": "^0.3.2",
     "sass-loader": "^4.0.2",
     "style-loader": "^0.13.1",
+    "stylelint-config-primer": "^1.3.0",
     "url-loader": "^0.5.7",
     "webpack": "^2.1.0-beta.25",
     "webpack-node-externals": "^1.4.3"

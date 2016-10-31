@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import s from './Content.styl';
+import s from './Content.less';
 
 export default function Content({ children }) {
   return (

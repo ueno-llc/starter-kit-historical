@@ -1,11 +1,23 @@
+/* eslint global-require: 0 */
 import React, { Component, PropTypes } from 'react';
 import Helmet from 'react-helmet';
-import helmetDefaults from 'lib/helmet-defaults';
-import { IndexLink, Link } from 'react-router';
-import AppLayout, { Content as AppLayoutContent } from 'components/app-layout';
+import helmetDefaults from 'utils/helmet';
+import Link from 'react-router/lib/Link';
+import IndexLink from 'react-router/lib/IndexLink';
+import AppLayout, { Content } from 'components/app-layout';
 import Header from 'components/header';
 import Navigation from 'components/navigation';
 
+// Check if we should show devtool
+const showDevTool = (process.env.NODE_ENV !== 'production');
+
+// Otherwise render null
+const DevTools = showDevTool ? require('utils/devtools') : () => null;
+
+/**
+ * Main app container
+ * @return {Component}
+ */
 export default class App extends Component {
 
   static propTypes = {
@@ -25,14 +37,16 @@ export default class App extends Component {
         <Header>
           <Navigation>
             <IndexLink to="/">Home</IndexLink>
-            <Link to="/elements">Elements</Link>
+            <Link to="/planets">Planets</Link>
             <Link to="/about">About</Link>
           </Navigation>
         </Header>
 
-        <AppLayoutContent>
+        <Content>
           {children}
-        </AppLayoutContent>
+        </Content>
+
+        <DevTools />
       </AppLayout>
     );
   }

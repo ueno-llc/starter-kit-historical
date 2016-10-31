@@ -1,26 +1,82 @@
 /* eslint no-console: 0 */
+import 'source-map-support/register';
 import http from 'http';
 import express from 'express';
 import compression from 'compression';
 import React from 'react';
-import ReactDOMServer from 'react-dom/server';
-import Helmet from 'react-helmet';
+import helmet from 'helmet';
+import ReactHelmet from 'react-helmet';
 import { Router, RouterContext, match } from 'react-router';
-import routes, { NotFound } from './routes';
+import { serverWaitRender } from 'mobx-server-wait';
+import debug from 'utils/debug';
+import { Provider } from 'mobx-react';
+import _omit from 'lodash/omit';
+import color from 'cli-color';
+import hpp from 'hpp';
 
-const release = (process.env.NODE_ENV === 'production');
+// Local imports
+import routes, { NotFound } from './routes';
+import Store from './store';
+
+const {
+  NODE_ENV = 'development',
+} = process.env;
+
+// Ground work
+const release = (NODE_ENV === 'production');
 const port = (parseInt(process.env.PORT, 10) || 3000) - !release;
 const app = express();
+const debugsw = (...args) => debug(color.yellow('server-wait'), ...args);
+
+// Hide all software information
+app.disable('x-powered-by');
+
+// Prevent HTTP Parameter pollution.
+// @note: Make sure body parser goes above the hpp middleware
+app.use(hpp());
+
+// Content Security Policy
+app.use(helmet.contentSecurityPolicy({
+  defaultSrc: ["'self'"],
+  scriptSrc: ["'self'"],
+  styleSrc: ["'self'"],
+  imgSrc: ["'self'"],
+  connectSrc: ["'self'", 'ws:'],
+  fontSrc: ["'self'"],
+  objectSrc: ["'none'"],
+  mediaSrc: ["'none'"],
+  frameSrc: ["'none'"],
+}));
+app.use(helmet.xssFilter());
+app.use(helmet.frameguard('deny'));
+app.use(helmet.ieNoOpen());
+app.use(helmet.noSniff());
 
 // Set view engine
-app.set('views', './src/server/views');
-app.set('view engine', 'ejs');
 app.use(compression());
 app.use(express.static('./src/assets/favicon'));
 app.use(express.static('./build'));
 
+
 // Route handler that rules them all!
 app.get('*', (req, res) => {
+
+  res.set('content-type', 'text/html');
+
+  // Start writing output
+  res.write('<!doctype html>');
+  res.write(`<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    ${release ? '<link rel="stylesheet" type="text/css" href="/styles.css">' : ''}
+    <script src="/vendor.js" defer></script>
+    <script src="/client.js" defer></script>
+    <!-- CHUNK -->`);
+  res.flush();
+
+  // Some debugging info
+  debug(color.cyan('http'), '%s - %s %s', req.ip, req.method, req.url);
 
   // Do a router match
   match({
@@ -38,19 +94,46 @@ app.get('*', (req, res) => {
       res.status(404);
     }
 
-    const head = Helmet.rewind();
+    // Setup store and context for provider
+    const store = new Store();
 
-    // Render template
-    res.render('index', {
-      includeStyles: release,
-      includeClient: true,
-      renderedRoot: ReactDOMServer.renderToString(
+    // Add env variables
+    store.env = {
+      NODE_ENV,
+    };
+
+    // Setup the root but don't add $mobx as property to provider.
+    const root = (
+      <Provider {..._omit(store, k => (k !== '$mobx'))}>
         <RouterContext {...props} />
-      ),
-      title: head.title.toString(),
-      meta: head.meta.toString(),
-      link: head.link.toString(),
+      </Provider>
+    );
+
+    // Main render function
+    const render = (html, state) => {
+      const { meta, title, link } = ReactHelmet.rewind();
+      res.write(`${meta} ${title} ${link}
+  </head>
+  <body>
+    <div id="root">${html}</div>
+    <script>
+      window.__INITIAL_STATE__ = '${state.replace(/\\/g, '\\\\')}';
+    </script>
+  </body>
+</html>`);
+      res.end();
+    };
+
+    // Render when all actions have completed their promises
+    const cancel = serverWaitRender({
+      store,
+      root,
+      debug: debugsw,
+      render,
     });
+
+    // Cancel server rendering
+    req.on('close', cancel);
   });
 });
 
@@ -58,7 +141,9 @@ app.get('*', (req, res) => {
 const server = http.createServer(app);
 
 // Start
-server.listen(port, err => {
+const listener = server.listen(port, err => {
   if (err) throw err;
-  console.info(`[🚀 ] Server started on port ${port}`);
+  debug(color.cyan('http'), `🚀  started on port ${port}`);
 });
+
+export default listener;

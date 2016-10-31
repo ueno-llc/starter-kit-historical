@@ -5,15 +5,15 @@
 
   padding: $segment-gutter-mobile 0 ($segment-gutter-mobile - $gutter);
 
-  +viewport(tablet) {
+  .viewport(tablet) {
     padding: $segment-gutter-tablet 0 ($segment-gutter-tablet - $gutter);
   }
 
-  +viewport(desktop) {
+  .viewport(desktop) {
     padding: $segment-gutter-desktop 0 ($segment-gutter-desktop - $gutter);
   }
 
-  +viewport($min-1440) {
+  .viewport($min-1440) {
     padding: ($segment-gutter-desktop * 1.75) 0 ($segment-gutter-desktop * 1.75 - $gutter);
   }
 

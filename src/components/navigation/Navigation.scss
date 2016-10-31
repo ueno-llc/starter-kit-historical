@@ -40,7 +40,7 @@
     transition-duration: $transition-enter;
   }
 
-  .active {
+  &.active {
     border-color: $color-primary;
   }
 }

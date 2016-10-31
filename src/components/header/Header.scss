@@ -13,23 +13,22 @@
 }
 
 .container {
-  @include container;
+  @include container();
 
-    display: flex;
-    align-items: center;
-  }
+  display: flex;
+  align-items: center;
 
-.logo {
-  @include reset-anchor;
+  .logo {
+    @include reset-anchor;
 
-    &Svg {
+    &__svg {
       display: block;
     }
   }
+}
 
-  &__navigation {
-    display: flex;
+.navigation {
+  display: flex;
 
-    margin-left: auto;
-  }
+  margin-left: auto;
 }

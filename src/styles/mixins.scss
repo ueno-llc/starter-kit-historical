@@ -22,6 +22,32 @@
   }
 }
 
+@function strip-unit($number) {
+  @if type-of($number) == 'number' and not unitless($number) {
+    @return $number / ($number * 0 + 1);
+  }
+
+  @return $number;
+}
+
+// defaults to standard heading size
+@mixin responsive-font($min-size: 23, $size: 36, $limit: 1200px) {
+  $baseline: 375px;
+  $font-multiplier: (($size - $min-size) / (strip-unit($limit) - strip-unit($baseline)));
+  $font-baseline: ($min-size - $font-multiplier * strip-unit($baseline));
+
+  font-size: #{$min-size}px;
+
+  @media (min-width: $baseline) {
+    font-size: #{$min-size}px;
+    font-size: calc(#{$font-multiplier} * #{100vw} + (#{$font-baseline}px));
+  }
+
+  @media (min-width: $limit) {
+    font-size: #{$size}px;
+  }
+}
+
 @mixin viewport($media) {
   @if $media == handset {
     @media only screen and (max-width: $handset-landscape) { @content; }

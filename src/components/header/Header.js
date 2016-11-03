@@ -12,13 +12,15 @@ export default class Header extends Component {
   render() {
     return (
       <header className={s.header}>
-        <div className={s.container}>
-          <IndexLink to="/" className={s.logo}>
-            <UenoLogoSvg className={s.logo__svg} />
-          </IndexLink>
+        <div className={s.header__container}>
+          <div className={s.header__content}>
+            <IndexLink to="/" className={s.header__logo}>
+              <UenoLogoSvg className={s.header__logoSvg} />
+            </IndexLink>
 
-          <div className={s.navigation}>
-            {this.props.children}
+            <div className={s.header__navigation}>
+              {this.props.children}
+            </div>
           </div>
         </div>
       </header>

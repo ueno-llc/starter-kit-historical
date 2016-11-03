@@ -3,32 +3,34 @@
 .header {
   display: block;
 
-  padding: 20px 0;
-
   margin: 0 0 $gutter;
 
   background-color: #fff;
 
-  border-bottom: 1px solid #ccc;
-}
+  &__container {
+    @include container();
+  }
 
-.container {
-  @include container();
+  &__content {
+    display: flex;
+    align-items: center;
 
-  display: flex;
-  align-items: center;
+    padding: $gutter 0;
 
-  .logo {
+    border-bottom: 1px solid #ccc;
+  }
+
+  &__logo {
     @include reset-anchor;
 
-    &__svg {
+    &Svg {
       display: block;
     }
   }
+
+  &__navigation {
+    display: flex;
+    margin-left: auto;
+  }
 }
 
-.navigation {
-  display: flex;
-
-  margin-left: auto;
-}

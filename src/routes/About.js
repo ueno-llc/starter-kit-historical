@@ -1,15 +1,8 @@
 import React, { Component } from 'react';
 import Segment from 'components/segment';
 import Helmet from 'react-helmet';
-/**
- * About route component
- */
-export default class About extends Component {
 
-  /**
-   * Render method
-   * @return {Component}
-   */
+export default class About extends Component {
   render() {
     return (
       <div>

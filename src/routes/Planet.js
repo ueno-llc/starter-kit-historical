@@ -5,9 +5,6 @@ import Segment from 'components/segment';
 import connect from 'utils/connect';
 import autobind from 'core-decorators/lib/autobind';
 
-/**
- * Planet route component
- */
 @connect('planets')
 export default class Planet extends Component {
 
@@ -29,10 +26,6 @@ export default class Planet extends Component {
     return Math.abs(b.diameter - a.diameter);
   }
 
-  /**
-   * Render method
-   * @return {Component}
-   */
   render() {
     const { planets } = this.props;
     const { id } = this.props.params;

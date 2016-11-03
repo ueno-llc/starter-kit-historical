@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Link from 'react-router/lib/Link';
-import s from './Button.less';
+import s from './Button.scss';
 
 /**
  * Button Component
@@ -27,7 +27,7 @@ export default class Button extends Component {
       small,
       children,
       className,
-      ...rest,
+      ...rest
     } = this.props;
 
     // Some flags
@@ -35,7 +35,7 @@ export default class Button extends Component {
     const isExternal = isLink && /^((https?:)?\/\/|[0-9a-zA-Z]+:)/.test(to);
 
     // Extend className of the rest
-    rest.className = s('host', className, {
+    rest.className = s('button', className, {
       alt,
       flat,
       large,

@@ -74,18 +74,18 @@ export default class GridOverlay extends Component {
     const { isVisible } = this.state;
 
     return (
-      <div ref={el => (this.grid = el)} className={s('grid', { isVisible })}>
-        <div className={s.container}>
-          <div className={s.row} data-columns={columns}>
+      <div className={s('grid', { isVisible })} ref={el => (this.grid = el)}>
+        <div className={s.grid__container}>
+          <div className={s.grid__row} data-columns={columns}>
             {Array(columns).fill(0).map((_, i) => (
-              <div key={`grid_column_${i}`} className={s.column}>
-                <div className={s.visualize} />
+              <div key={`grid_column_${i}`} className={s.grid__column}>
+                <div className={s.grid__visualize} />
               </div>
             ))}
           </div>
         </div>
 
-        <button className={s('button', { isVisible })} onClick={this.onToggle}>
+        <button className={s('grid__button', { isVisible })} onClick={this.onToggle}>
           Grid
         </button>
       </div>

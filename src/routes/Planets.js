@@ -4,9 +4,6 @@ import Helmet from 'react-helmet';
 import Segment from 'components/segment';
 import connect from 'utils/connect';
 
-/**
- * Home route component
- */
 @connect('planets')
 export default class Planets extends Component {
 
@@ -19,10 +16,6 @@ export default class Planets extends Component {
     planets.fetchPlanets();
   }
 
-  /**
-   * Render method
-   * @return {Component}
-   */
   render() {
     const { planets } = this.props;
 

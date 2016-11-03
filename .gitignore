@@ -38,4 +38,3 @@ node_modules
 # Other
 .env
 .DS_Store
-yarn.lock

@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
-import s from './Header.less';
+import { IndexLink } from 'react-router';
+import UenoLogoSvg from 'assets/images/ueno-logo.svg';
+import s from './Header.scss';
 
 export default class Header extends Component {
 
@@ -11,7 +13,9 @@ export default class Header extends Component {
     return (
       <header className={s.header}>
         <div className={s.container}>
-          <a className={s.logo}>Ueno. Starter kit</a>
+          <IndexLink to="/" className={s.logo}>
+            <UenoLogoSvg className={s.logo__svg} />
+          </IndexLink>
 
           <div className={s.navigation}>
             {this.props.children}

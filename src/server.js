@@ -70,9 +70,10 @@ app.get('*', (req, res) => {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     ${release ? '<link rel="stylesheet" type="text/css" href="/styles.css">' : ''}
-    <script src="/vendor.js"></script>
+    <script src="/vendor.js" defer></script>
     <script src="/client.js" defer></script>
     <!-- CHUNK -->`);
+  res.flush();
 
   // Some debugging info
   debug(color.cyan('http'), '%s - %s %s', req.ip, req.method, req.url);

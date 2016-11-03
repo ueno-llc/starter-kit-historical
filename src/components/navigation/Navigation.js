@@ -10,11 +10,11 @@ export default class Navigation extends Component {
   render() {
     return (
       <nav className={s.navigation}>
-        <ul className={s.list}>
+        <ul className={s.navigation__list}>
           {React.Children.map(this.props.children, (component) => (
-            <li className={s.item}>
+            <li className={s.navigation__item}>
               {React.cloneElement(component, {
-                className: s.link,
+                className: s.navigation__link,
                 activeClassName: s.active,
               })}
             </li>

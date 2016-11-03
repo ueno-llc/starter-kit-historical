@@ -4,7 +4,7 @@
 
 # Ueno. Starter kit
 
-Starter kit with server side rendering, eslint, (sass, less), stylelint and enzyme tests.
+React starter kit with server side rendering, eslint, sass, stylelint and enzyme tests.
 
 **Before working on a new project**
 

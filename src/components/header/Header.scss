@@ -1,0 +1,34 @@
+@import '~styles';
+
+.header {
+  display: block;
+
+  padding: 20px 0;
+
+  margin: 0 0 $gutter;
+
+  background-color: #fff;
+
+  border-bottom: 1px solid #ccc;
+}
+
+.container {
+  @include container();
+
+  display: flex;
+  align-items: center;
+
+  .logo {
+    @include reset-anchor;
+
+    &__svg {
+      display: block;
+    }
+  }
+}
+
+.navigation {
+  display: flex;
+
+  margin-left: auto;
+}

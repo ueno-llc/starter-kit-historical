@@ -4,7 +4,7 @@
 
 # Ueno. Starter kit
 
-Starter kit with server side rendering, eslint, (sass, less, stylus), stylelint and enzyme tests.
+Starter kit with server side rendering, eslint, (sass, less), stylelint and enzyme tests.
 
 **Before working on a new project**
 
@@ -13,7 +13,7 @@ Change stuff in `app.json`.
 ## Install
 
 ```bash
-$ npm install
+$ yarn install
 ```
 
 ## Run dev

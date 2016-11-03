@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import s from './Container.less';
+import s from './Container.scss';
 
 const Container = ({ children }) => (
   <div className={s.container}>

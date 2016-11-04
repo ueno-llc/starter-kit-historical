@@ -36,8 +36,10 @@ export default class Planet extends Component {
       <div>
         <Helmet title="Planet loading..." />
         <Segment>
-          {planet.isLoading ? (
-            <div>{planet.hasError ? 'Error fetching planet' : 'Loading planet'}</div>
+          {planet.isLoading || planet.hasError ? (
+            <div>
+              {planet.hasError ? `Error fetching planet: ${planet.data}` : 'Loading planet'}
+            </div>
           ) : (
             <div>
               <Helmet title={`Planet ${planet.data.name}`} />

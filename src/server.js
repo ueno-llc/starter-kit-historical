@@ -57,9 +57,8 @@ app.use(compression());
 app.use(express.static('./src/assets/favicon'));
 app.use(express.static('./build'));
 
-
 // Route handler that rules them all!
-app.get('*', (req, res) => {
+app.get('*', (req, res, next) => {
 
   res.set('content-type', 'text/html');
 
@@ -129,12 +128,18 @@ app.get('*', (req, res) => {
       store,
       root,
       debug: debugsw,
+      onError: next,
       render,
     });
 
     // Cancel server rendering
     req.on('close', cancel);
   });
+});
+
+app.use((err, req, res, next) => {
+  res.end(`</head><body><h1>500 Server Error</h1><p>${err}</p></body></html>`);
+  next(err);
 });
 
 // Create HTTP Server

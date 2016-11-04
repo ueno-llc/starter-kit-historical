@@ -65,10 +65,15 @@ export default class PlanetStore {
     .then(action(data => {
       const planet = planets.get(id);
       if (data.detail === 'Not found') {
-        return (planet.hasError = true);
+        throw new Error('Planet not found');
       }
       planet.isLoading = false;
       planet.data = data;
+    }))
+    .catch(action(err => {
+      const planet = planets.get(id);
+      planet.hasError = true;
+      planet.data = err.message;
     }));
   }
 

@@ -4299,9 +4299,9 @@ mobx-react@^3.5.6:
   dependencies:
     hoist-non-react-statics "^1.2.0"
 
-mobx-server-wait@0.0.6:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/mobx-server-wait/-/mobx-server-wait-0.0.6.tgz#40d918d68f7f73e377bbff08d16b5291f1613965"
+mobx-server-wait@0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/mobx-server-wait/-/mobx-server-wait-0.0.7.tgz#8bd1156f6e9782ddde8ea411cc8023b9680d75a3"
   dependencies:
     json-stringify-safe "^5.0.1"
     lodash "^4.15.0"
@@ -5374,7 +5374,7 @@ react-side-effect@1.0.2:
   dependencies:
     fbjs "0.1.0-alpha.10"
 
-react-svgdom-loader:
+react-svgdom-loader@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/react-svgdom-loader/-/react-svgdom-loader-3.0.0.tgz#49db7120ca4812eee7ac08ee3065524f8ca1b6d4"
   dependencies:
@@ -6224,7 +6224,7 @@ svg-tags@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/svg-tags/-/svg-tags-1.0.0.tgz#58f71cee3bd519b59d4b2a843b6c7de64ac04764"
 
-svgo-loader:
+svgo-loader@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/svgo-loader/-/svgo-loader-1.1.2.tgz#53ec4718523b39dd21195cbe64bc4d973ab98303"
   dependencies:
@@ -6847,4 +6847,3 @@ yargs@6.0.0:
 yeast@0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/yeast/-/yeast-0.1.2.tgz#008e06d8094320c372dbc2f8ed76a0ca6c8ac419"
-

@@ -283,6 +283,7 @@ function make(conf) {
 
     // Set entry point
     config.entry.server = [
+      'babel-polyfill',
       './src/server.js',
     ];
 

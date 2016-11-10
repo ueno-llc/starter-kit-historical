@@ -71,6 +71,7 @@ app.get('*', (req, res, next) => {
     ${release ? '<link rel="stylesheet" type="text/css" href="/styles.css">' : ''}
     <script src="/vendor.js" defer></script>
     <script src="/client.js" defer></script>
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
     <!-- CHUNK -->`);
   res.flush();
 

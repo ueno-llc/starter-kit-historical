@@ -258,6 +258,7 @@ function make(conf) {
             autoprefixer,
             csso,
           ],
+          context: __dirname,
         },
       }),
       new webpack.optimize.DedupePlugin(),
@@ -274,6 +275,7 @@ function make(conf) {
             autoprefixer,
             csso,
           ],
+          context: __dirname,
         },
       })
     );
@@ -312,6 +314,7 @@ function make(conf) {
             autoprefixer,
             csso,
           ],
+          context: __dirname,
         },
       })
     );

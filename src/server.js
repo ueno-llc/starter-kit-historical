@@ -69,9 +69,9 @@ app.get('*', (req, res, next) => {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     ${release ? '<link rel="stylesheet" type="text/css" href="/styles.css">' : ''}
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=es6"></script>
     <script src="/vendor.js" defer></script>
     <script src="/client.js" defer></script>
-    <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
     <!-- CHUNK -->`);
   res.flush();
 

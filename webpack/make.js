@@ -91,7 +91,7 @@ function make(conf) {
 
   loaders.svg = {
     test: /\.svg$/,
-    loaders: ['react-svgdom', 'svgo'],
+    loaders: ['react-svgdom-loader', 'svgo-loader'],
   };
 
   loaders.json = {

@@ -24,11 +24,11 @@ acorn-jsx@^3.0.0, acorn-jsx@^3.0.1:
   dependencies:
     acorn "^3.0.4"
 
-acorn@^3.0.4, acorn@^3.2.0:
+acorn@^3.0.4:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-3.3.0.tgz#45e37fb39e8da3f25baee3ff5369e2bb5f22017a"
 
-acorn@^4.0.1:
+acorn@^4.0.1, acorn@^4.0.3:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-4.0.3.tgz#1a3e850b428e73ba6b09d1cc527f5aaad4d03ef1"
 
@@ -36,7 +36,7 @@ after@0.8.1:
   version "0.8.1"
   resolved "https://registry.yarnpkg.com/after/-/after-0.8.1.tgz#ab5d4fb883f596816d3515f8f791c0af486dd627"
 
-ajv-keywords@^1.0.0:
+ajv-keywords@^1.0.0, ajv-keywords@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/ajv-keywords/-/ajv-keywords-1.1.1.tgz#02550bc605a3e576041565628af972e06c549d50"
 
@@ -212,13 +212,19 @@ async-foreach@^0.1.3:
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/async-foreach/-/async-foreach-0.1.3.tgz#36121f845c0578172de419a97dbeb1d16ec34542"
 
-async@^1.3.0, async@^1.5.0:
+async@^1.5.0, async@^1.5.2:
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/async/-/async-1.5.2.tgz#ec6a61ae56480c0c3cb241c95618e20892f9672a"
 
 async@^2.0.1:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/async/-/async-2.1.2.tgz#612a4ab45ef42a70cde806bad86ee6db047e8385"
+  dependencies:
+    lodash "^4.14.0"
+
+async@^2.1.2:
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/async/-/async-2.1.4.tgz#2d2160c7788032e4dd6cbe2502f1f9a2c8f6cde4"
   dependencies:
     lodash "^4.14.0"
 
@@ -4279,7 +4285,7 @@ minimist@0.0.8:
   version "0.0.8"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-0.0.8.tgz#857fcabfc3397d2625b8228262e86aa7a011b05d"
 
-mkdirp@^0.5.0, mkdirp@^0.5.1, "mkdirp@>=0.5 0", mkdirp@~0.5.0, mkdirp@~0.5.1, mkdirp@0.5.1:
+mkdirp@^0.5.0, mkdirp@^0.5.1, "mkdirp@>=0.5 0", mkdirp@~0.5.0, mkdirp@~0.5.1, mkdirp@0.5.1, mkdirp@0.5.x:
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-0.5.1.tgz#30057438eac6cf7f8c4767f38648d6697d75c903"
   dependencies:
@@ -4827,6 +4833,14 @@ plur@^2.0.0, plur@^2.1.2:
 pluralize@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/pluralize/-/pluralize-1.2.1.tgz#d1a21483fd22bb41e58a12fa3421823140897c45"
+
+portfinder@^1.0.9:
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/portfinder/-/portfinder-1.0.10.tgz#7a4de9d98553c315da6f1e1ed05138eeb2d16bb8"
+  dependencies:
+    async "^1.5.2"
+    debug "^2.2.0"
+    mkdirp "0.5.x"
 
 portscanner@^1.0.0:
   version "1.0.0"
@@ -6567,9 +6581,9 @@ webpack-dev-middleware@^1.0.11, webpack-dev-middleware@^1.4.0, webpack-dev-middl
     path-is-absolute "^1.0.0"
     range-parser "^1.0.3"
 
-webpack-dev-server@^2.1.0-beta.8:
-  version "2.1.0-beta.9"
-  resolved "https://registry.yarnpkg.com/webpack-dev-server/-/webpack-dev-server-2.1.0-beta.9.tgz#45745a4a6b84849c63e3a21dfab3be7bdb897554"
+webpack-dev-server@^2.1.0-beta.11:
+  version "2.1.0-beta.11"
+  resolved "https://registry.yarnpkg.com/webpack-dev-server/-/webpack-dev-server-2.1.0-beta.11.tgz#5a1e11590bf9e520ea8a559ee436779125647c28"
   dependencies:
     chokidar "^1.6.0"
     compression "^1.5.2"
@@ -6577,6 +6591,7 @@ webpack-dev-server@^2.1.0-beta.8:
     express "^4.13.3"
     http-proxy-middleware "~0.17.1"
     opn "4.0.2"
+    portfinder "^1.0.9"
     serve-index "^1.7.2"
     sockjs "0.3.18"
     sockjs-client "1.1.1"
@@ -6584,7 +6599,7 @@ webpack-dev-server@^2.1.0-beta.8:
     strip-ansi "^3.0.0"
     supports-color "^3.1.1"
     webpack-dev-middleware "^1.4.0"
-    yargs "^4.7.1"
+    yargs "^6.0.0"
 
 webpack-hot-middleware@^2.12.2:
   version "2.13.1"
@@ -6606,18 +6621,18 @@ webpack-sources@^0.1.0:
     source-list-map "~0.1.0"
     source-map "~0.5.3"
 
-webpack@^2.1.0-beta.25:
-  version "2.1.0-beta.25"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-2.1.0-beta.25.tgz#c35ff4da4ee70344a2f14c35258d95412709e9ed"
+webpack@2.1.0-beta.27:
+  version "2.1.0-beta.27"
+  resolved "https://registry.yarnpkg.com/webpack/-/webpack-2.1.0-beta.27.tgz#06cb802e44118159e46b7533ae76b0d84c8c89d8"
   dependencies:
-    acorn "^3.2.0"
+    acorn "^4.0.3"
     ajv "^4.7.0"
-    async "^1.3.0"
-    clone "^1.0.2"
+    ajv-keywords "^1.1.1"
+    async "^2.1.2"
     enhanced-resolve "^2.2.0"
     interpret "^1.0.0"
     loader-runner "^2.2.0"
-    loader-utils "^0.2.11"
+    loader-utils "^0.2.16"
     memory-fs "~0.3.0"
     mkdirp "~0.5.0"
     node-libs-browser "^1.0.0"
@@ -6628,7 +6643,7 @@ webpack@^2.1.0-beta.25:
     uglify-js "~2.7.3"
     watchpack "^1.0.0"
     webpack-sources "^0.1.0"
-    yargs "^4.7.1"
+    yargs "^6.0.0"
 
 websocket-driver@>=0.5.1:
   version "0.6.5"
@@ -6771,6 +6786,12 @@ yargs-parser@^4.0.2:
   dependencies:
     camelcase "^3.0.0"
 
+yargs-parser@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-4.1.0.tgz#313df030f20124124aeae8fbab2da53ec28c56d7"
+  dependencies:
+    camelcase "^3.0.0"
+
 yargs@^1.2.6:
   version "1.3.3"
   resolved "https://registry.yarnpkg.com/yargs/-/yargs-1.3.3.tgz#054de8b61f22eefdb7207059eaef9d6b83fb931a"
@@ -6805,6 +6826,25 @@ yargs@^4.7.1:
     window-size "^0.2.0"
     y18n "^3.2.1"
     yargs-parser "^2.4.1"
+
+yargs@^6.0.0:
+  version "6.4.0"
+  resolved "https://registry.yarnpkg.com/yargs/-/yargs-6.4.0.tgz#816e1a866d5598ccf34e5596ddce22d92da490d4"
+  dependencies:
+    camelcase "^3.0.0"
+    cliui "^3.2.0"
+    decamelize "^1.1.1"
+    get-caller-file "^1.0.1"
+    os-locale "^1.4.0"
+    read-pkg-up "^1.0.1"
+    require-directory "^2.1.1"
+    require-main-filename "^1.0.1"
+    set-blocking "^2.0.0"
+    string-width "^1.0.2"
+    which-module "^1.0.0"
+    window-size "^0.2.0"
+    y18n "^3.2.1"
+    yargs-parser "^4.1.0"
 
 yargs@~3.10.0:
   version "3.10.0"
@@ -6847,3 +6887,4 @@ yargs@6.0.0:
 yeast@0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/yeast/-/yeast-0.1.2.tgz#008e06d8094320c372dbc2f8ed76a0ca6c8ac419"
+

@@ -163,7 +163,7 @@ function make(conf) {
 
     cache: true,
 
-    devtool: 'source-map',
+    devtool: 'eval-source-map',
 
     output: {
       path: root('build'),

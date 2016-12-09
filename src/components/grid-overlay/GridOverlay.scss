@@ -37,7 +37,7 @@
   }
 
   &__column {
-    @include make-col(calc('100% / var(--grid-column-count, 12)'));
+    @include make-col(calc(100% / var(--grid-column-count, 12)));
 
     position: relative;
     height: 100%;

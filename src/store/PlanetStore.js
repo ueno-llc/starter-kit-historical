@@ -1,3 +1,8 @@
+// Store object
+// Example implementation uses https://swapi.co/api/planets
+// and expects the format { results: [] } for the list results
+// and {} for fetching one item
+
 import { extendObservable, observable, action, map, asMap } from 'mobx';
 import serverWait from 'mobx-server-wait';
 import fetch from 'isomorphic-fetch';
@@ -36,11 +41,14 @@ export default class PlanetStore {
     .then(data => data.json())
     .then(action(data => {
       this.isLoading = false;
+      this.hasError = false;
+
+      // Change this to match the shape of the API endpoint
       this.data = data.results;
     }))
     .catch(action(err => {
       this.hasError = true;
-      this.data = err;
+      this.error = err;
     }));
   }
 
@@ -68,12 +76,15 @@ export default class PlanetStore {
         throw new Error('Planet not found');
       }
       planet.isLoading = false;
+      planet.hasError = false;
+
+      // Change this to match the shape of the API endpoint
       planet.data = data;
     }))
     .catch(action(err => {
       const planet = planets.get(id);
       planet.hasError = true;
-      planet.data = err.message;
+      planet.error = err.message;
     }));
   }
 

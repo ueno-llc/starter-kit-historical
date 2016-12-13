@@ -40,7 +40,7 @@ app.use(helmet.contentSecurityPolicy({
   directives: {
     defaultSrc: ["'self'"],
     scriptSrc: ["'self' 'unsafe-inline' 'unsafe-eval'", 'cdn.polyfill.io'],
-    styleSrc: ["'self' 'unsafe-inline'", 'fonts.googleapis.com'],
+    styleSrc: ["'self' 'unsafe-inline'", 'fonts.googleapis.com', 'blob:;'],
     imgSrc: ["'self' 'unsafe-inline'", 'data:;'],
     connectSrc: ["'self'", 'ws:', 'swapi.co'],
     fontSrc: ["'self'", 'fonts.gstatic.com'],

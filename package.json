@@ -68,7 +68,6 @@
     "mobx-server-wait": "0.0.7",
     "mobx-utils": "^1.0.1",
     "node-sass": "4.0.0",
-    "postcss-csso": "^1.1.2",
     "postcss-loader": "1.2.1",
     "react": "^15.3.1",
     "react-dom": "^15.3.1",

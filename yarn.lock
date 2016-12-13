@@ -1875,13 +1875,6 @@ cssesc@^0.1.0:
     postcss-value-parser "^3.2.3"
     postcss-zindex "^2.0.1"
 
-csso@^2.1.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/csso/-/csso-2.3.0.tgz#cd1abed15055808f1428a9cd86a02f05dae926e3"
-  dependencies:
-    clap "^1.0.9"
-    source-map "^0.5.3"
-
 csso@~2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/csso/-/csso-2.2.1.tgz#51fbb5347e50e81e6ed51668a48490ae6fe2afe2"
@@ -4877,13 +4870,6 @@ postcss-convert-values@^2.3.4:
   dependencies:
     postcss "^5.0.11"
     postcss-value-parser "^3.1.2"
-
-postcss-csso@^1.1.2:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/postcss-csso/-/postcss-csso-1.1.2.tgz#418203fdf2846289b9fcdf3b2759ecf0f33edc19"
-  dependencies:
-    csso "^2.1.0"
-    postcss "^5.0.0"
 
 postcss-discard-comments@^2.0.4:
   version "2.0.4"

@@ -5,7 +5,6 @@ const externals = require('webpack-node-externals');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const cloneDeep = require('lodash/cloneDeep');
 const autoprefixer = require('autoprefixer');
-const csso = require('postcss-csso');
 
 const root = (folder = '.') => path.join(__dirname, '..', folder);
 const {
@@ -67,6 +66,7 @@ function make(conf) {
       {
         loader: 'css-loader',
         query: {
+          sourceMap: isDev && isClient,
           modules: true,
           importLoaders: 1,
           localIdentName: (
@@ -174,7 +174,7 @@ function make(conf) {
     },
 
     resolve: {
-      extensions: ['.js', '.json', '.less', '.scss'],
+      extensions: ['.js', '.json', /* '.less', */ '.scss'],
       modules: [
         path.resolve(root('src')),
         'node_modules',
@@ -185,7 +185,7 @@ function make(conf) {
       loaders: [
         loaders.babel,
         loaders.css,
-        loaders.less,
+        // loaders.less,
         loaders.sass,
         loaders.file,
         loaders.svg,
@@ -256,12 +256,10 @@ function make(conf) {
         options: {
           postcss: () => [
             autoprefixer,
-            csso,
           ],
-          context: __dirname,
+          context: root(),
         },
       }),
-      new webpack.optimize.DedupePlugin(),
       extract
     );
 
@@ -273,9 +271,8 @@ function make(conf) {
         options: {
           postcss: () => [
             autoprefixer,
-            csso,
           ],
-          context: __dirname,
+          context: root(),
         },
       })
     );
@@ -313,9 +310,8 @@ function make(conf) {
         options: {
           postcss: () => [
             autoprefixer,
-            csso,
           ],
-          context: __dirname,
+          context: root(),
         },
       })
     );

@@ -37,15 +37,17 @@ app.use(hpp());
 
 // Content Security Policy
 app.use(helmet.contentSecurityPolicy({
-  defaultSrc: ["'self'"],
-  scriptSrc: ["'self'"],
-  styleSrc: ["'self'"],
-  imgSrc: ["'self'"],
-  connectSrc: ["'self'", 'ws:'],
-  fontSrc: ["'self'"],
-  objectSrc: ["'none'"],
-  mediaSrc: ["'none'"],
-  frameSrc: ["'none'"],
+  directives: {
+    defaultSrc: ["'self'"],
+    scriptSrc: ["'self' 'unsafe-inline' 'unsafe-eval'", 'cdn.polyfill.io'],
+    styleSrc: ["'self' 'unsafe-inline'", 'fonts.googleapis.com'],
+    imgSrc: ["'self' 'unsafe-inline'", 'data:;'],
+    connectSrc: ["'self'", 'ws:', 'swapi.co'],
+    fontSrc: ["'self'", 'fonts.gstatic.com'],
+    objectSrc: ["'none'"],
+    mediaSrc: ["'none'"],
+    frameSrc: ["'none'"],
+  },
 }));
 app.use(helmet.xssFilter());
 app.use(helmet.frameguard('deny'));

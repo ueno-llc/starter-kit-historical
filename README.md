@@ -18,10 +18,10 @@ $ yarn install
 
 ## Run dev
 ```bash
-$ npm run dev
+$ yarn run dev
 ```
 
 ## Run release
 ```bash
-$ npm start
+$ yarn start
 ```

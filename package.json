@@ -1,7 +1,7 @@
 {
   "name": "starter-kit",
   "version": "1.0.1",
-  "description": "UENO. starter kit",
+  "description": "ueno. starter kit",
   "engines": {
     "node": ">=6.0 <7",
     "npm": ">=3.8 <4",
@@ -29,7 +29,7 @@
     "starter-kit",
     "universal"
   ],
-  "author": "UENO.",
+  "author": "ueno.",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/ueno-llc/starter-kit/issues"

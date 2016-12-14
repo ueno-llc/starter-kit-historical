@@ -12,7 +12,7 @@ import autobind from 'core-decorators/lib/autobind';
 const defaultPlanet = {
   isLoading: false,
   data: {},
-  hasError: false,
+  error: null,
 };
 
 export default class PlanetStore {
@@ -27,7 +27,7 @@ export default class PlanetStore {
   isLoading = false;
 
   @observable
-  hasError = false;
+  error = null;
 
   @observable
   data = [];
@@ -41,13 +41,12 @@ export default class PlanetStore {
     .then(data => data.json())
     .then(action(data => {
       this.isLoading = false;
-      this.hasError = false;
+      this.error = null;
 
       // Change this to match the shape of the API endpoint
       this.data = data.results;
     }))
     .catch(action(err => {
-      this.hasError = true;
       this.error = err;
     }));
   }
@@ -76,15 +75,13 @@ export default class PlanetStore {
         throw new Error('Planet not found');
       }
       planet.isLoading = false;
-      planet.hasError = false;
 
       // Change this to match the shape of the API endpoint
       planet.data = data;
     }))
     .catch(action(err => {
       const planet = planets.get(id);
-      planet.hasError = true;
-      planet.error = err.message;
+      planet.error = err;
     }));
   }
 

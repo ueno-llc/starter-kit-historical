@@ -118,9 +118,7 @@ app.get('*', (req, res, next) => {
   </head>
   <body>
     <div id="root">${html}</div>
-    <script>
-      window.__INITIAL_STATE__ = '${state.replace(/\\/g, '\\\\')}';
-    </script>
+    <script type="text/json" id="__INITIAL_STATE__">${state}</script>
   </body>
 </html>`);
       res.end();

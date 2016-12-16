@@ -39,14 +39,14 @@ export default class PlanetStore {
     this.isLoading = true;
     return fetch('https://swapi.co/api/planets')
     .then(data => data.json())
-    .then(action(data => {
+    .then(action((data) => {
       this.isLoading = false;
       this.error = null;
 
       // Change this to match the shape of the API endpoint
       this.data = data.results;
     }))
-    .catch(action(err => {
+    .catch(action((err) => {
       this.error = err;
     }));
   }
@@ -69,7 +69,7 @@ export default class PlanetStore {
 
     return fetch(`https://swapi.co/api/planets/${id}`)
     .then(data => data.json())
-    .then(action(data => {
+    .then(action((data) => {
       const planet = planets.get(id);
       if (data.detail === 'Not found') {
         throw new Error('Planet not found');
@@ -79,7 +79,7 @@ export default class PlanetStore {
       // Change this to match the shape of the API endpoint
       planet.data = data;
     }))
-    .catch(action(err => {
+    .catch(action((err) => {
       const planet = planets.get(id);
       planet.error = err;
     }));

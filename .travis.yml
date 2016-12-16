@@ -12,6 +12,9 @@ before_install:
 install:
   - yarn install
 
+env:
+  - NODE_ENV=production
+
 cache:
   directories:
     - node_modules

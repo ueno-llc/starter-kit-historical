@@ -22,7 +22,7 @@ const loadRoute = (name) => (location, cb) => {
     })
     .catch(err => {
       // Warn about module not able to load.
-      console.error('Could not load route %s: %o', name, err);
+      console.error('Could not load route %s: %o', name, err); // eslint-disable-line
     });
   } else { // eslint-disable-line
     // Defaulting to require the module straight. Only on server.

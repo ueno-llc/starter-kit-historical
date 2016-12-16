@@ -77,16 +77,15 @@
     z-index: 9001; // over 9000 !!!
     opacity: 1;
 
-    cursor: pointer;
-    pointer-events: all;
-
-    height: 26px;
-
     padding: 0 15px;
+    height: 26px;
 
     font-size: 12px;
     color: #999;
     text-transform: uppercase;
+
+    cursor: pointer;
+    pointer-events: all;
 
     background-color: #fff;
 

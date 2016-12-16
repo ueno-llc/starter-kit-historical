@@ -21,15 +21,14 @@
   display: block;
 
   flex: none;
+  align-items: flex-start;
+  align-self: $align;
+
+  padding-left: $grid-gutter/2;
+  padding-right: $grid-gutter/2;
 
   width: $width;
   min-height: 1px;
 
   box-sizing: border-box;
-
-  padding-left: $grid-gutter/2;
-  padding-right: $grid-gutter/2;
-
-  align-items: flex-start;
-  align-self: $align;
 }

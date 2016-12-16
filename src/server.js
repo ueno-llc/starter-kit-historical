@@ -146,7 +146,7 @@ app.use((err, req, res, next) => {
 const server = http.createServer(app);
 
 // Start
-const listener = server.listen(port, err => {
+const listener = server.listen(port, (err) => {
   if (err) throw err;
   debug(color.cyan('http'), `🚀  started on port ${port}`);
 });

@@ -40,7 +40,7 @@ const render = (Root, target = 'root') => {
             {props.routes}
           </Router>
         </Root>,
-        document.getElementById(target)
+        document.getElementById(target),
       );
     });
   });

@@ -13,7 +13,8 @@
     "react/jsx-filename-extension": 0,
     "react/require-extension": 0,
     "import/no-named-as-default": 0,
-    "import/no-extraneous-dependencies": 0
+    "import/no-extraneous-dependencies": 0,
+    "import/no-webpack-loader-syntax": 0
   },
   "settings": {
     "import/resolver": {

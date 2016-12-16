@@ -9,7 +9,6 @@ import match from 'react-router/lib/match';
 import stringify from 'json-stringify-safe';
 import { toJS } from 'mobx';
 import { Provider } from 'mobx-react';
-import _omit from 'lodash/omit';
 import routes from './routes';
 import Store from './store';
 
@@ -33,7 +32,7 @@ const render = (Root, target = 'root') => {
     Promise.all(imports)
     .then(() => {
       ReactDOM.render(
-        <Root {..._omit(store, k => (k !== '$mobx'))}>
+        <Root {...store}>
           <Router
             history={browserHistory}
             render={applyRouterMiddleware(useScroll())}

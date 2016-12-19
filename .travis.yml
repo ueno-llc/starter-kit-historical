@@ -10,6 +10,7 @@ before_install:
   # - export PATH=$HOME/.yarn/bin:$PATH
 
 install:
+  - npm install -g karma
   - npm install
 
 env:

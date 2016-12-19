@@ -11,7 +11,7 @@
   "scripts": {
     "start": "node ./build/server.js",
     "dev": "cross-env NODE_ENV=development node ./webpack/dev.js",
-    "test": "./node_modules/.bin/karma start ./webpack/karma.js",
+    "test": "karma start ./webpack/karma.js",
     "lint": "npm run eslint; npm run stylelint",
     "eslint": "eslint src",
     "stylelint": "stylelint \"src/**/*.scss\" --syntax scss",

@@ -104,7 +104,7 @@ function make(conf) {
   // Modify with care.
   Object.keys(loaders)
   .map(key => loaders[key])
-  .forEach(loader => {
+  .forEach((loader) => {
 
     const items = loader.loaders || [loader.loader];
     const isStyleLoader = items.find(item => /style/.test(item));
@@ -125,7 +125,7 @@ function make(conf) {
 
     // Use locals for css modules loader on the server
     if (isStyleLoader && isServer) {
-      loader.loaders = items.map(item => {
+      loader.loaders = items.map((item) => {
         if (item.loader && item.loader === 'css-loader') {
           item.loader = 'css-loader/locals';
         }
@@ -150,7 +150,7 @@ function make(conf) {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
       __CLIENT__: JSON.stringify(isClient),
-    })
+    }),
   );
 
   const name = isClient ? 'client' : 'server';
@@ -230,7 +230,7 @@ function make(conf) {
         name: 'vendor',
         minChunks: Infinity,
         filename: 'vendor.js',
-      })
+      }),
     );
   }
 
@@ -260,7 +260,7 @@ function make(conf) {
           context: root(),
         },
       }),
-      extract
+      extract,
     );
 
     // Source map with no cost
@@ -274,7 +274,7 @@ function make(conf) {
           ],
           context: root(),
         },
-      })
+      }),
     );
   }
 
@@ -313,7 +313,7 @@ function make(conf) {
           ],
           context: root(),
         },
-      })
+      }),
     );
   }
 

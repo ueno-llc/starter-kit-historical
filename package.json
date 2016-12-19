@@ -11,7 +11,7 @@
   "scripts": {
     "start": "node ./build/server.js",
     "dev": "cross-env NODE_ENV=development node ./webpack/dev.js",
-    "test": "karma start ./webpack/karma.js",
+    "test": "./node_modules/.bin/karma start ./webpack/karma.js",
     "lint": "npm run eslint; npm run stylelint",
     "eslint": "eslint src",
     "stylelint": "stylelint \"src/**/*.scss\" --syntax scss",
@@ -104,6 +104,7 @@
     "karma-babel-preprocessor": "^6.0.1",
     "karma-chai": "^0.1.0",
     "karma-chrome-launcher": "2.0.0",
+    "karma-cli": "^1.0.1",
     "karma-mocha": "^1.1.1",
     "karma-mocha-reporter": "^2.2.0",
     "karma-sourcemap-loader": "^0.3.7",

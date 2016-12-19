@@ -12,12 +12,12 @@
     "start": "node ./build/server.js",
     "dev": "cross-env NODE_ENV=development node ./webpack/dev.js",
     "test": "karma start ./webpack/karma.js",
-    "lint": "yarn run eslint; yarn run stylelint",
+    "lint": "npm run eslint; npm run stylelint",
     "eslint": "eslint src",
     "stylelint": "stylelint \"src/**/*.scss\" --syntax scss",
     "build": "rm -rf ./build && cross-env NODE_ENV=production webpack --config ./webpack/release.js",
-    "heroku-build": "if [ \"x$NODE_ENV\" != \"x\" ] && [ \"$NODE_ENV\" != \"development\" ]; then yarn run build; fi;",
-    "postinstall": "yarn run heroku-build"
+    "heroku-build": "if [ \"x$NODE_ENV\" != \"x\" ] && [ \"$NODE_ENV\" != \"development\" ]; then npm run build; fi;",
+    "postinstall": "npm run heroku-build"
   },
   "repository": {
     "type": "git",

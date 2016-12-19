@@ -10,7 +10,7 @@ before_install:
   - export PATH=$HOME/.yarn/bin:$PATH
 
 install:
-  - yarn install
+  - npm install
 
 env:
   - NODE_ENV=production

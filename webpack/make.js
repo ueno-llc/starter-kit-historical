@@ -150,7 +150,7 @@ function make(conf) {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
       __CLIENT__: JSON.stringify(isClient),
-    }),
+    })
   );
 
   const name = isClient ? 'client' : 'server';
@@ -230,7 +230,7 @@ function make(conf) {
         name: 'vendor',
         minChunks: Infinity,
         filename: 'vendor.js',
-      }),
+      })
     );
   }
 
@@ -260,7 +260,7 @@ function make(conf) {
           context: root(),
         },
       }),
-      extract,
+      extract
     );
 
     // Source map with no cost
@@ -274,7 +274,7 @@ function make(conf) {
           ],
           context: root(),
         },
-      }),
+      })
     );
   }
 
@@ -313,7 +313,7 @@ function make(conf) {
           ],
           context: root(),
         },
-      }),
+      })
     );
   }
 

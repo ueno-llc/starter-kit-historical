@@ -104,7 +104,7 @@ function make(conf) {
   // Modify with care.
   Object.keys(loaders)
   .map(key => loaders[key])
-  .forEach(loader => {
+  .forEach((loader) => {
 
     const items = loader.loaders || [loader.loader];
     const isStyleLoader = items.find(item => /style/.test(item));
@@ -125,7 +125,7 @@ function make(conf) {
 
     // Use locals for css modules loader on the server
     if (isStyleLoader && isServer) {
-      loader.loaders = items.map(item => {
+      loader.loaders = items.map((item) => {
         if (item.loader && item.loader === 'css-loader') {
           item.loader = 'css-loader/locals';
         }

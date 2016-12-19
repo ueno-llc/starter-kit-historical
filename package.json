@@ -1,10 +1,11 @@
 {
   "name": "starter-kit",
   "version": "1.0.1",
-  "description": "UENO. starter kit",
+  "description": "ueno. starter kit",
   "engines": {
     "node": ">=6.0 <7",
-    "npm": ">=3.8 <4"
+    "npm": ">=3.8 <4",
+    "yarn": ">=0.15 <1"
   },
   "main": "index.js",
   "scripts": {
@@ -28,7 +29,7 @@
     "starter-kit",
     "universal"
   ],
-  "author": "UENO.",
+  "author": "ueno.",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/ueno-llc/starter-kit/issues"
@@ -37,7 +38,7 @@
   "dependencies": {
     "autoprefixer": "^6.4.1",
     "babel-core": "^6.17.0",
-    "babel-loader": "^6.2.5",
+    "babel-loader": "^6.2.10",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-plugin-transform-runtime": "^6.15.0",
     "babel-polyfill": "^6.16.0",
@@ -55,6 +56,8 @@
     "express": "^4.13.4",
     "extract-text-webpack-plugin": "^2.0.0-beta.4",
     "file-loader": "^0.9.0",
+    "global": "^4.3.1",
+    "graceful-fs": "^4.1.11",
     "helmet": "3.1.0",
     "hpp": "^0.2.1",
     "isomorphic-fetch": "^2.2.1",
@@ -67,7 +70,7 @@
     "mobx-react": "4.0.3",
     "mobx-server-wait": "0.1.0",
     "mobx-utils": "^1.0.1",
-    "node-sass": "4.0.0",
+    "node-sass": "^4.1.0",
     "postcss-loader": "1.2.1",
     "react": "^15.3.1",
     "react-dom": "^15.3.1",
@@ -75,7 +78,7 @@
     "react-router": "3.0.0",
     "react-router-scroll": "0.4.1",
     "react-svgdom-loader": "^3.0.0",
-    "sass-loader": "^4.0.2",
+    "sass-loader": "^4.1.0",
     "style-loader": "^0.13.1",
     "stylelint-config-primer": "^1.3.0",
     "svgo-loader": "^1.1.2",
@@ -89,17 +92,19 @@
     "chai": "^3.5.0",
     "chai-enzyme": "0.6.1",
     "enzyme": "^2.4.1",
-    "eslint": "^3.5.0",
-    "eslint-config-airbnb": "^10.0.1",
+    "eslint": "^3.12.2",
+    "eslint-config-airbnb": "latest",
     "eslint-loader": "^1.5.0",
-    "eslint-plugin-import": "^1.15.0",
-    "eslint-plugin-jsx-a11y": "^2.2.2",
-    "eslint-plugin-react": "^6.2.2",
+    "eslint-plugin-import": "^2.1.0",
+    "eslint-plugin-jsx-a11y": "^2.2.3",
+    "eslint-plugin-react": "^6.6.0",
+    "find-up": "^2.1.0",
     "http-proxy-middleware": "^0.17.1",
     "karma": "^1.3.0",
     "karma-babel-preprocessor": "^6.0.1",
     "karma-chai": "^0.1.0",
     "karma-chrome-launcher": "2.0.0",
+    "karma-cli": "^1.0.1",
     "karma-mocha": "^1.1.1",
     "karma-mocha-reporter": "^2.2.0",
     "karma-sourcemap-loader": "^0.3.7",
@@ -107,12 +112,13 @@
     "loader-utils": "^0.2.16",
     "mobx-react-devtools": "^4.2.6",
     "mocha": "^3.0.2",
+    "optimist": "^0.6.1",
     "progress-bar-webpack-plugin": "^1.9.0",
     "react-addons-test-utils": "^15.3.1",
     "react-hot-loader": "^3.0.0-beta.5",
     "source-map-support": "^0.4.2",
     "stylelint": "^7.2.0",
-    "webpack-dev-middleware": "^1.8.1",
+    "webpack-dev-middleware": "^1.9.0",
     "webpack-dev-server": "^2.1.0-beta.11",
     "webpack-hot-middleware": "^2.12.2"
   }

@@ -1,5 +1,5 @@
 /* eslint no-console: 0 */
-import 'source-map-support/register';
+// import 'source-map-support/register';
 import http from 'http';
 import express from 'express';
 import compression from 'compression';
@@ -10,7 +10,6 @@ import { Router, RouterContext, match } from 'react-router';
 import { serverWaitRender } from 'mobx-server-wait';
 import debug from 'utils/debug';
 import { Provider } from 'mobx-react';
-import _omit from 'lodash/omit';
 import color from 'cli-color';
 import hpp from 'hpp';
 
@@ -106,7 +105,7 @@ app.get('*', (req, res, next) => {
 
     // Setup the root but don't add $mobx as property to provider.
     const root = (
-      <Provider {..._omit(store, k => (k !== '$mobx'))}>
+      <Provider {...store}>
         <RouterContext {...props} />
       </Provider>
     );
@@ -147,7 +146,7 @@ app.use((err, req, res, next) => {
 const server = http.createServer(app);
 
 // Start
-const listener = server.listen(port, err => {
+const listener = server.listen(port, (err) => {
   if (err) throw err;
   debug(color.cyan('http'), `🚀  started on port ${port}`);
 });

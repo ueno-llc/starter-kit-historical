@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 const consoleError = console.error;
 const consoleWarn = console.warn;
 

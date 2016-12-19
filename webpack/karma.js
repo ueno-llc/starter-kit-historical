@@ -7,7 +7,7 @@ const isTravis = process.env.TRAVIS;
 delete webpackConfig.externals;
 delete webpackConfig.plugins;
 
-module.exports = config => {
+module.exports = (config) => {
   config.set({
     frameworks: ['mocha'],
     reporters: ['mocha'],

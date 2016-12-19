@@ -1,5 +1,5 @@
 /* eslint no-console: 0 */
-import 'source-map-support/register';
+// import 'source-map-support/register';
 import http from 'http';
 import express from 'express';
 import compression from 'compression';

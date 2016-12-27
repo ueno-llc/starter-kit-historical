@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import { PropTypes as MobxPropTypes } from 'mobx-react';
 import Link from 'react-router/lib/Link';
 import Helmet from 'react-helmet';
 import Segment from 'components/segment';
@@ -8,7 +9,7 @@ import connect from 'utils/connect';
 export default class Planets extends Component {
 
   static propTypes = {
-    planets: PropTypes.object,
+    planets: MobxPropTypes.observableObject,
   };
 
   componentWillMount() {

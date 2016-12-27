@@ -22,7 +22,10 @@ export default {
     content: require('!file-loader!assets/favicon/android-chrome-192x192.png'),
   },
   { name: 'twitter:card', content: 'summary_large_image' },
-  { name: 'twitter:image', content: require('!file-loader!assets/favicon/android-chrome-192x192.png') },
+  {
+    name: 'twitter:image',
+    content: require('!file-loader!assets/favicon/android-chrome-192x192.png'),
+  },
   { name: 'twitter:site', content: '@ueno' },
   { name: 'twitter:creator', content: '@ueno' },
   { name: 'twitter:description', content: 'Ueno. description text here!' },

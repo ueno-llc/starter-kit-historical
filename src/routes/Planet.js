@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { PropTypes as MobxPropTypes } from 'mobx-react';
 import Link from 'react-router/lib/Link';
 import Helmet from 'react-helmet';
 import Segment from 'components/segment';
@@ -9,8 +10,10 @@ import autobind from 'core-decorators/lib/autobind';
 export default class Planet extends Component {
 
   static propTypes = {
-    params: PropTypes.object,
-    planets: PropTypes.object,
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+    planets: MobxPropTypes.observableObject,
   };
 
   componentWillMount() {
@@ -31,6 +34,8 @@ export default class Planet extends Component {
     const { id } = this.props.params;
 
     const planet = planets.getPlanet(id);
+
+    console.log('Planet isLoading: %o', planet.isLoading);
 
     return (
       <div>

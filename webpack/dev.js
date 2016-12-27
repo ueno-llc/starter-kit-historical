@@ -51,6 +51,10 @@ serverConfig.plugins.push(
   new webpack.NoErrorsPlugin()
 );
 
+// Performance hints
+// clientConfig.performance = { hints: false };
+serverConfig.performance = { hints: false };
+
 // Create compilers
 const clientCompiler = webpack(clientConfig);
 const serverCompiler = webpack(serverConfig);

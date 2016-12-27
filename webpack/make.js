@@ -153,7 +153,23 @@ function make(conf) {
     })
   );
 
-  const name = isClient ? 'client' : 'server';
+  // Loader options plugin
+  plugins.push(
+    new webpack.LoaderOptionsPlugin({
+      minimize: (isClient && isProd),
+      debug: !isProd,
+      options: {
+        postcss: () => [
+          autoprefixer,
+        ],
+        context: root(),
+      },
+    })
+  );
+
+  plugins.push(
+    new webpack.NamedModulesPlugin()
+  );
 
   const config = {
 
@@ -163,18 +179,18 @@ function make(conf) {
 
     cache: true,
 
-    devtool: 'eval-source-map',
+    devtool: 'source-map',
 
     output: {
       path: root('build'),
-      filename: `${name}.js`,
-      sourceMapFilename: `${name}.map`,
-      chunkFilename: `${name}.[chunkhash].js`,
+      filename: '[name].js',
+      sourceMapFilename: '[name].map',
+      chunkFilename: '[name].[chunkhash].js',
       publicPath: '/',
     },
 
     resolve: {
-      extensions: ['.js', '.json', /* '.less', */ '.scss'],
+      extensions: ['.js', '.json', '.scss'],
       modules: [
         path.resolve(root('src')),
         'node_modules',
@@ -185,7 +201,6 @@ function make(conf) {
       loaders: [
         loaders.babel,
         loaders.css,
-        // loaders.less,
         loaders.sass,
         loaders.file,
         loaders.svg,
@@ -250,32 +265,11 @@ function make(conf) {
           screw_ie8: true,
         },
       }),
-      new webpack.LoaderOptionsPlugin({
-        minimize: true,
-        debug: false,
-        options: {
-          postcss: () => [
-            autoprefixer,
-          ],
-          context: root(),
-        },
-      }),
       extract
     );
 
     // Source map with no cost
     config.devtool = 'hidden-source-map';
-  } else if (isClient) {
-    config.plugins.push(
-      new webpack.LoaderOptionsPlugin({
-        options: {
-          postcss: () => [
-            autoprefixer,
-          ],
-          context: root(),
-        },
-      })
-    );
   }
 
   if (isServer) {
@@ -304,17 +298,6 @@ function make(conf) {
         /\.(css|scss|sass|less|styl)$/,
       ],
     });
-
-    config.plugins.push(
-      new webpack.LoaderOptionsPlugin({
-        options: {
-          postcss: () => [
-            autoprefixer,
-          ],
-          context: root(),
-        },
-      })
-    );
   }
 
   return config;

@@ -10,7 +10,6 @@ import { Router, RouterContext, match } from 'react-router';
 import { serverWaitRender } from 'mobx-server-wait';
 import debug from 'utils/debug';
 import { Provider } from 'mobx-react';
-import _omit from 'lodash/omit';
 import color from 'cli-color';
 import hpp from 'hpp';
 
@@ -106,7 +105,7 @@ app.get('*', (req, res, next) => {
 
     // Setup the root but don't add $mobx as property to provider.
     const root = (
-      <Provider {..._omit(store, k => (k !== '$mobx'))}>
+      <Provider {...store}>
         <RouterContext {...props} />
       </Provider>
     );

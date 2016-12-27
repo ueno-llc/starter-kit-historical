@@ -52,7 +52,7 @@ serverConfig.plugins.push(
 );
 
 // Performance hints
-// clientConfig.performance = { hints: false };
+clientConfig.performance = { hints: false };
 serverConfig.performance = { hints: false };
 
 // Create compilers

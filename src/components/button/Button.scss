@@ -42,4 +42,10 @@ $btn-border-width: 2px;
   &:hover {
     background-color: darken($color-primary, 10%);
   }
+
+  &.disabled {
+    cursor: default;
+
+    background-color: #bbb;
+  }
 }

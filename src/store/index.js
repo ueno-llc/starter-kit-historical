@@ -1,12 +1,11 @@
 import { fillServerWait } from 'mobx-server-wait';
-import PlanetStore from './PlanetStore';
+import Network from './Network';
 
 export default class Store {
 
   constructor(state = {}) {
-    const { planets, ...rest } = state;
-    this.planets = new PlanetStore(planets);
-    Object.assign(this, rest);
+    Object.assign(this, state);
+    this.network = new Network(this);
 
     // We need to load the promises state from the server.
     fillServerWait(state);

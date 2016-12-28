@@ -6,14 +6,14 @@ import Segment from 'components/segment';
 import connect from 'utils/connect';
 import autobind from 'core-decorators/lib/autobind';
 
-@connect('network')
+@connect('planets')
 export default class Planet extends Component {
 
   static propTypes = {
     params: PropTypes.shape({
       id: PropTypes.string,
     }),
-    network: MobxPropTypes.observableObject,
+    planets: MobxPropTypes.observableObject,
   };
 
   /**
@@ -21,11 +21,11 @@ export default class Planet extends Component {
    * @return {void}
    */
   componentWillMount() {
-    const { network, params } = this.props;
+    const { planets, params } = this.props;
 
     // Fetch initial data needed
-    this.planets = network.fetch('https://swapi.co/api/planets');
-    this.planet = network.fetch(`https://swapi.co/api/planets/${params.id}`);
+    this.planets = planets.fetchAll();
+    this.planet = planets.fetchById(params.id);
   }
 
   /**

@@ -8,11 +8,11 @@ import Button from 'components/button';
 import connect from 'utils/connect';
 import autobind from 'core-decorators/lib/autobind';
 
-@connect('network')
+@connect('planets')
 export default class Planets extends Component {
 
   static propTypes = {
-    network: MobxPropTypes.observableObject,
+    planets: MobxPropTypes.observableObject,
   };
 
   /**
@@ -20,8 +20,7 @@ export default class Planets extends Component {
    * @return {void}
    */
   componentWillMount() {
-    // Fetch inital data
-    this.planets = this.props.network.fetch('http://swapi.co/api/planets/?page=1');
+    this.planets = this.props.planets.fetchAll();
   }
 
   /**
@@ -36,15 +35,14 @@ export default class Planets extends Component {
 
     // Extract wanted url from node's dataset.
     const { url } = e.currentTarget.dataset;
-    const page = url.match(/page=(\d+)/);
+    const pagestr = url.match(/page=(\d+)/);
+    const page = parseInt(pagestr && pagestr[1], 10) || 1;
 
     // Fetch the next wanted page. (it may or may not already exist in the cache).
-    this.planets = this.props.network.fetch(url);
+    this.planets = this.props.planets.fetchAll({ page });
 
-    if (page) {
-      // Update the internal page to get new `from` and `to` values calculated.
-      this.page = parseInt(page[1], 10);
-    }
+    // Set current page
+    this.page = page;
   }
 
   /**

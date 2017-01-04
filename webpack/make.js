@@ -44,17 +44,19 @@ function make(conf) {
     test: /\.js$/,
     exclude: /node_modules/,
     include: root('src'),
-    loader: 'babel-loader',
-    query: {
-      presets: [
-        ['es2015', { modules: false }],
-        'react',
-        'stage-0',
-      ],
-      plugins: [
-        'transform-decorators-legacy',
-      ],
-    },
+    loaders: [{
+      loader: 'babel-loader',
+      query: {
+        presets: [
+          ['es2015', { modules: false }],
+          'react',
+          'stage-0',
+        ],
+        plugins: [
+          'transform-decorators-legacy',
+        ],
+      },
+    }],
   };
 
   loaders.css = {
@@ -153,20 +155,6 @@ function make(conf) {
     })
   );
 
-  // Loader options plugin
-  plugins.push(
-    new webpack.LoaderOptionsPlugin({
-      minimize: (isClient && isProd),
-      debug: !isProd,
-      options: {
-        postcss: () => [
-          autoprefixer,
-        ],
-        context: root(),
-      },
-    })
-  );
-
   plugins.push(
     new webpack.NamedModulesPlugin()
   );
@@ -195,6 +183,10 @@ function make(conf) {
         path.resolve(root('src')),
         'node_modules',
       ],
+    },
+
+    performance: {
+      hints: false,
     },
 
     module: {
@@ -299,6 +291,19 @@ function make(conf) {
       ],
     });
   }
+
+  // Loader options plugin
+  plugins.push(
+    new webpack.LoaderOptionsPlugin({
+      minimize: (isClient && isProd),
+      debug: !isProd,
+      options: {
+        plugins() { return plugins; },
+        postcss() { return [autoprefixer]; },
+        context: root(),
+      },
+    })
+  );
 
   return config;
 }

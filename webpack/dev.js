@@ -7,7 +7,7 @@ const webpackHotMiddleware = require('webpack-hot-middleware');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const color = require('cli-color');
 const debug = require('../src/utils/debug');
-const clientConfig = require('./client');
+const clientConfig = require('./client.happy');
 const serverConfig = require('./server');
 
 const domain = color.magentaBright('webpack');
@@ -15,17 +15,6 @@ const domain = color.magentaBright('webpack');
 // Get ports
 const port = (parseInt(process.env.PORT, 10) || 3000) - 1;
 const proxyPort = port + 1;
-
-// Find babel loader
-const babel = clientConfig.module.loaders
-.find(item => item.test.test('.js') && /babel/.test(item.loader));
-
-if (babel && babel.query) {
-  babel.query.plugins = [
-    'react-hot-loader/babel',
-    ...(babel.query.plugins || []),
-  ];
-}
 
 // Add HMR entry points
 clientConfig.entry.client.splice(0, 0,

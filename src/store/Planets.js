@@ -10,7 +10,7 @@ export default class Network {
    * Constructor
    * @param {object} Domain store
    */
-  constructor({ planets = {}, network }) {
+  constructor({ planets = {} }, network) {
     this.fetch = network.fetch;
     extendObservable(this, planets);
   }

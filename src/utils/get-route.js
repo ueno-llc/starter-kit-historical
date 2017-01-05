@@ -1,11 +1,9 @@
 // Keep a cache of System imported modules
 const cache = new Map();
 
-// Load a route by name, as in ./src/routes/${name}.
-// Return the module contents.
-const loadRoute = (name) => (location, cb) => {
+const getRoute = (name) => (location, cb) => {
+
   if (__CLIENT__) {
-    // Check if route module is cached
     if (cache.has(name)) {
       // Trigger the callback with cached module
       return cb(null, cache.get(name));
@@ -24,10 +22,9 @@ const loadRoute = (name) => (location, cb) => {
       // Warn about module not able to load.
       console.error('Could not load route %s: %o', name, err);
     });
-  } else { // eslint-disable-line
-    // Defaulting to require the module straight. Only on server.
-    cb(null, require('routes/' + name).default); // eslint-disable-line
   }
+
+  cb(null, require('routes/' + name).default); // eslint-disable-line
 };
 
-export default loadRoute;
+export default getRoute;

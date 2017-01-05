@@ -5,16 +5,49 @@ const proxyMiddleware = require('http-proxy-middleware');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+const HappyPack = require('happypack');
 const color = require('cli-color');
 const debug = require('../src/utils/debug');
-const clientConfig = require('./client.happy');
+const clientConfig = require('./client');
 const serverConfig = require('./server');
 
 const domain = color.magentaBright('webpack');
+const threadPool = HappyPack.ThreadPool({ size: 8 }); // eslint-disable-line
 
 // Get ports
 const port = (parseInt(process.env.PORT, 10) || 3000) - 1;
 const proxyPort = port + 1;
+const useHappyPack = process.env.HAPPY !== '0';
+
+// Use happy or not
+if (useHappyPack) {
+
+  // Loaders that we should happypackivide
+  const samples = ['.js', '.css', '.scss', '.jpg'];
+
+  const rules = clientConfig.module.loaders
+  .map((item, i) => {
+    const res = item;
+    const sample = samples.find(file => item.test.test(file));
+    if (sample) {
+      const loaders = item.loader ? [item.loader] : item.loaders;
+      const id = `${i}${sample}`;
+      if (sample === '.js') {
+        loaders[0].query.plugins.splice(0, 0, 'react-hot-loader/babel');
+      }
+      clientConfig.plugins.push(new HappyPack({
+        id,
+        loaders,
+        threadPool,
+      }));
+      delete res.loader;
+      res.loaders = [`happypack/loader?id=${id}`];
+    }
+    return res;
+  });
+
+  clientConfig.module = { rules };
+}
 
 // Add HMR entry points
 clientConfig.entry.client.splice(0, 0,
@@ -41,7 +74,7 @@ serverConfig.plugins.push(
 );
 
 // Performance hints
-// clientConfig.performance = { hints: false };
+clientConfig.performance = { hints: false };
 serverConfig.performance = { hints: false };
 
 // Create compilers

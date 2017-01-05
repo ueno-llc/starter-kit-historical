@@ -237,7 +237,10 @@ function make(conf) {
         name: 'vendor',
         minChunks: Infinity,
         filename: 'vendor.js',
-      })
+      }),
+
+      // Force System.import from routes directory non-recursive.
+      new webpack.ContextReplacementPlugin(/src.routes.*/, './', false)
     );
   }
 

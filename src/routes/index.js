@@ -3,7 +3,7 @@ import Route from 'react-router/lib/Route';
 import IndexRoute from 'react-router/lib/IndexRoute';
 import App from 'containers/app';
 import NotFound from 'routes/NotFound';
-import loadRoute from 'utils/load-route';
+import getRoute from 'utils/get-route';
 
 export {
   NotFound,
@@ -11,10 +11,10 @@ export {
 
 export default (
   <Route path="/" component={App}>
-    <IndexRoute getComponent={loadRoute('Home')} />
-    <Route path="planets" getComponent={loadRoute('Planets')} />
-    <Route path="planet/:id" getComponent={loadRoute('Planet')} />
-    <Route path="about" getComponent={loadRoute('About')} />
-    <Route path="*" getComponent={loadRoute('NotFound')} />,
+    <IndexRoute getComponent={getRoute('Home')} />
+    <Route path="planets" getComponent={getRoute('Planets')} />
+    <Route path="planet/:id" getComponent={getRoute('Planet')} />
+    <Route path="about" getComponent={getRoute('About')} />
+    <Route path="*" getComponent={getRoute('NotFound', 'routes/NotFound')} />,
   </Route>
 );

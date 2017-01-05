@@ -14,6 +14,7 @@ export default class Button extends Component {
     flat: PropTypes.bool,
     large: PropTypes.bool,
     small: PropTypes.bool,
+    disabled: PropTypes.bool,
     children: PropTypes.node,
     className: PropTypes.string,
   };
@@ -27,6 +28,7 @@ export default class Button extends Component {
       small,
       children,
       className,
+      disabled,
       ...rest
     } = this.props;
 
@@ -40,7 +42,10 @@ export default class Button extends Component {
       flat,
       large,
       small,
+      disabled,
     });
+
+    rest.disabled = disabled;
 
     if (isExternal) {
       // http, https, //, mailto, etc.

@@ -16,65 +16,94 @@ export default class Planet extends Component {
     planets: MobxPropTypes.observableObject,
   };
 
+  /**
+   * Fired when component will mount.
+   * @return {void}
+   */
   componentWillMount() {
-    const { planets } = this.props;
-    const { id } = this.props.params;
+    const { planets, params } = this.props;
 
-    planets.fetchPlanets();
-    planets.fetchPlanet(id);
+    // Fetch initial data needed
+    this.planets = planets.fetchAll();
+    this.planet = planets.fetchById(params.id);
   }
 
+  /**
+   * Render related section of the page
+   *
+   * @param {object} Data needed to render the section
+   * @return {React.Component}
+   */
   @autobind
-  diff(a, b) {
-    return Math.abs(b.diameter - a.diameter);
+  renderRelated({ results }) {
+
+    // Calculate difference of two diameters
+    const diff = (a, b) => Math.abs(b.diameter - a.diameter);
+    const planet = this.planet.value;
+
+    // Remove current planet, sort similar sizes, limit to 3.
+    const items = results
+      .filter(p => p.url !== planet.url)
+      .sort((a, b) => diff(a, planet) - diff(b, planet))
+      .slice(0, 3);
+
+    return (
+      <div>
+        <h3>Planets with similar diameter</h3>
+        <ul>
+          {items.map((related, i) => (
+            <li key={`related_${i}`}>{related.name} ({related.diameter})</li>
+          ))}
+        </ul>
+      </div>
+    );
   }
 
+  /**
+   * Render method
+   * @return {React.Component}
+   */
   render() {
-    const { planets } = this.props;
-    const { id } = this.props.params;
-
-    const planet = planets.getPlanet(id);
-
     return (
       <div>
         <Helmet title="Planet loading..." />
         <Segment>
-          {planet.isLoading || planet.error ? (
-            <div>
-              {planet.error ? `Error fetching planet: ${planet.error.message}` : 'Loading planet'}
-            </div>
-          ) : (
-            <div>
-              <Helmet title={`Planet ${planet.data.name}`} />
-              <h1>{planet.data.name}</h1>
-              <ul>
-                <li><strong>Gravity:</strong> {planet.data.gravity}</li>
-                <li><strong>Terrain:</strong> {planet.data.terrain}</li>
-                <li><strong>Climate:</strong> {planet.data.climate}</li>
-                <li><strong>Population:</strong> {planet.data.population}</li>
-                <li><strong>Diameter:</strong> {planet.data.diameter}</li>
-              </ul>
-              <Link to="/planets">Go back</Link>
-              <hr />
+          {this.planet.case({
+
+            // This will be rendered when the data is being fetched.
+            // Or in other words, when this promise hasn't been resolved or rejected yet.
+            pending: () => (<div>Loading planet...</div>),
+
+            // This will be rendered when the promise will reject for some expected
+            // or unexpected reasons.
+            rejected: (error) => (<div>Error fetching planet: {error.message}</div>),
+
+            // This is when all the result of the promise is ready to be used.
+            // Try to have everything ready at this moment to have the render
+            // method as clean as possible.
+            fulfilled: ({ name, gravity, terrain, climate, population, diameter }) => (
               <div>
-                <h3>Planets with similar diameter</h3>
+                <Helmet title={`Planet ${name}`} />
+                <h1>{name}</h1>
                 <ul>
-                  {planets.isLoading ? (
-                    <div>Loading similar planets</div>
-                  ) : (
-                    planets
-                    .data
-                    .filter(p => p.url !== planet.data.url)
-                    .sort((a, b) => this.diff(a, planet.data) - this.diff(b, planet.data))
-                    .slice(0, 3)
-                    .map((relatedPlanet, i) => (
-                      <li key={`related_${i}`}>{relatedPlanet.name} ({relatedPlanet.diameter})</li>
-                    ))
-                  )}
+                  <li><strong>Gravity:</strong> {gravity}</li>
+                  <li><strong>Terrain:</strong> {terrain}</li>
+                  <li><strong>Climate:</strong> {climate}</li>
+                  <li><strong>Population:</strong> {population}</li>
+                  <li><strong>Diameter:</strong> {diameter}</li>
                 </ul>
+                <Link to="/planets">Go back</Link>
+                <hr />
+
+                {/* Now we can render the related planets */}
+                {this.planets.case({
+                  pending: () => (<div>Loading related planets...</div>),
+                  rejected: (error) => (<div>Could fetch related planets: {error.message}</div>),
+                  fulfilled: this.renderRelated,
+                })}
               </div>
-            </div>
-          )}
+            ),
+          })}
         </Segment>
       </div>
     );

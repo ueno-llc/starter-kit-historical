@@ -129,6 +129,7 @@ app.get('*', (req, res, next) => {
       root,
       debug: debugsw,
       onError: next,
+      maxWait: 1200,
       render,
     });
 

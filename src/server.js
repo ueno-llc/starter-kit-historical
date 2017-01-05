@@ -7,7 +7,7 @@ import React from 'react';
 import helmet from 'helmet';
 import ReactHelmet from 'react-helmet';
 import { Router, RouterContext, match } from 'react-router';
-import { serverWaitRender } from 'utils/mobx-server-wait';
+import { serverWaitRender } from 'mobx-server-wait';
 import debug from 'utils/debug';
 import { Provider } from 'mobx-react';
 import color from 'cli-color';

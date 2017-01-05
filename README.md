@@ -6,6 +6,9 @@
 
 React starter kit with server side rendering, eslint, sass, stylelint and enzyme tests.
 
+## Setup new project
+1. Clone this repo (Don't copy/)
+
 **Before working on a new project**
 
 Change stuff in `app.json`.
@@ -19,6 +22,12 @@ $ yarn install
 ## Run dev
 ```bash
 $ npm run dev
+
+# Without HappyPack
+$ HAPPY=0 npm run dev
+
+# Other port
+$ PORT=3030 npm run dev
 ```
 
 ## Run release

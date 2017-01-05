@@ -35,8 +35,6 @@ export default class Planet extends Component {
 
     const planet = planets.getPlanet(id);
 
-    console.log('Planet isLoading: %o', planet.isLoading);
-
     return (
       <div>
         <Helmet title="Planet loading..." />

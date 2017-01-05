@@ -63,7 +63,11 @@ if (module.hot) {
     data.store = stringify(toJS(store)); // eslint-disable-line
   });
 
-  module.hot.accept(() => render(
-    require('mobx-react').Provider // eslint-disable-line
-  ));
+  module.hot.accept('./client.js');
+
+  module.hot.accept(() => {
+    render(
+      require('mobx-react').Provider // eslint-disable-line
+    );
+  });
 }

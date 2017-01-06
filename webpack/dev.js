@@ -11,7 +11,8 @@ const debug = require('../src/utils/debug');
 const clientConfig = require('./client');
 const serverConfig = require('./server');
 
-const domain = color.magentaBright('webpack');
+const domain = [color.magentaBright('webpack'), '::', color.redBright('server')].join('');
+const domainClient = [color.magentaBright('webpack'), '::', color.yellow('client')].join('');
 const threadPool = HappyPack.ThreadPool({ size: 8 }); // eslint-disable-line
 
 // Get ports
@@ -19,18 +20,25 @@ const port = (parseInt(process.env.PORT, 10) || 3000) - 1;
 const proxyPort = port + 1;
 const useHappyPack = process.env.HAPPY !== '0';
 
+// Logging
+const log = (...args) => debug(domain, ...args);
+const logClient = (...args) => debug(domainClient, ...args);
+
 // Use happy or not
 if (useHappyPack) {
 
   // Loaders that we should happypackivide
-  const samples = ['.js', '.css', '.scss', '.jpg'];
+  const samples = ['.js', '.css', '.scss', '.jpg', '.json'];
+
+  // Log that stuff
+  logClient(`using happypack for [${samples.join(', ')}]`);
 
   const rules = clientConfig.module.loaders
   .map((item, i) => {
     const res = item;
     const sample = samples.find(file => item.test.test(file));
     if (sample) {
-      const loaders = item.loader ? [item.loader] : item.loaders;
+      const loaders = item.loader ? [{ loader: item.loader }] : item.loaders;
       const id = `${i}${sample}`;
       if (sample === '.js') {
         loaders[0].query.plugins.splice(0, 0, 'react-hot-loader/babel');
@@ -39,6 +47,7 @@ if (useHappyPack) {
         id,
         loaders,
         threadPool,
+        verbose: false,
       }));
       delete res.loader;
       res.loaders = [`happypack/loader?id=${id}`];
@@ -55,21 +64,20 @@ clientConfig.entry.client.splice(0, 0,
   `webpack-hot-middleware/client?reload=true&path=http://localhost:${proxyPort}/__webpack_hmr`
 );
 
-// Add HMR and NoErrors plugin
+// Add ProgressBar, HMR and NoErrors plugin
 clientConfig.plugins.push(
+  new ProgressBarPlugin({
+    width: 12,
+    format: `[:bar] ${domainClient} ${color.green.bold(':percent')} :msg (:elapsed seconds)`,
+    clear: true,
+    summary: false,
+  }),
   new webpack.HotModuleReplacementPlugin(),
   new webpack.NoErrorsPlugin()
 );
 
 // Add progress bar to server build
 serverConfig.plugins.push(
-  new ProgressBarPlugin({
-    width: 12,
-    format: `[:bar] ${domain} ${color.green.bold(':percent')} :msg (:elapsed seconds)`,
-    clear: true,
-    summary: false,
-  }),
-  // And no errors plugin
   new webpack.NoErrorsPlugin()
 );
 
@@ -81,13 +89,11 @@ serverConfig.performance = { hints: false };
 const clientCompiler = webpack(clientConfig);
 const serverCompiler = webpack(serverConfig);
 
-// Logging
-const log = (...args) => debug(domain, ...args);
-
 // Build container
 const build = {
   failed: false,
   first: true,
+  started: false,
   connections: [],
 };
 
@@ -104,6 +110,12 @@ const devMiddleware = webpackDevMiddleware(clientCompiler, {
   },
 });
 
+clientCompiler.plugin('done', stats => {
+  if (!stats.hasErrors()) {
+    logClient('built %s in %sms', stats.hash, stats.endTime - stats.startTime);
+  }
+});
+
 serverCompiler.plugin('done', stats => {
 
   if (stats.hasErrors()) {
@@ -117,6 +129,7 @@ serverCompiler.plugin('done', stats => {
     log(color.green('build fixed'));
   }
 
+  if (useHappyPack && !build.started) console.log('\n');
   log('built %s in %sms', stats.hash, stats.endTime - stats.startTime);
 
   const opts = serverCompiler.options;
@@ -132,6 +145,11 @@ serverCompiler.plugin('done', stats => {
   if (build.listener) {
     // Close the last server listener
     build.listener.close();
+  }
+
+  if (!build.started) {
+    build.started = false;
+    log(`started on ${color.blue.underline(`http://localhost:${proxyPort}`)}`);
   }
 
   // Start the server
@@ -152,16 +170,10 @@ serverCompiler.plugin('done', stats => {
   });
 });
 
-log(`started on ${color.blue.underline(`http://localhost:${proxyPort}`)}`);
-
 serverCompiler.watch({
   aggregateTimeout: 300,
   poll: true,
-}, () => undefined);
-
-clientCompiler.watch({
-  aggregateTimeout: 300,
-  poll: true,
+  ignored: /\.happypack/,
 }, () => undefined);
 
 // Initialize BrowserSync
@@ -176,6 +188,11 @@ bs.init({
       devMiddleware,
       webpackHotMiddleware(clientCompiler, {
         log: false,
+        watchOptions: {
+          aggregateTimeout: 300,
+          poll: true,
+          ignored: /\.happypack/,
+        },
       }),
       proxyMiddleware(p => !p.match('^/browser-sync'), {
         target: `http://localhost:${port}`,

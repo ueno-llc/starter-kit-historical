@@ -10,7 +10,7 @@ export default class Home extends Component {
         <Helmet title="Home" />
 
         <Segment>
-          <h1>Nothing feel’s like ::ffff!</h1>
+          <h1>Nothing feels like ::ffff!</h1>
         </Segment>
 
         <Segment>

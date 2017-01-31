@@ -63,19 +63,6 @@ app.get('*', (req, res, next) => {
 
   res.set('content-type', 'text/html');
 
-  // Start writing output
-  res.write('<!doctype html>');
-  res.write(`<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    ${release ? '<link rel="stylesheet" type="text/css" href="/styles.css">' : ''}
-    <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=es6"></script>
-    <script src="/vendor.js" defer></script>
-    <script src="/client.js" defer></script>
-    <!-- CHUNK -->`);
-  res.flush();
-
   // Some debugging info
   debug(color.cyan('http'), '%s - %s %s', req.ip, req.method, req.url);
 
@@ -94,6 +81,19 @@ app.get('*', (req, res, next) => {
     } else if (props.components.some(component => component === NotFound)) {
       res.status(404);
     }
+
+    // Start writing output
+    res.write('<!doctype html>');
+    res.write(`<html>
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      ${release ? '<link rel="stylesheet" type="text/css" href="/styles.css">' : ''}
+      <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=es6"></script>
+      <script src="/vendor.js" defer></script>
+      <script src="/client.js" defer></script>
+      <!-- CHUNK -->`);
+    res.flush();
 
     // Setup store and context for provider
     const store = new Store();

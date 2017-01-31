@@ -34,3 +34,7 @@ $ PORT=3030 npm run dev
 ```bash
 $ npm start
 ```
+
+## Cool stuff:
+`classname-loader` adds `classnames` support to `import s from './stylesheet'` so you can use
+`className={s('active', { visible })}`

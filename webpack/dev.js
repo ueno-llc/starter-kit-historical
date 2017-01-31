@@ -28,7 +28,7 @@ const logClient = (...args) => debug(domainClient, ...args);
 if (useHappyPack) {
 
   // Loaders that we should happypackivide
-  const samples = ['.js', '.css', '.scss', '.jpg', '.json'];
+  const samples = ['.js', '.css', '.scss', '.json'];
 
   // Log that stuff
   logClient(`using happypack for [${samples.join(', ')}]`);

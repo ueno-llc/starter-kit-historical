@@ -118,7 +118,7 @@ function make(conf) {
     if (isStyleLoader && isClient && isProd) {
       loader.loaders = [ // eslint-disable-line
         ...items.filter(item => /classnames/.test(item)),
-        extract.extract({
+        ...extract.extract({
           fallbackLoader: 'style-loader',
           loader: items.filter(item => !/classnames|style/.test(item)),
         }),

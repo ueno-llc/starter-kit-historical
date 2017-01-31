@@ -15,6 +15,6 @@ export default (
     <Route path="planets" getComponent={getRoute('Planets')} />
     <Route path="planet/:id" getComponent={getRoute('Planet')} />
     <Route path="about" getComponent={getRoute('About')} />
-    <Route path="*" getComponent={getRoute('NotFound', 'routes/NotFound')} />,
+    <Route path="*" getComponent={getRoute('NotFound', 'routes/NotFound')} />
   </Route>
 );

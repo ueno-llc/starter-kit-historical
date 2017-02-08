@@ -38,9 +38,22 @@ app.use(hpp());
 app.use(helmet.contentSecurityPolicy({
   directives: {
     defaultSrc: ["'self'"],
-    scriptSrc: ["'self' 'unsafe-inline' 'unsafe-eval'", 'cdn.polyfill.io'],
-    styleSrc: ["'self' 'unsafe-inline'", 'fonts.googleapis.com', 'blob:;'],
-    imgSrc: ["'self' 'unsafe-inline'", 'data:;'],
+    scriptSrc: [
+      "'self' 'unsafe-inline' 'unsafe-eval'",
+      'cdn.polyfill.io',
+      'www.google-analytics.com',
+    ],
+    styleSrc: [
+      "'self' 'unsafe-inline'",
+      'fonts.googleapis.com',
+      'blob:;'
+    ],
+    imgSrc: [
+      "'self' 'unsafe-inline'",
+      'res.cloudinary.com',
+      'www.google-analytics.com',
+      'data:;',
+    ],
     connectSrc: ["'self'", 'ws:', 'swapi.co'],
     fontSrc: ["'self'", 'fonts.gstatic.com'],
     objectSrc: ["'none'"],

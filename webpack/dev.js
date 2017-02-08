@@ -120,6 +120,7 @@ serverCompiler.plugin('done', stats => {
 
   if (stats.hasErrors()) {
     log(color.red.bold('build failed'));
+
     build.failed = true;
     return;
   }

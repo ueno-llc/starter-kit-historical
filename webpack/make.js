@@ -5,6 +5,7 @@ const externals = require('webpack-node-externals');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const cloneDeep = require('lodash/cloneDeep');
 const autoprefixer = require('autoprefixer');
+const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 
 const root = (folder = '.') => path.join(__dirname, '..', folder);
 const {
@@ -152,11 +153,9 @@ function make(conf) {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
       __CLIENT__: JSON.stringify(isClient),
-    })
-  );
-
-  plugins.push(
-    new webpack.NamedModulesPlugin()
+    }),
+    new webpack.NamedModulesPlugin(),
+    new CaseSensitivePathsPlugin()
   );
 
   const config = {

@@ -166,7 +166,7 @@ function make(conf) {
 
     cache: true,
 
-    devtool: 'source-map',
+    devtool: isDev ? 'eval-cheap-module-source-map' : 'source-map', 
 
     output: {
       path: root('build'),

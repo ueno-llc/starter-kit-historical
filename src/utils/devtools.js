@@ -11,7 +11,7 @@ if (process.env.NODE_ENV !== 'production') {
   module.exports = () => (
     <div>
       <DevTools />
-      <GridOverlay columns={12} />
+      <GridOverlay columns={12} baseline={16} />
     </div>
   );
 }

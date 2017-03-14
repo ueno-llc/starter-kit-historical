@@ -2,7 +2,12 @@
 [![Dependencies](https://david-dm.org/ueno-llc/starter-kit.svg)](https://david-dm.org/ueno-llc/starter-kit)
 [![devDependencies](https://david-dm.org/ueno-llc/starter-kit/dev-status.svg)](https://david-dm.org/ueno-llc/starter-kit#info=devDependencies&view=table)
 
-# Ueno. Starter kit
+# WARNING
+
+This starter kit has been depricated, please use the https://github.com/ueno-llc/starter-kit-universally instead.
+
+
+## Ueno. Starter kit
 
 React starter kit with server side rendering, eslint, sass, stylelint and enzyme tests.
 

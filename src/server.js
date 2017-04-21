@@ -112,12 +112,13 @@ app.get('*', (req, res, next) => {
 
     // Main render function
     const render = (html, state) => {
+      const encodedState = new Buffer(state).toString('base64');
       const { meta, title, link } = ReactHelmet.rewind();
       res.write(`${meta} ${title} ${link}
   </head>
   <body>
     <div id="root">${html}</div>
-    <script type="text/json" id="__INITIAL_STATE__">${state}</script>
+    <script type="text/json" id="__INITIAL_STATE__">${encodedState}</script>
   </body>
 </html>`);
       res.end();

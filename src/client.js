@@ -12,7 +12,7 @@ import { Provider } from 'mobx-react';
 import routes from './routes';
 import Store from './store';
 
-const state = JSON.parse(document.getElementById('__INITIAL_STATE__').innerText || '{}');
+const state = JSON.parse(atob(document.getElementById('__INITIAL_STATE__').innerText) || '{}');
 let store = window.store = new Store(state);
 
 // Render the application
